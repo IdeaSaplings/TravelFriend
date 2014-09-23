@@ -8,6 +8,18 @@
         android:minSdkVersion="10"
         android:targetSdkVersion="19" />
 
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:maxSdkVersion="19" >
+    </uses-permission>
+    <uses-permission
+        android:name="android.permission.INTERNET"
+        android:maxSdkVersion="19" >
+    </uses-permission>
+    <uses-permission
+        android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"
+        android:maxSdkVersion="19" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
