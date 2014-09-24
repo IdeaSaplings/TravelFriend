@@ -30,13 +30,9 @@ public class CityAddressAdapter extends ArrayAdapter<Address> {
 		 * inflater.inflate(R.layout.view_list, parent, false); }
 		 */
 
-		int maxAddressLineIndex = getItem(position).getMaxAddressLineIndex();
-		String addressline = "";
+		String addressline = new String();
 
-		for (int j = 0; j <= maxAddressLineIndex; j++) {
-			addressline += getItem(position).getAddressLine(j) + ",";
-		}
-
+		addressline = getItem(position).getFeatureName();
 		TextView rowAddress = new TextView(mycontext);
 		rowAddress.setText(addressline);
 

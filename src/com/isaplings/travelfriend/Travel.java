@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-
+import com.isaplings.travelfriend.Geocoder.LimitExceededException;
 import com.isaplings.travelfriend.MyLocation.LocationResult;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.location.Address;
-import android.location.Geocoder;
+//import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -116,19 +116,14 @@ public class Travel extends Activity implements OnClickListener {
 
 		}
 
-		@SuppressWarnings("static-access")
 		@Override
 		protected List<Address> doInBackground(Location... params) {
 			// TODO Auto-generated method stub
 			Location loc = params[0];
 
 			String cityName = null;
-			Geocoder gcd = new Geocoder(mContext, Locale.getDefault());
 
-			Log.v(TAG, "MYGPSLocation is present is " + gcd.isPresent());
-
-			if (!gcd.isPresent())
-				return null;
+			Geocoder gcd = new Geocoder(mContext);
 
 			List<Address> addresses = null;
 
@@ -136,29 +131,20 @@ public class Travel extends Activity implements OnClickListener {
 				Log.v(TAG,
 						"MYGPSLocation : GetCityName Trying to get cityname using Geocoder ");
 
-				// Check if you still need a while loop here - This need to be
-				// removed
+				addresses = gcd.getFromLocation(loc.getLatitude(),
+						loc.getLongitude(), 10);
 
-				while (addresses == null) {
-					addresses = gcd.getFromLocation(loc.getLatitude(),
-							loc.getLongitude(), 1);
-					Log.v(TAG, "MyGPSLocation : loop");
-				}
-				// addresses = gcd.getFromLocation(80.2699,13.0838, 1);
 				Log.v(TAG,
 						"MYGPSLocation : Trying to get size  "
 								+ addresses.size());
 
-				if ((addresses != null) && (addresses.size() > 0)) {
-					Log.v(TAG, "MYGPSLocation : Address is not null");
-					cityName = addresses.get(0).getAddressLine(0);
-					Log.v(TAG, "MYGPSLocation : Address is " + cityName);
-
-				}
 
 			} catch (IOException e) {
 				Log.v(TAG,
 						"MYGPSLocation :  GeoCoder Throws Service Not Available exception thrown ");
+				e.printStackTrace();
+				return addresses;
+			} catch (LimitExceededException e) {
 				e.printStackTrace();
 				return addresses;
 			}
@@ -169,19 +155,30 @@ public class Travel extends Activity implements OnClickListener {
 		protected void onPostExecute(List<Address> addressList) {
 			pb.setVisibility(View.INVISIBLE);
 
-			String cityName = addressList.get(0).getAddressLine(0);
-			// String city = addressList.get(0).getLocality();
-			String s = "I'm here : " + cityName
-					+ "\nhttp://maps.google.com/maps?f=q&geocode=&q="
-					+ latitude + "," + longitude + "&z=16";
-			editLocation.setText(s);
+			Log.v(TAG, "MYGPSLocation : onPostExecute Method ");
+			if (addressList != null) {
 
-			btnGetLocation.setEnabled(true);
+				String cityName = addressList.get(0).getFeatureName();
 
-			ListView listView = (ListView) findViewById(R.id.address_list);
-			CityAddressAdapter adapter = new CityAddressAdapter(mContext,
-					R.layout.address_lists_item, addressList);
-			listView.setAdapter(adapter);
+				String s = "I'm here : " + cityName
+						+ "\nhttp://maps.google.com/maps?f=q&geocode=&q="
+						+ latitude + "," + longitude + "&z=16";
+				editLocation.setText(s);
+
+				btnGetLocation.setEnabled(true);
+
+				ListView listView = (ListView) findViewById(R.id.address_list);
+				CityAddressAdapter adapter = new CityAddressAdapter(mContext,
+						R.layout.address_lists_item, addressList);
+				listView.setAdapter(adapter);
+			} else {
+				String s = "unable to find address using geocoder";
+				editLocation.setText(s);
+				btnGetLocation.setEnabled(true);
+
+			}
+
+			Log.v(TAG, "MYGPSLocation : onPostExecute Method Completed ");
 
 		}
 
