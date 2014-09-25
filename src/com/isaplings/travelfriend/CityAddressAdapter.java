@@ -33,7 +33,8 @@ public class CityAddressAdapter extends ArrayAdapter<Address> {
 		String addressline = new String();
 
 
-                // address is stored as FeatureName in the Geocoder method
+        // address is stored as FeatureName in the Geocoder method
+		
 		addressline = getItem(position).getFeatureName();
 		TextView rowAddress = new TextView(mycontext);
 		rowAddress.setText(addressline);

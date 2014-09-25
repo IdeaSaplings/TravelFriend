@@ -2,7 +2,6 @@ package com.isaplings.travelfriend;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 import com.isaplings.travelfriend.Geocoder.LimitExceededException;
 import com.isaplings.travelfriend.MyLocation.LocationResult;
@@ -121,8 +120,6 @@ public class Travel extends Activity implements OnClickListener {
 			// TODO Auto-generated method stub
 			Location loc = params[0];
 
-			String cityName = null;
-
 			Geocoder gcd = new Geocoder(mContext);
 
 			List<Address> addresses = null;
@@ -156,7 +153,8 @@ public class Travel extends Activity implements OnClickListener {
 			pb.setVisibility(View.INVISIBLE);
 
 			Log.v(TAG, "MYGPSLocation : onPostExecute Method ");
-			if (addressList != null) {
+			if ((addressList != null)&& (addressList.size()>0)) {
+				Log.v(TAG, "MYGPSLocation : Print Address Method ");
 
 				String cityName = addressList.get(0).getFeatureName();
 
