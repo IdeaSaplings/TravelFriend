@@ -6,6 +6,7 @@ import java.util.List;
 import com.isaplings.travelfriend.Geocoder.LimitExceededException;
 import com.isaplings.travelfriend.MyLocation.LocationResult;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -15,6 +16,9 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -36,6 +40,31 @@ public class Travel extends Activity implements OnClickListener {
 	private Location mLocation;
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main_activity_actions, menu);
+	    return super.onCreateOptionsMenu(menu);
+
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.action_refresh:
+	            openRefresh();
+	            return true;
+	        case R.id.action_settings:
+	            //openSettings();
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+
+	
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_travel);
@@ -43,6 +72,9 @@ public class Travel extends Activity implements OnClickListener {
 		// if you want to lock screen for always Portrait mode
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+		ActionBar ab = getActionBar();
+		ab.setTitle("TravelFriend");
+		
 		pb = (ProgressBar) findViewById(R.id.progressBar1);
 		pb.setVisibility(View.INVISIBLE);
 
@@ -53,12 +85,18 @@ public class Travel extends Activity implements OnClickListener {
 
 	}
 
-	public void onClick(View v) {
+	public void onClick(View v){
+		//Closes the Activity
+		finish();
+		
+	}
+	
+	public void openRefresh () {
 
 		Log.v(TAG, "MyGPSLocation : onClick");
 
 		editLocation.setText("Please!! move your device to"
-				+ " see the changes in coordinates." + "\n Try again..");
+				+ " see the changes in coordinates." + "\n Refresh again..");
 
 		pb.setVisibility(View.VISIBLE);
 
