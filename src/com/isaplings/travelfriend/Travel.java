@@ -32,6 +32,8 @@ public class Travel extends Activity implements OnClickListener {
 	private EditText editLocation = null;
 	private ProgressBar pb = null;
 
+	private ActionBar ab;
+
 	private static final String TAG = "Debug";
 	// private Boolean flag = false;
 
@@ -43,27 +45,26 @@ public class Travel extends Activity implements OnClickListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.main_activity_actions, menu);
-	    return super.onCreateOptionsMenu(menu);
+		inflater.inflate(R.menu.main_activity_actions, menu);
+		return super.onCreateOptionsMenu(menu);
 
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle presses on the action bar items
-	    switch (item.getItemId()) {
-	        case R.id.action_refresh:
-	            openRefresh();
-	            return true;
-	        case R.id.action_settings:
-	            //openSettings();
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
+		// Handle presses on the action bar items
+		switch (item.getItemId()) {
+		case R.id.action_refresh:
+			onRefresh();
+			return true;
+		case R.id.action_settings:
+			// openSettings();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -72,9 +73,9 @@ public class Travel extends Activity implements OnClickListener {
 		// if you want to lock screen for always Portrait mode
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-		ActionBar ab = getActionBar();
-		ab.setTitle("TravelFriend");
-		
+		ab = getActionBar();
+		ab.setTitle("Current Location");
+
 		pb = (ProgressBar) findViewById(R.id.progressBar1);
 		pb.setVisibility(View.INVISIBLE);
 
@@ -85,13 +86,13 @@ public class Travel extends Activity implements OnClickListener {
 
 	}
 
-	public void onClick(View v){
-		//Closes the Activity
+	public void onClick(View v) {
+		// Closes the Activity
 		finish();
-		
+
 	}
-	
-	public void openRefresh () {
+
+	public void onRefresh() {
 
 		Log.v(TAG, "MyGPSLocation : onClick");
 
@@ -123,8 +124,8 @@ public class Travel extends Activity implements OnClickListener {
 
 		// check if this while loop is necessary
 
-		while (!flag)
-			flag = myLocation.getLocation(this, locationResult);
+		// while (!flag)
+		flag = myLocation.getLocation(this, locationResult);
 
 		if ((latitude != null) && (longitude != null)) {
 
@@ -167,19 +168,20 @@ public class Travel extends Activity implements OnClickListener {
 						"MYGPSLocation : GetCityName Trying to get cityname using Geocoder ");
 
 				addresses = gcd.getFromLocation(loc.getLatitude(),
-						loc.getLongitude(), 10);
+						loc.getLongitude(), 1);
 
 				Log.v(TAG,
 						"MYGPSLocation : Trying to get size  "
 								+ addresses.size());
 
-
 			} catch (IOException e) {
 				Log.v(TAG,
-						"MYGPSLocation :  GeoCoder Throws Service Not Available exception thrown ");
+						"MYGPSLocation :  GeoCoder Throws IOException Not Available exception thrown ");
 				e.printStackTrace();
 				return addresses;
 			} catch (LimitExceededException e) {
+				Log.v(TAG,
+						"MYGPSLocation :  GeoCoder Throws LimitExceed Service Not Available exception thrown ");
 				e.printStackTrace();
 				return addresses;
 			}
@@ -191,7 +193,7 @@ public class Travel extends Activity implements OnClickListener {
 			pb.setVisibility(View.INVISIBLE);
 
 			Log.v(TAG, "MYGPSLocation : onPostExecute Method ");
-			if ((addressList != null)&& (addressList.size()>0)) {
+			if ((addressList != null) && (addressList.size() > 0)) {
 				Log.v(TAG, "MYGPSLocation : Print Address Method ");
 
 				String cityName = addressList.get(0).getFeatureName();
@@ -200,7 +202,17 @@ public class Travel extends Activity implements OnClickListener {
 						+ "\nhttp://maps.google.com/maps?f=q&geocode=&q="
 						+ latitude + "," + longitude + "&z=16";
 				editLocation.setText(s);
-
+				//addressList.g
+				ab.setTitle(addressList.get(0).getSubLocality()); 				
+				ab.setSubtitle(addressList.get(0).getLocality()+"-"+addressList.get(0).getSubAdminArea());
+				//ab.setSubtitle(addressList.get(0).getCountryName() + " " + addressList.get(0).getPostalCode());
+				
+				/*String[] cityNameTok = cityName.split(",");
+				
+				ab.setTitle(cityNameTok[0]);
+				ab.setSubtitle(cityNameTok[cityNameTok.length-2]+","+cityNameTok[cityNameTok.length-1]);
+				// ab.setTitle(cityName);
+                */
 				btnGetLocation.setEnabled(true);
 
 				ListView listView = (ListView) findViewById(R.id.address_list);

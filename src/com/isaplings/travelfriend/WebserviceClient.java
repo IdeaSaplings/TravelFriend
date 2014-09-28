@@ -11,6 +11,8 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,6 +36,10 @@ public class WebserviceClient {
 	public static String download(String url)  {
 		HttpGet httpGet = new HttpGet(url);
 		HttpClient httpClient = new DefaultHttpClient();
+		HttpParams httpParameters = httpClient.getParams();
+		HttpConnectionParams.setConnectionTimeout(httpParameters, 0);
+		HttpConnectionParams.setSoTimeout(httpParameters, 0);
+		HttpConnectionParams.setTcpNoDelay(httpParameters, true);
 
 		HttpResponse httpResponse;
 		StringBuilder stringBuilder = new StringBuilder();

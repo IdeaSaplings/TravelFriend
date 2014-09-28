@@ -1,18 +1,20 @@
 package com.isaplings.travelfriend;
 
 import java.io.IOException;
-import java.net.URLEncoder;
+//import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.location.Address;
+
 
 /**
  * A class for handling geocoding and reverse geocoding. Geocoding is the
@@ -119,13 +121,13 @@ public final class Geocoder {
 		if (data != null) {
 			this.parseJson(results, maxResults, data);
 		}
-		
-		/*try { 
-		final JSONObject jsonObject = WebserviceClient.executeRequest(url.toString());
-		if (jsonObject != null){
-			this.getAddressList(results, maxResults, jsonObject);
-		}
-		} catch (Exception e){}*/
+
+		/*
+		 * try { final JSONObject jsonObject =
+		 * WebserviceClient.executeRequest(url.toString()); if (jsonObject !=
+		 * null){ this.getAddressList(results, maxResults, jsonObject); } }
+		 * catch (Exception e){}
+		 */
 		return results;
 	}
 
@@ -156,57 +158,37 @@ public final class Geocoder {
 	 * @throws IOException
 	 *             if the network is unavailable or any other I/O problem occurs
 	 */
-	public List<Address> getFromLocationName(String locationName, int maxResults)
-			throws IOException, LimitExceededException {
-		if (locationName == null) {
-			throw new IllegalArgumentException("locationName == null");
-		}
-
-		if (isLimitExceeded(context)) {
-			throw new LimitExceededException();
-		}
-
-		final List<Address> results = new ArrayList<Address>();
-
-		final StringBuilder request = new StringBuilder(
-				"http://maps.googleapis.com/maps/api/geocode/json?sensor=false");
-		request.append("&language=").append(Locale.getDefault().getLanguage());
-		request.append("&address=").append(
-				URLEncoder.encode(locationName, "UTF-8"));
-
-		String data = WebserviceClient.download(request.toString());
-			
-			
-			if (data != null) {
-				try {
-					 this.parseJson(results, maxResults, data);
-				} catch (LimitExceededException e) {
-					// LimitExceededException could be thrown if too many calls
-					// per
-					// second
-					// If after two seconds, it is thrown again - then it means
-					// there are too much calls per 24 hours
-					try {
-						Thread.sleep(2000);
-					} catch (InterruptedException e1) {
-						return results;
-					}
-					data = WebserviceClient.download(request.toString());
-					if (data != null) {
-						try {
-							this.parseJson(results, maxResults, data);
-						} catch (LimitExceededException lee) {
-							// available in 24 hours
-							setAllowedDate(context,
-									System.currentTimeMillis() + 86400000L);
-							throw lee;
-						}
-					}
-				}
-			}
-		
-		return results;
-	}
+	/*
+	 * public List<Address> getFromLocationName(String locationName, int
+	 * maxResults) throws IOException, LimitExceededException { if (locationName
+	 * == null) { throw new IllegalArgumentException("locationName == null"); }
+	 * 
+	 * if (isLimitExceeded(context)) { throw new LimitExceededException(); }
+	 * 
+	 * final List<Address> results = new ArrayList<Address>();
+	 * 
+	 * final StringBuilder request = new StringBuilder(
+	 * "http://maps.googleapis.com/maps/api/geocode/json?sensor=false");
+	 * request.append("&language=").append(Locale.getDefault().getLanguage());
+	 * request.append("&address=").append( URLEncoder.encode(locationName,
+	 * "UTF-8"));
+	 * 
+	 * String data = WebserviceClient.download(request.toString());
+	 * 
+	 * 
+	 * if (data != null) { try { this.parseJson(results, maxResults, data); }
+	 * catch (LimitExceededException e) { // LimitExceededException could be
+	 * thrown if too many calls // per // second // If after two seconds, it is
+	 * thrown again - then it means // there are too much calls per 24 hours try
+	 * { Thread.sleep(2000); } catch (InterruptedException e1) { return results;
+	 * } data = WebserviceClient.download(request.toString()); if (data != null)
+	 * { try { this.parseJson(results, maxResults, data); } catch
+	 * (LimitExceededException lee) { // available in 24 hours
+	 * setAllowedDate(context, System.currentTimeMillis() + 86400000L); throw
+	 * lee; } } } }
+	 * 
+	 * return results; }
+	 */
 
 	@SuppressWarnings("unused")
 	private void getAddressList(List<Address> address, int maxResults,
@@ -220,8 +202,27 @@ public final class Geocoder {
 				for (int i = 0; i < maxResults && i < a.length(); i++) {
 					final Address current = new Address(Locale.getDefault());
 					final JSONObject item = a.getJSONObject(i);
+					if (item.has("address_components")) {
+						final JSONArray addrComp = jObj
+								.getJSONArray("address_components");
 
-					current.setFeatureName(item.getString("formatted_address"));
+						// final String town = extractFromAdress(addrComp,
+						// "locality");
+						current.setLocality(extractFromAdress(addrComp,
+								"locality"));
+						current.setCountryName(extractFromAdress(addrComp,
+								"country"));
+
+					}
+
+					if (item.has("vicinity")) {
+						current.setFeatureName(item.getString("vicinity"));
+
+					} else {
+						current.setFeatureName(item
+								.getString("formatted_address"));
+					}
+
 					final JSONObject location = item.getJSONObject("geometry")
 							.getJSONObject("location");
 					current.setLatitude(location.getDouble("lat"));
@@ -241,6 +242,33 @@ public final class Geocoder {
 			e.printStackTrace();
 		}
 
+	}
+
+	private String extractFromAdress(JSONArray compItem, String typeString) {
+		try {
+			// Log.v("GPS", "GPS - dumping compItem length " +
+			// compItem.length());
+
+			for (int i = 0; i < compItem.length(); i++) {
+				JSONObject mItem = compItem.getJSONObject(i);
+
+				JSONArray types = mItem.getJSONArray("types");
+				// Log.v("GPS", "GPS - dumping Types " + types);
+				// Log.v("GPS", "GPS - dumping Types length " + types.length());
+
+				for (int j = 0; j < types.length(); j++) {
+					if (types.getString(j).equals(typeString))
+						return mItem.getString("long_name");
+				}
+			}
+
+		} catch (JSONException e) {
+
+			// Log.v("GPS", "GPS - Extract Address throws Exception");
+			e.printStackTrace();
+			return "";
+		}
+		return "";
 	}
 
 	private void parseJson(List<Address> address, int maxResults, String data)
@@ -263,6 +291,53 @@ public final class Geocoder {
 							.getJSONObject("location");
 					current.setLatitude(location.getDouble("lat"));
 					current.setLongitude(location.getDouble("lng"));
+
+					if (item.has("address_components")) {
+						final JSONArray addrComp = item
+								.getJSONArray("address_components");
+
+
+						current.setCountryName(extractFromAdress(addrComp,
+								"country"));
+						current.setPostalCode(extractFromAdress(addrComp,
+								"postal_code"));
+
+						//Set Locality - locality || political
+						current.setLocality(extractFromAdress(addrComp,
+								"locality"));
+						if (current.getLocality().equals(""))
+							current.setLocality(extractFromAdress(addrComp,
+									"political"));
+
+						//Set SubLocality - route || admin_level2 || admin_level1
+						current.setSubLocality(extractFromAdress(addrComp,
+								"route"));
+						if (current.getSubLocality().equals("")) {
+							current.setSubLocality(extractFromAdress(addrComp,
+									"administrative_area_level_2"));
+
+							if (current.getSubLocality().equals("")) {
+								current.setSubLocality(extractFromAdress(
+										addrComp, "administrative_area_level_1"));
+
+							}
+						}
+						
+
+						//Set SubAdminArea - adming_level1 || country
+						current.setSubAdminArea(extractFromAdress(
+								addrComp, "administrative_area_level_1"));
+						
+						if (current.getSubAdminArea().equals("")) {
+							current.setSubAdminArea(current.getCountryName());
+						}
+
+						if(current.getLocality().equals(current.getSubAdminArea())){
+							current.setSubAdminArea(current.getCountryName());							
+						}
+
+						
+					}
 
 					address.add(current);
 				}
@@ -300,6 +375,7 @@ public final class Geocoder {
 	 * @param date
 	 *            the date after which next geocoding query is allowed
 	 */
+	@SuppressWarnings("unused")
 	private static void setAllowedDate(Context context, long date) {
 		final SharedPreferences p = context.getSharedPreferences(
 				PREFERENCES_GEOCODER, Context.MODE_PRIVATE);
