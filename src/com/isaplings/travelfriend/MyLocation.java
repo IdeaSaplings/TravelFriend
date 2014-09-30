@@ -2,12 +2,30 @@ package com.isaplings.travelfriend;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+
+
+// This Class needs refactoring once the logging procedure is finalized
+
+// This class has an abstract class defined - LocationResult that needs
+// to be implemented. LocationResult has to abstract methods
+// gotLocation and getAddressFromLocation
+
+// MyLocation method is used to get the Current Location 
+// using LocationManager and implementing LocationListener
+
+
+// Source of MyLocation :
+
+// Last Modified by Navine on 30/Sep/2014
+// Review Pending
 
 public class MyLocation {
 	Timer timer;
@@ -16,14 +34,23 @@ public class MyLocation {
 	boolean gps_enabled = false;
 	boolean network_enabled = false;
 
-	public boolean getLocation(Context context, LocationResult result) {
+	Activity mActivity;
+	Context mContext;
+
+	MyLocation(Activity activity, Context context) {
+		mActivity = activity;
+		mContext = context;
+
+	}
+
+	public boolean getLocation(LocationResult result) {
 		Log.v("MY GPS", "My GPSLocation : inside GetLocation");
 
 		// I use LocationResult callback class to pass location value from
 		// MyLocation to user code.
 		locationResult = result;
 		if (locationManager == null)
-			locationManager = (LocationManager) context
+			locationManager = (LocationManager) mContext
 					.getSystemService(Context.LOCATION_SERVICE);
 
 		// exceptions will be thrown if provider is not permitted.
@@ -45,16 +72,15 @@ public class MyLocation {
 
 		// don't start listeners if no provider is enabled
 		if (!gps_enabled && !network_enabled) {
-			
+
 			Log.v("My GPS", "MyGPSLocation : Both GPS & Network is disabled");
 
 			return false;
 		}
 		if (gps_enabled) {
 			Log.v("My GPS", "MyGPSLocation : GPS is enabled");
-			locationManager
-					.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000,
-							10, locationListenerGps);
+			locationManager.requestLocationUpdates(
+					LocationManager.GPS_PROVIDER, 0, 0, locationListenerGps);
 		}
 		if (network_enabled)
 			Log.v("My GPS", "MyGPSLocation : Network is enabled <<");
@@ -63,10 +89,13 @@ public class MyLocation {
 				.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,
 						locationListenerNetwork);
 		timer = new Timer();
-		timer.schedule(new GetLastLocation(), 20000);
+		timer.schedule(new GetLastLocation(mActivity), 20000);
 		return true;
 	}
 
+	// only onLocationChanged is implemented
+	// check if other methods are also to be implemented
+	
 	LocationListener locationListenerGps = new LocationListener() {
 		public void onLocationChanged(Location location) {
 			Log.v("My GPS",
@@ -87,6 +116,10 @@ public class MyLocation {
 		}
 	};
 
+	// only onLocationChanged is implemented
+	// check if other methods are also to be implemented
+		
+	
 	LocationListener locationListenerNetwork = new LocationListener() {
 		public void onLocationChanged(Location location) {
 			Log.v("My GPS",
@@ -108,51 +141,79 @@ public class MyLocation {
 	};
 
 	class GetLastLocation extends TimerTask {
+
+		//Declaring the Activity as final to be referenced by anonymous thread
+		final Activity appActivity;
+
+		GetLastLocation(Activity activity) {
+			appActivity = activity;
+
+		}
+
+		//This thread is run when the TimerTask is activated
+		//Using runOnUiThread to avoid exception by the Async Task 
+		//run on main UI-Thread
+		
 		@Override
 		public void run() {
-
 			Log.v("My GPS",
-					"MyGPSLocation : GPS is enabled - Inside Last Location Listener");
-
+					"MyGPSLocation : TimerTask - Inside Last Location Listener");
 			locationManager.removeUpdates(locationListenerGps);
 			locationManager.removeUpdates(locationListenerNetwork);
 
-			Location net_loc = null, gps_loc = null;
-			if (gps_enabled)
-				gps_loc = locationManager
-						.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-			if (network_enabled)
-				net_loc = locationManager
-						.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			appActivity.runOnUiThread(new Runnable() {
 
-			// if there are both values use the latest one
-			if (gps_loc != null && net_loc != null) {
-				if (gps_loc.getTime() > net_loc.getTime())
-					locationResult.gotLocation(gps_loc);
-				else
-					locationResult.gotLocation(net_loc);
-				return;
-			}
+				@Override
+				public void run() {
 
-			if (gps_loc != null) {
-				locationResult.gotLocation(gps_loc);
-				Log.v("My GPS", "MyGPSLocation : Last Known Location from GPS");
+					// This block need to run in the UI Thread
 
-				return;
-			}
-			if (net_loc != null) {
-				locationResult.gotLocation(net_loc);
-				Log.v("My GPS", "MyGPSLocation : Last Known Location from GPS");
-				return;
-			}
-			Log.v("My GPS",
-					"MyGPSLocation : Location is NULL - All Methods failed");
+					Location net_loc = null, gps_loc = null;
+					if (gps_enabled)
+						gps_loc = locationManager
+								.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+					if (network_enabled)
+						net_loc = locationManager
+								.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-			locationResult.gotLocation(null);
+					// if there are both values use the latest one
+					if (gps_loc != null && net_loc != null) {
+						if (gps_loc.getTime() > net_loc.getTime())
+							locationResult.gotLocation(gps_loc);
+						else
+							locationResult.gotLocation(net_loc);
+						return;
+					}
+
+					if (gps_loc != null) {
+						locationResult.gotLocation(gps_loc);
+						Log.v("My GPS",
+								"MyGPSLocation : Last Known Location from GPS");
+
+						return;
+					}
+					if (net_loc != null) {
+						locationResult.gotLocation(net_loc);
+						Log.v("My GPS",
+								"MyGPSLocation : Last Known Location from GPS");
+						return;
+					}
+					Log.v("My GPS",
+							"MyGPSLocation : Location is NULL - All Methods failed");
+
+					locationResult.gotLocation(null);
+
+				}
+			});
+
 		}
+
 	}
 
 	public static abstract class LocationResult {
 		public abstract void gotLocation(Location location);
+
+		// The below inner class is defined
+		protected abstract void getAddressFromLocation(Context context);
 	}
 }
