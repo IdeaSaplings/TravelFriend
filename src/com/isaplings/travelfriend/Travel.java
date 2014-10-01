@@ -1,9 +1,7 @@
 package com.isaplings.travelfriend;
 
-import java.io.IOException;
 import java.util.List;
 
-import com.isaplings.travelfriend.Geocoder.LimitExceededException;
 import com.isaplings.travelfriend.MyLocation.LocationResult;
 
 import android.app.ActionBar;
@@ -13,7 +11,6 @@ import android.content.pm.ActivityInfo;
 import android.location.Address;
 //import android.location.Geocoder;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -23,21 +20,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
 // Since this Base Class for TravelFriend
 // there will be many changes to this class
 // Please ensure there are no regressions to this file
 
-
 // Please go through the comments to see 
 // the pending changes
 
-
 // Major part of the code need to be refactores
 // especially the inner class and method definitions
-
 
 // Last Modified by Navine on 30/Sep/2014
 
@@ -93,9 +86,8 @@ public class Travel extends Activity implements OnClickListener {
 		// if you want to lock screen for always Portrait mode
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-		
 		// This need to changed
-		
+
 		actionBar = getActionBar();
 		actionBar.setTitle("Current Location");
 
@@ -147,7 +139,7 @@ public class Travel extends Activity implements OnClickListener {
 
 					if ((latitude != null) && (longitude != null)) {
 
-						Log.v(TAG, "MYGPSLocation : flag is true");
+						Log.v(TAG, "MYGPSLocation : Location Retreived");
 						Log.v(TAG,
 								"MYGPSLocation : Calling Async Task to get the City Name");
 
@@ -164,131 +156,67 @@ public class Travel extends Activity implements OnClickListener {
 
 			@Override
 			protected void getAddressFromLocation(Context context) {
-				Log.v(TAG, "MYGPSLocation : getAddressFromLocation called ");
-				// (new GetAddressTask(appContext)).execute(mLocation);
 				// This class will get the address from location
 
-				class GetAddressTask extends
-						AsyncTask<Location, String, List<Address>> {
-					Context mContext;
+				Log.v(TAG, "MYGPSLocation : getAddressFromLocation called ");
 
-					GetAddressTask(Context context) {
-						super();
-						mContext = context;
 
-					}
+				
+				class FetchMyDataTaskCompleteListener implements
+						AsyncTaskCompleteListener<List<Address>> {
 
 					@Override
-					protected List<Address> doInBackground(Location... params) {
-						Location loc = params[0];
+					public void onTaskComplete(List<Address> result) {
+						
+						// We can also execute the postExecute Method Here
+						
+						Log.v(TAG, "MYGPSLocation : Inside onTaskComplete called ");
+						
 
-						Geocoder gcd = new Geocoder(mContext);
-
-						List<Address> addresses = null;
-
-						try {
-							Log.v(TAG,
-									"MYGPSLocation : GetCityName Trying to get cityname using Geocoder ");
-
-							// We are extracting only one address for processing
+						// Extracted from Address Component in JSONObject
+						// SubLocality - route || administrative_area_level_2 || administrative_area_level_1
+						// Locality - locality || political
+						// SubAdminArea - administrative_area_level_2 || country
+						
+						
+						if (result==null){
+							btnGetLocation.setEnabled(true);
+							actionBar.setTitle("Unknown Location");
+							actionBar.setSubtitle("check your settings");
 							
-							addresses = gcd.getFromLocation(loc.getLatitude(),
-									loc.getLongitude(), 1);
-
-							Log.v(TAG, "MYGPSLocation : Trying to get size  "
-									+ addresses.size());
-
-						} catch (IOException e) {
-							Log.v(TAG,
-									"MYGPSLocation :  GeoCoder Throws IOException Not Available exception thrown ");
-							e.printStackTrace();
-							return addresses;
-						} catch (LimitExceededException e) {
-							Log.v(TAG,
-									"MYGPSLocation :  GeoCoder Throws LimitExceed Service Not Available exception thrown ");
-							e.printStackTrace();
-							return addresses;
+							return;
 						}
+					
+						if ((result != null) & (result.size()>0)) {
 
-						return addresses;
-
-					}
-
-					@Override
-					protected void onPostExecute(List<Address> addressList) {
-						pb.setVisibility(View.INVISIBLE);
-
-						Log.v(TAG, "MYGPSLocation : onPostExecute Method ");
-						if ((addressList != null) && (addressList.size() > 0)) {
-							Log.v(TAG, "MYGPSLocation : Print Address Method ");
-
-							String cityName = addressList.get(0)
-									.getFeatureName();
-
-							String s = "I'm here : "
-									+ cityName
-									+ "\nhttp://maps.google.com/maps?f=q&geocode=&q="
-									+ latitude + "," + longitude + "&z=16";
-							editLocation.setText(s);
-							
-							
-							// Extracted from Address Component in JSONObject
-							// SubLocality - route || administrative_area_level_2 || administrative_area_level_1
-							// Locality - locality || political
-							// SubAdminArea - administrative_area_level_2 || country
-							
-							
-							actionBar.setTitle(addressList.get(0).getSubLocality());
-							actionBar.setSubtitle(addressList.get(0).getLocality()
-									+ "-"
-									+ addressList.get(0).getSubAdminArea());
-
-							
-							btnGetLocation.setEnabled(true);
-
-							ListView listView = (ListView) findViewById(R.id.address_list);
-							CityAddressAdapter adapter = new CityAddressAdapter(
-									mContext, R.layout.address_lists_item,
-									addressList);
-							listView.setAdapter(adapter);
-						} else {
-							String s = "unable to find address using geocoder";
-							editLocation.setText(s);
-							btnGetLocation.setEnabled(true);
+						actionBar.setTitle(result.get(0).getSubLocality());
+						actionBar.setSubtitle(result.get(0).getLocality()
+								+ "-"
+								+ result.get(0).getSubAdminArea());
+					
 
 						}
+						btnGetLocation.setEnabled(true);
 
-						Log.v(TAG,
-								"MYGPSLocation : onPostExecute Method Completed ");
-
-					}
-
-					@Override
-					protected void onPreExecute() {
-
-						Log.v(TAG, "MYGPSLocation : onPreExecute Method Start ");
-
-						btnGetLocation.setEnabled(false);
-						pb.setVisibility(View.VISIBLE);
-						editLocation
-								.setText("Try to get the City Name / Address \n Please wait.. connecting to internet");
-						Log.v(TAG,
-								"MYGPSLocation : onPreExecute Method Completed ");
 
 					}
 
 				}
-
-				// Calling the AddressTask - by passing the parameter from
-				// getAddressFromLocation
-
-				GetAddressTask addTask = new GetAddressTask(context);
+				
+				FetchMyDataTaskCompleteListener fm = new FetchMyDataTaskCompleteListener();
+				GetMyAddressTask addTask = new GetMyAddressTask(Travel.this, appContext, fm);
+				
+				
 				if (mLocation != null) {
+					
+					btnGetLocation.setEnabled(true);
+
+					
 					Log.v(TAG,
-							"MyGPSLocation : Get Address Execute for Location :"
+							"MyGPSLocation : GetMyAddress Task Execute for Location :"
 									+ mLocation.getLatitude() + ","
 									+ mLocation.getLongitude());
-					addTask.execute(mLocation);
+					 addTask.execute(mLocation);
 				}
 
 			}
@@ -296,11 +224,9 @@ public class Travel extends Activity implements OnClickListener {
 		}; // LocationResult Definition Ends
 
 		MyLocation myLocation = new MyLocation(Travel.this, this);
-		Boolean flag = false;
 
-		flag = myLocation.getLocation(locationResult);
+		myLocation.getLocation(locationResult);
 
-		Log.v(TAG, "MyGPSLocation : flag1 return value " + flag);
 
 		Log.v(TAG,
 				"MyGPSLocation : All steps executed - wait for GPS/Network Update Action");
