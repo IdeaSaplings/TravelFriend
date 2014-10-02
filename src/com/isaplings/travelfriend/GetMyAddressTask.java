@@ -47,6 +47,17 @@ public class GetMyAddressTask extends
 		Geocoder gcd = new Geocoder(mContext);
 
 		List<Address> addresses = null;
+		
+		//Log.v(TAG, "GPS: Current Thread Before Priority is  set : " + Thread.currentThread().getPriority());
+		
+		// Backgroud task is run with the highest priority
+		// check if it is allowed
+		
+		
+		Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+		
+
+		//Log.v(TAG, "GPS: Current Thread After Priority is  set : " + Thread.currentThread().getPriority());
 
 		try {
 			Log.v(TAG,
