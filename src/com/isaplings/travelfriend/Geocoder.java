@@ -190,6 +190,8 @@ public final class Geocoder {
 	 * return results; }
 	 */
 
+	//Check if the getAddressList can be removed
+	
 	@SuppressWarnings("unused")
 	private void getAddressList(List<Address> address, int maxResults,
 			JSONObject jObj) throws LimitExceededException {

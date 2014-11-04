@@ -14,21 +14,8 @@ import org.apache.http.params.HttpParams;
 import android.util.Log;
 
 public class WebserviceClient {
-	
-	/*public static JSONObject executeRequest(String query) 
-			throws ClientProtocolException, IOException, JSONException {
-		
-		HttpClient client = new DefaultHttpClient();
-		HttpGet request = new HttpGet(query);
 
-		ResponseHandler<String> handler = new BasicResponseHandler();
-		String response = client.execute(request, handler);
-		JSONObject jsonResponse = new JSONObject(response);
-		
-		return jsonResponse;
-	}
-*/
-	public static String download(String url)  {
+	public static String download(String url) {
 		HttpGet httpGet = new HttpGet(url);
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpParams httpParameters = httpClient.getParams();

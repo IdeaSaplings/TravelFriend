@@ -2,11 +2,14 @@ package com.isaplings.travelfriend;
 
 import java.util.List;
 
+import org.gmarz.googleplaces.models.PlacesResult;
+
 import com.isaplings.travelfriend.MyLocation.LocationResult;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.location.Address;
 //import android.location.Geocoder;
@@ -20,6 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 
 // Since this Base Class for TravelFriend
@@ -33,6 +37,8 @@ import android.widget.ProgressBar;
 // especially the inner class and method definitions
 
 // Last Modified by Navine on 30/Sep/2014
+
+// Modification in progress for getHospital data 03/Oct/2014
 
 public class Travel extends Activity implements OnClickListener {
 
@@ -99,6 +105,8 @@ public class Travel extends Activity implements OnClickListener {
 		btnGetLocation = (Button) findViewById(R.id.btnLocation);
 		btnGetLocation.setOnClickListener(this);
 
+		// onRefresh();
+
 	}
 
 	public void onClick(View v) {
@@ -106,6 +114,57 @@ public class Travel extends Activity implements OnClickListener {
 		finish();
 
 	}
+
+	public void onHospital(View v) {
+
+		class FetchPoiDataTaskCompleteListener implements
+				AsyncTaskCompleteListener<PlacesResult> {
+
+			@Override
+			public void onTaskComplete(PlacesResult result) {
+
+				// We can also execute the postExecute Method Here
+
+				Log.v(TAG, "MYGPSLocation : Inside onTaskComplete called ");
+				
+				Log.v(TAG, "MYGPSLocation : Starting new Intent");
+				
+				//Create a new Intent
+				
+		
+				/*
+				Intent intent = new Intent(appContext, ListPlacesActivity.class);
+				//startActivity (intent);
+				startActivityForResult(intent, 0);
+				
+				//Populate the view with the content
+				*/
+				
+			
+				
+				/*ListView listView = (ListView) findViewById(R.id.places_list);
+				PlaceAdapter adapter = new PlaceAdapter(getApplicationContext(), R.layout.places_lists_item, result.getPlaces());
+				listView.setAdapter(adapter);
+				*/
+				btnGetLocation.setEnabled(true);
+			}
+		}
+
+		FetchPoiDataTaskCompleteListener fm = new FetchPoiDataTaskCompleteListener();
+		GetMyPOITask poiTask = new GetMyPOITask(Travel.this, appContext, fm);
+
+		if (mLocation != null) {
+			btnGetLocation.setEnabled(true);
+			Log.v(TAG,
+					"MyGPSLocation : GetPOIDetails Task Execute for Location :"
+							+ mLocation.getLatitude() + ","
+							+ mLocation.getLongitude());
+			poiTask.execute(mLocation);
+		}
+
+	}
+	
+	
 
 	public void onRefresh() {
 
@@ -139,7 +198,6 @@ public class Travel extends Activity implements OnClickListener {
 
 					if ((latitude != null) && (longitude != null)) {
 
-						Log.v(TAG, "MYGPSLocation : Location Retreived");
 						Log.v(TAG,
 								"MYGPSLocation : Calling Async Task to get the City Name");
 
@@ -160,77 +218,59 @@ public class Travel extends Activity implements OnClickListener {
 
 				Log.v(TAG, "MYGPSLocation : getAddressFromLocation called ");
 
-
-				
 				class FetchMyDataTaskCompleteListener implements
 						AsyncTaskCompleteListener<List<Address>> {
 
 					@Override
 					public void onTaskComplete(List<Address> result) {
-						
+
 						// We can also execute the postExecute Method Here
-						
-						Log.v(TAG, "MYGPSLocation : Inside onTaskComplete called ");
-						
+
+						Log.v(TAG,
+								"MYGPSLocation : Inside onTaskComplete called ");
 
 						// Extracted from Address Component in JSONObject
-						// SubLocality - route || administrative_area_level_2 || administrative_area_level_1
+						// SubLocality - route || administrative_area_level_2 ||
+						// administrative_area_level_1
 						// Locality - locality || political
 						// SubAdminArea - administrative_area_level_2 || country
-						
-						
-						if (result==null){
+
+						if (result == null) {
 							btnGetLocation.setEnabled(true);
 							actionBar.setTitle("Unknown Location");
 							actionBar.setSubtitle("check your settings");
-							
+
 							return;
 						}
-					
-						if ((result != null) & (result.size()>0)) {
 
-						actionBar.setTitle(result.get(0).getSubLocality());
-						actionBar.setSubtitle(result.get(0).getLocality()
-								+ "-"
-								+ result.get(0).getSubAdminArea());
-					
+						if ((result != null) & (result.size() > 0)) {
 
+							actionBar.setTitle(result.get(0).getSubLocality());
+							actionBar.setSubtitle(result.get(0).getLocality()
+									+ "-" + result.get(0).getSubAdminArea());
 						}
 						btnGetLocation.setEnabled(true);
-
-
 					}
-
 				}
-				
-				FetchMyDataTaskCompleteListener fm = new FetchMyDataTaskCompleteListener();
-				GetMyAddressTask addTask = new GetMyAddressTask(Travel.this, appContext, fm);
-				
-				
-				if (mLocation != null) {
-					
-					btnGetLocation.setEnabled(true);
 
-					
+				FetchMyDataTaskCompleteListener fm = new FetchMyDataTaskCompleteListener();
+				GetMyAddressTask addTask = new GetMyAddressTask(Travel.this,
+						appContext, fm);
+
+				if (mLocation != null) {
+					btnGetLocation.setEnabled(true);
 					Log.v(TAG,
 							"MyGPSLocation : GetMyAddress Task Execute for Location :"
 									+ mLocation.getLatitude() + ","
 									+ mLocation.getLongitude());
-					 addTask.execute(mLocation);
+					addTask.execute(mLocation);
 				}
-
 			}
-
 		}; // LocationResult Definition Ends
 
 		MyLocation myLocation = new MyLocation(Travel.this, this);
-
 		myLocation.getLocation(locationResult);
-
-
 		Log.v(TAG,
 				"MyGPSLocation : All steps executed - wait for GPS/Network Update Action");
-
 	}
-
 }
