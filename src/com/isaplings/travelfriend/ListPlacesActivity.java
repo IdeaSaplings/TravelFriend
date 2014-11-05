@@ -19,7 +19,7 @@ public class ListPlacesActivity extends Activity {
 		
 		
 		ListView listView = (ListView) findViewById(R.id.places_list);
-		PlaceAdapter adapter = new PlaceAdapter(getApplicationContext(), R.layout.places_lists_item, placesList);
+		PlaceAdapter adapter = new PlaceAdapter(this, R.layout.places_lists_item, placesList);
 		listView.setAdapter(adapter);
 		
 				
