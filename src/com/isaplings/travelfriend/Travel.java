@@ -2,14 +2,12 @@ package com.isaplings.travelfriend;
 
 import java.util.List;
 
-import org.gmarz.googleplaces.models.PlacesResult;
 
 import com.isaplings.travelfriend.MyLocation.LocationResult;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.location.Address;
 //import android.location.Geocoder;
@@ -23,7 +21,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
 // Since this Base Class for TravelFriend
@@ -36,9 +33,9 @@ import android.widget.ProgressBar;
 // Major part of the code need to be refactores
 // especially the inner class and method definitions
 
-// Last Modified by Navine on 30/Sep/2014
+// Last Modified by Navine on 05/Oct/2014
 
-// Modification in progress for getHospital data 03/Oct/2014
+// Modification in progress for getHospital data 05/Oct/2014
 
 public class Travel extends Activity implements OnClickListener {
 
@@ -117,50 +114,21 @@ public class Travel extends Activity implements OnClickListener {
 
 	public void onHospital(View v) {
 
-		class FetchPoiDataTaskCompleteListener implements
-				AsyncTaskCompleteListener<PlacesResult> {
 
-			@Override
-			public void onTaskComplete(PlacesResult result) {
 
-				// We can also execute the postExecute Method Here
-
-				Log.v(TAG, "MYGPSLocation : Inside onTaskComplete called ");
-				
-				Log.v(TAG, "MYGPSLocation : Starting new Intent");
-				
-				//Create a new Intent
-				
-		
-				/*
-				Intent intent = new Intent(appContext, ListPlacesActivity.class);
-				//startActivity (intent);
-				startActivityForResult(intent, 0);
-				
-				//Populate the view with the content
-				*/
-				
-			
-				
-				/*ListView listView = (ListView) findViewById(R.id.places_list);
-				PlaceAdapter adapter = new PlaceAdapter(getApplicationContext(), R.layout.places_lists_item, result.getPlaces());
-				listView.setAdapter(adapter);
-				*/
-				btnGetLocation.setEnabled(true);
-			}
-		}
-
-		FetchPoiDataTaskCompleteListener fm = new FetchPoiDataTaskCompleteListener();
+		FetchPoiDataTaskCompleteListener fm = new FetchPoiDataTaskCompleteListener(Travel.this, appContext);
 		GetMyPOITask poiTask = new GetMyPOITask(Travel.this, appContext, fm);
 
 		if (mLocation != null) {
-			btnGetLocation.setEnabled(true);
+			//btnGetLocation.setEnabled(true);
 			Log.v(TAG,
 					"MyGPSLocation : GetPOIDetails Task Execute for Location :"
 							+ mLocation.getLatitude() + ","
 							+ mLocation.getLongitude());
 			poiTask.execute(mLocation);
 		}
+
+		btnGetLocation.setEnabled(true);
 
 	}
 	

@@ -1,10 +1,8 @@
 package com.isaplings.travelfriend;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.gmarz.googleplaces.GooglePlaces;
-import org.gmarz.googleplaces.models.Place;
 import org.gmarz.googleplaces.models.PlacesResult;
 import org.gmarz.googleplaces.models.Result.StatusCode;
 import org.json.JSONException;
@@ -17,7 +15,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
 // This Code needs to be refactored for the UI Components
@@ -148,8 +145,17 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 
 			
 			String s = "The result list size is " + listSize + "\n The Status code is " + placesList.getStatusCode();
+			editText.setText(s);
+
+			
+			//Need to implement progress bar here
 			
 			
+			/*
+			 * 
+			 * 
+			 * 
+			 * 
 			List<Place> places = placesList.getPlaces();
 			if (places.size() > 0) {
 				Log.v("Test", "Navine Places Size: " + places.size());
@@ -161,6 +167,11 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 			PlaceAdapter adapter = new PlaceAdapter(mContext,
 					R.layout.address_lists_item, places);
 			listView.setAdapter(adapter);
+			
+			*
+			*
+			*
+			*/
 		} else {
 
 			String str = "unable to get address list in this range";
