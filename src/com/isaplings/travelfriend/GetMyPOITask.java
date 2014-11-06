@@ -8,32 +8,32 @@ import org.gmarz.googleplaces.models.Result.StatusCode;
 import org.json.JSONException;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.ProgressDialog;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
 
-// This Code needs to be refactored for the UI Components
+// Refactoring of the code is complete for preExecute and postExecute
+// Business logic need to be improved for collecting POIData
+// Remove unwanted log message
+// last modified Navine - 06 Nov 2014
 
 public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 
-	Context mContext;
 	Activity appActivity;
 	AsyncTaskCompleteListener<PlacesResult> mlistener;
 
 	Double longitude, latitude;
+	
+	ProgressDialog progressDialog;
 
 	private static final String TAG = "Debug";
 
-	public GetMyPOITask(Activity activity, Context context,
+	public GetMyPOITask(Activity activity,
 			AsyncTaskCompleteListener<PlacesResult> listener) {
 		super();
-		mContext = context;
 		appActivity = activity;
+		
 		mlistener = listener;
 
 	}
@@ -47,8 +47,6 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 				"AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA");
 		Log.v("Test", "Navine : Before get hospitals");
 
-		//Double latitude = 51.503186;
-		//Double longitude = -0.12646;
 
 		PlacesResult result = null;
 
@@ -67,11 +65,8 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 			Log.v(TAG,
 					"MYGPSLocation : GetPOIDetails Trying to get POI Details using Google Places Library  ");
 			
-			
-
-
-			 latitude = loc.getLatitude();
-			 longitude = loc.getLongitude();
+			latitude = loc.getLatitude();
+			longitude = loc.getLongitude();
 
 			Log.v(TAG, "MYGPSLocation : Latitude " + latitude);
 			Log.v(TAG, "MYGPSLocation : Longitude " + longitude);
@@ -129,76 +124,28 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 	}
 
 	protected void onPostExecute(PlacesResult placesList) {
-
-		final ProgressBar progressBar = (ProgressBar) appActivity.getWindow()
-				.getDecorView().findViewById(R.id.progressBar1);
-		final EditText editText = (EditText) appActivity.getWindow()
-				.getDecorView().findViewById(R.id.editTextLocation);
-		progressBar.setVisibility(View.INVISIBLE);
-
+		
 		Log.v(TAG, "MYGPSLocation : onPostExecute Method ");
 
-		if ((placesList != null) && (placesList.getPlaces().size() > 0)) {
-			Log.v(TAG, "MYGPSLocation : Print Address Method ");
+		
+		if(progressDialog != null && progressDialog.isShowing())
+        {
+            progressDialog.dismiss();
+        }
 
-			int listSize = placesList.getPlaces().size();
-
-			
-			String s = "The result list size is " + listSize + "\n The Status code is " + placesList.getStatusCode();
-			editText.setText(s);
-
-			
-			//Need to implement progress bar here
-			
-			
-			/*
-			 * 
-			 * 
-			 * 
-			 * 
-			List<Place> places = placesList.getPlaces();
-			if (places.size() > 0) {
-				Log.v("Test", "Navine Places Size: " + places.size());
-				editText.setText(s);
-			}
-
-			final ListView listView = (ListView) appActivity.getWindow()
-					.getDecorView().findViewById(R.id.address_list);
-			PlaceAdapter adapter = new PlaceAdapter(mContext,
-					R.layout.address_lists_item, places);
-			listView.setAdapter(adapter);
-			
-			*
-			*
-			*
-			*/
-		} else {
-
-			String str = "unable to get address list in this range";
-			editText.setText(str);
-			mlistener.onTaskComplete(null);
-
-		}
 		Log.v(TAG,
 				"MYGPSLocation : onPostExecute Method Completed - calling callback method of list ");
 
+		
 		mlistener.onTaskComplete(placesList);
 
 	}
 
 	protected void onPreExecute() {
-		final EditText editText = (EditText) appActivity.getWindow()
-				.getDecorView().findViewById(R.id.editTextLocation);
-
-		final Button btnGetLocation = (Button) appActivity.getWindow()
-				.getDecorView().findViewById(R.id.btnLocation);
-
-		final ProgressBar progressBar = (ProgressBar) appActivity.getWindow()
-				.getDecorView().findViewById(R.id.progressBar1);
-
-		btnGetLocation.setEnabled(false);
-		progressBar.setVisibility(View.VISIBLE);
-		editText.setText("Trying to get the POI details \nPlease wait.. connecting to internet");
+		
+		progressDialog = ProgressDialog.show(appActivity,"Connecting to server...","Please wait. Your request is in progress.");
+		progressDialog.setCancelable(false);
+		
 
 	}
 

@@ -6,11 +6,15 @@ import org.gmarz.googleplaces.models.Place;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 
 public class ListPlacesActivity extends Activity {
 	
 	public void onCreate(Bundle savedInstanceState){
+		
+		Log.v("Debug", "MyGPS : New Intent Start");
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_places_details);
 		
@@ -21,6 +25,9 @@ public class ListPlacesActivity extends Activity {
 		ListView listView = (ListView) findViewById(R.id.places_list);
 		PlaceAdapter adapter = new PlaceAdapter(this, R.layout.places_lists_item, placesList);
 		listView.setAdapter(adapter);
+		
+		Log.v("Debug", "MyGPS : New Intent Complete");
+
 		
 				
 	}

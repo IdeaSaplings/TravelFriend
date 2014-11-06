@@ -117,7 +117,7 @@ public class Travel extends Activity implements OnClickListener {
 
 
 		FetchPoiDataTaskCompleteListener fm = new FetchPoiDataTaskCompleteListener(Travel.this, appContext);
-		GetMyPOITask poiTask = new GetMyPOITask(Travel.this, appContext, fm);
+		GetMyPOITask poiTask = new GetMyPOITask(Travel.this, fm);
 
 		if (mLocation != null) {
 			//btnGetLocation.setEnabled(true);

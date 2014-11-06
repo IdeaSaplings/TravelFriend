@@ -49,6 +49,9 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 				.findViewById(R.id.place_address_view);
 		addressTextView.setText(poiAddress);
 
+		//Log.v("Debug", "MyGPS : List View getView Complete");
+
+		
 		return view;
 	}
 
