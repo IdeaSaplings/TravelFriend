@@ -3,19 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    <TextView android:id="@+id/place_name_view"
+
+    <TextView
+        android:id="@+id/place_name_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="5dp"
         android:textSize="18sp"
-        android:textStyle="bold"
-        />
-    <TextView android:id="@+id/place_address_view"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/place_address_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="5dp"
         android:textSize="12sp"
-        android:textStyle="italic"
-        />
-
+        android:textStyle="bold|italic" />
 </LinearLayout>

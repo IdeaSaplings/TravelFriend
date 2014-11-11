@@ -215,7 +215,7 @@ public class Travel extends Activity implements OnClickListener {
 
 							actionBar.setTitle(result.get(0).getSubLocality());
 							actionBar.setSubtitle(result.get(0).getLocality()
-									+ "-" + result.get(0).getSubAdminArea());
+									+ ", " + result.get(0).getSubAdminArea());
 						}
 						btnGetLocation.setEnabled(true);
 					}
