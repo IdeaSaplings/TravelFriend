@@ -23,14 +23,33 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 		mContext = context;
 	}
 
+	class MyViewHolder {
+		TextView nameTextView;
+		TextView addressTextView;
+
+		MyViewHolder(View view) {
+			nameTextView = (TextView) view.findViewById(R.id.place_name_view);
+			addressTextView = (TextView) view
+					.findViewById(R.id.place_address_view);
+
+		}
+
+	}
+
 	@Override
-	public View getView(int position, View view, ViewGroup parent) {
+	public View getView(int position, View convertView, ViewGroup parent) {
 
-		// View row = view;
+		 View row = convertView;
+		 MyViewHolder holder=null;
 
-		if (view == null) {
+		if (row == null) {
 			LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-			view = inflater.inflate(R.layout.places_lists_item, parent, false);
+			row = inflater.inflate(R.layout.places_lists_item, parent, false);
+			holder = new MyViewHolder(row);
+			row.setTag(holder);
+		}
+		else {
+			holder = (MyViewHolder) row.getTag();
 		}
 
 		String poiName = new String();
@@ -39,20 +58,20 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 		// POI Name is stored as Name in the Place method
 
 		poiName = getItem(position).getName();
-		TextView nameTextView = (TextView) view
-				.findViewById(R.id.place_name_view);
-		nameTextView.setText(poiName);
 
-		poiAddress = getItem(position).getAddress() + " - Rating: " + getItem(position).getRating();
-		//if (poiAddress.equalsIgnoreCase(null)) poiAddress = "Rating: " + getItem(position).getRating();
-		TextView addressTextView = (TextView) view
-				.findViewById(R.id.place_address_view);
-		addressTextView.setText(poiAddress);
+		holder.nameTextView.setText(poiName);
 
-		//Log.v("Debug", "MyGPS : List View getView Complete");
+		poiAddress = getItem(position).getAddress() + " - Rating: "
+				+ getItem(position).getRating();
+		// if (poiAddress.equalsIgnoreCase(null)) poiAddress = "Rating: " +
+		// getItem(position).getRating();
 
-		
-		return view;
+		poiAddress = "Rating: " + getItem(position).getRating();
+		holder.addressTextView.setText(poiAddress);
+
+		// Log.v("Debug", "MyGPS : List View getView Complete");
+
+		return row;
 	}
 
 }

@@ -2,7 +2,6 @@ package com.isaplings.travelfriend;
 
 import java.util.List;
 
-
 import com.isaplings.travelfriend.MyLocation.LocationResult;
 
 import android.app.ActionBar;
@@ -94,14 +93,15 @@ public class Travel extends Activity implements OnClickListener {
 		actionBar = getActionBar();
 		actionBar.setTitle("Current Location");
 
-		pb = (ProgressBar) findViewById(R.id.progressBar1);
-		pb.setVisibility(View.INVISIBLE);
-
-		editLocation = (EditText) findViewById(R.id.editTextLocation);
-
-		btnGetLocation = (Button) findViewById(R.id.btnLocation);
-		btnGetLocation.setOnClickListener(this);
-
+		/*
+		 * pb = (ProgressBar) findViewById(R.id.progressBar1);
+		 * pb.setVisibility(View.INVISIBLE);
+		 * 
+		 * editLocation = (EditText) findViewById(R.id.editTextLocation);
+		 * 
+		 * btnGetLocation = (Button) findViewById(R.id.btnLocation);
+		 * btnGetLocation.setOnClickListener(this);
+		 */
 		// onRefresh();
 
 	}
@@ -114,13 +114,12 @@ public class Travel extends Activity implements OnClickListener {
 
 	public void onHospital(View v) {
 
-
-
-		FetchPoiDataTaskCompleteListener fm = new FetchPoiDataTaskCompleteListener(Travel.this, appContext);
+		FetchPoiDataTaskCompleteListener fm = new FetchPoiDataTaskCompleteListener(
+				Travel.this, appContext);
 		GetMyPOITask poiTask = new GetMyPOITask(Travel.this, fm);
 
 		if (mLocation != null) {
-			//btnGetLocation.setEnabled(true);
+			// btnGetLocation.setEnabled(true);
 			Log.v(TAG,
 					"MyGPSLocation : GetPOIDetails Task Execute for Location :"
 							+ mLocation.getLatitude() + ","
@@ -128,11 +127,9 @@ public class Travel extends Activity implements OnClickListener {
 			poiTask.execute(mLocation);
 		}
 
-		btnGetLocation.setEnabled(true);
+		//btnGetLocation.setEnabled(true);
 
 	}
-	
-	
 
 	public void onRefresh() {
 
