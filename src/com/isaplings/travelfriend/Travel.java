@@ -7,6 +7,7 @@ import com.isaplings.travelfriend.MyLocation.LocationResult;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.location.Address;
 //import android.location.Geocoder;
@@ -18,7 +19,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-
 
 // Since this Base Class for TravelFriend
 // there will be many changes to this class
@@ -36,10 +36,10 @@ import android.view.View.OnClickListener;
 
 public class Travel extends Activity implements OnClickListener {
 
-	/*private Button btnGetLocation = null;
-	private EditText editLocation = null;
-	private ProgressBar pb = null;
-*/
+	/*
+	 * private Button btnGetLocation = null; private EditText editLocation =
+	 * null; private ProgressBar pb = null;
+	 */
 	private ActionBar actionBar;
 
 	private static final String TAG = "Debug";
@@ -48,6 +48,8 @@ public class Travel extends Activity implements OnClickListener {
 	private Double latitude;
 	private Double longitude;
 	private Location mLocation;
+
+	
 
 	public static Context appContext;
 
@@ -125,7 +127,27 @@ public class Travel extends Activity implements OnClickListener {
 			poiTask.execute(mLocation);
 		}
 
-		//btnGetLocation.setEnabled(true);
+		// btnGetLocation.setEnabled(true);
+
+	}
+
+	public void onGetHospital(View v) {
+		// Create a new Intent
+
+		if (mLocation == null)
+			return;
+
+		Bundle bundle = new Bundle();
+		bundle.putParcelable("LOCATION", mLocation);
+
+		Intent intent = new Intent(appContext, ListPOIPlacesActivity.class);
+
+		// Location is sent as parcelable object
+		intent.putExtras(bundle);
+
+		startActivity(intent);
+
+		Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
 
@@ -133,11 +155,12 @@ public class Travel extends Activity implements OnClickListener {
 
 		Log.v(TAG, "MyGPSLocation : onClick");
 
-		/*editLocation.setText("Please!! move your device to"
-				+ " see the changes in coordinates." + "\n Refresh again..");
-
-		pb.setVisibility(View.VISIBLE);
-*/
+		/*
+		 * editLocation.setText("Please!! move your device to" +
+		 * " see the changes in coordinates." + "\n Refresh again..");
+		 * 
+		 * pb.setVisibility(View.VISIBLE);
+		 */
 		// The following part of code needs refactoring
 		// LocationResult needs to be re-factored.
 		// GetAddressTask (Async) need to be defined separately
@@ -199,7 +222,7 @@ public class Travel extends Activity implements OnClickListener {
 						// SubAdminArea - administrative_area_level_2 || country
 
 						if (result == null) {
-							//btnGetLocation.setEnabled(true);
+							// btnGetLocation.setEnabled(true);
 							actionBar.setTitle("Unknown Location");
 							actionBar.setSubtitle("check your settings");
 
@@ -208,11 +231,23 @@ public class Travel extends Activity implements OnClickListener {
 
 						if ((result != null) & (result.size() > 0)) {
 
-							actionBar.setTitle(result.get(0).getSubLocality());
-							actionBar.setSubtitle(result.get(0).getLocality()
-									+ ", " + result.get(0).getSubAdminArea());
+							String streetName = result.get(0).getSubLocality();
+
+							String cityName = result.get(0).getLocality() + ", " + result.get(0).getSubAdminArea();
+							
+							actionBar.setTitle(streetName);
+							actionBar.setSubtitle(cityName);
+							
+							Bundle extras = new Bundle();
+							extras.putString("STREETNAME", streetName);
+							extras.putString("CITYNAME", cityName);
+							
+							mLocation.setExtras(extras);
+							
+							//Log.v("Debug", "MyGPS : Travel-onSet: Street Name : " + mLocation.getExtras().getString("STREETNAME"));
+							//Log.v("Debug", "MyGPS : Travel-onSet: CityName : " + mLocation.getExtras().getString("CITYNAME"));
+
 						}
-						//btnGetLocation.setEnabled(true);
 					}
 				}
 
@@ -221,7 +256,7 @@ public class Travel extends Activity implements OnClickListener {
 						appContext, fm);
 
 				if (mLocation != null) {
-					//btnGetLocation.setEnabled(true);
+					// btnGetLocation.setEnabled(true);
 					Log.v(TAG,
 							"MyGPSLocation : GetMyAddress Task Execute for Location :"
 									+ mLocation.getLatitude() + ","

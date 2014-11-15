@@ -36,6 +36,8 @@
         </activity>
         <activity android:name=".ListPlacesActivity" >
         </activity>
+        <activity android:name=".ListPOIPlacesActivity" >
+        </activity>
     </application>
 
 </manifest>

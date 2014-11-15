@@ -14,9 +14,10 @@
         android:paddingRight="2dp"
         android:paddingTop="5dp"
         android:text="Place Name"
+        android:textColor="#f5f5dc"
         android:textSize="18sp"
         android:textStyle="bold" />
-    
+
     <TextView
         android:id="@+id/place_distance_view"
         android:layout_width="80dp"
@@ -42,8 +43,8 @@
         android:paddingLeft="8dp"
         android:paddingRight="2dp"
         android:text="Rating Only - May *****"
+        android:textColor="#f5f5dc"
         android:textSize="12sp"
         android:textStyle="bold|italic" />
-
 
 </RelativeLayout>

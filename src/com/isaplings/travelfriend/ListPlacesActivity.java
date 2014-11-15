@@ -1,3 +1,5 @@
+//This class may not be required
+
 package com.isaplings.travelfriend;
 
 import java.util.List;

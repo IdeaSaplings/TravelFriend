@@ -1,17 +1,13 @@
 package com.isaplings.travelfriend;
 
-import java.util.ArrayList;
 
-import org.gmarz.googleplaces.models.Place;
 import org.gmarz.googleplaces.models.PlacesResult;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
+import android.widget.ListView;
 
 class FetchPoiDataTaskCompleteListener extends Activity implements
 		AsyncTaskCompleteListener<PlacesResult> {
@@ -33,11 +29,12 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 
 		if ((placesResult == null) || (placesResult.getPlaces().size() <= 0)) {
 
+			
 			// Show a dialog box here that no results are found
 			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
 			builder.setTitle("Sorry, No data");
 			builder.setMessage(
-					"No result in your search range. Try changing search range.")
+					"No results in your search range. Try changing search range.")
 					.setCancelable(false)
 					.setPositiveButton("Settings",
 							new DialogInterface.OnClickListener() {
@@ -46,6 +43,8 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 									// MyActivity.this.finish();
 									// Settings to be invoked
 									dialog.cancel();
+									mActivity.finish();
+									return;
 
 								}
 							})
@@ -54,33 +53,26 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 								public void onClick(DialogInterface dialog,
 										int id) {
 									dialog.cancel();
+									mActivity.finish();
+									return;
 								}
 							});
 			AlertDialog alert = builder.create();
 			alert.show();
-
+			
+			
 			return;
+
 
 		}
 
-		Log.v("Debug", "MyGPS : Before creating new Intent");
+		//List the Address here
+		
+		ListView listView = (ListView) mActivity.getWindow().getDecorView().findViewById(R.id.places_list);
 
-		// Use the Parcelable to bundle the ArrayList into the Intent
-		Bundle bundle = new Bundle();
-		bundle.putParcelableArrayList("Place",
-				(ArrayList<Place>) placesResult.getPlaces());
-
-		// Create a new Intent
-
-		Intent intent = new Intent(mContext, ListPlacesActivity.class);
-		intent.putExtras(bundle);
-
-		// androidruntimeexception : calling startactivity() from outside of an
-		// activity
-		// Hence we need to know the activity
-
-		mActivity.startActivity(intent);
-		Log.v("Debug", "MyGPS : Before creating new Intent");
-
+		PlaceAdapter adapter = new PlaceAdapter(mActivity,
+				R.layout.places_lists_item, placesResult.getPlaces());
+		listView.setAdapter(adapter);
+        
 	}
 }

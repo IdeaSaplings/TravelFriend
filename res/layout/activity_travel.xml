@@ -107,7 +107,7 @@
         android:background="@null"
         android:drawableTop="@drawable/hospital"
         android:text="@string/hospital"
-        android:onClick="onHospital"
+        android:onClick="onGetHospital"
         android:textColor="@android:color/white"
         android:textSize="13sp" />
 
