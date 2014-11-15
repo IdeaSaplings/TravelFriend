@@ -18,9 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
+
 
 // Since this Base Class for TravelFriend
 // there will be many changes to this class
@@ -32,16 +30,16 @@ import android.widget.ProgressBar;
 // Major part of the code need to be refactores
 // especially the inner class and method definitions
 
-// Last Modified by Navine on 05/Oct/2014
+// Last Modified by Navine on 15/Nov/2014
 
-// Modification in progress for getHospital data 05/Oct/2014
+// Modification in progress for getHospital data 15/Nov/2014
 
 public class Travel extends Activity implements OnClickListener {
 
-	private Button btnGetLocation = null;
+	/*private Button btnGetLocation = null;
 	private EditText editLocation = null;
 	private ProgressBar pb = null;
-
+*/
 	private ActionBar actionBar;
 
 	private static final String TAG = "Debug";
@@ -135,11 +133,11 @@ public class Travel extends Activity implements OnClickListener {
 
 		Log.v(TAG, "MyGPSLocation : onClick");
 
-		editLocation.setText("Please!! move your device to"
+		/*editLocation.setText("Please!! move your device to"
 				+ " see the changes in coordinates." + "\n Refresh again..");
 
 		pb.setVisibility(View.VISIBLE);
-
+*/
 		// The following part of code needs refactoring
 		// LocationResult needs to be re-factored.
 		// GetAddressTask (Async) need to be defined separately
@@ -201,7 +199,7 @@ public class Travel extends Activity implements OnClickListener {
 						// SubAdminArea - administrative_area_level_2 || country
 
 						if (result == null) {
-							btnGetLocation.setEnabled(true);
+							//btnGetLocation.setEnabled(true);
 							actionBar.setTitle("Unknown Location");
 							actionBar.setSubtitle("check your settings");
 
@@ -214,7 +212,7 @@ public class Travel extends Activity implements OnClickListener {
 							actionBar.setSubtitle(result.get(0).getLocality()
 									+ ", " + result.get(0).getSubAdminArea());
 						}
-						btnGetLocation.setEnabled(true);
+						//btnGetLocation.setEnabled(true);
 					}
 				}
 
@@ -223,7 +221,7 @@ public class Travel extends Activity implements OnClickListener {
 						appContext, fm);
 
 				if (mLocation != null) {
-					btnGetLocation.setEnabled(true);
+					//btnGetLocation.setEnabled(true);
 					Log.v(TAG,
 							"MyGPSLocation : GetMyAddress Task Execute for Location :"
 									+ mLocation.getLatitude() + ","
