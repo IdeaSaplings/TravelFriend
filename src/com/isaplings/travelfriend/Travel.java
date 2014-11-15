@@ -115,7 +115,7 @@ public class Travel extends Activity implements OnClickListener {
 	public void onHospital(View v) {
 
 		FetchPoiDataTaskCompleteListener fm = new FetchPoiDataTaskCompleteListener(
-				Travel.this, appContext);
+				Travel.this, appContext, mLocation);
 		GetMyPOITask poiTask = new GetMyPOITask(Travel.this, fm);
 
 		if (mLocation != null) {

@@ -79,7 +79,7 @@ public class ListPOIPlacesActivity extends Activity {
 		Log.v("Debug", "MyGPS : Longitude : " + mLocation.getLongitude());
 
 		FetchPoiDataTaskCompleteListener fm = new FetchPoiDataTaskCompleteListener(
-				ListPOIPlacesActivity.this, this);
+				ListPOIPlacesActivity.this, this, mLocation);
 		GetMyPOITask poiTask = new GetMyPOITask(ListPOIPlacesActivity.this, fm);
 
 	/*	setProgressBarIndeterminateVisibility(false);

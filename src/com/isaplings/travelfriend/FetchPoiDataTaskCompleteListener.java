@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.location.Location;
 import android.widget.ListView;
 
 class FetchPoiDataTaskCompleteListener extends Activity implements
@@ -14,11 +15,13 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 
 	Activity mActivity;
 	Context mContext;
+	Location mLocation;
 
-	public FetchPoiDataTaskCompleteListener(Activity mActivity, Context mContext) {
+	public FetchPoiDataTaskCompleteListener(Activity activity, Context context, Location location) {
 		super();
-		this.mActivity = mActivity;
-		this.mContext = mContext;
+		this.mActivity = activity;
+		this.mContext = context;
+		this.mLocation = location; 
 
 	}
 
@@ -71,7 +74,7 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 		ListView listView = (ListView) mActivity.getWindow().getDecorView().findViewById(R.id.places_list);
 
 		PlaceAdapter adapter = new PlaceAdapter(mActivity,
-				R.layout.places_lists_item, placesResult.getPlaces());
+				R.layout.places_lists_item, placesResult.getPlaces(), mLocation);
 		listView.setAdapter(adapter);
         
 	}
