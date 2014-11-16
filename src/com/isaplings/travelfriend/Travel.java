@@ -127,7 +127,6 @@ public class Travel extends Activity implements OnClickListener {
 			poiTask.execute(mLocation);
 		}
 
-		// btnGetLocation.setEnabled(true);
 
 	}
 

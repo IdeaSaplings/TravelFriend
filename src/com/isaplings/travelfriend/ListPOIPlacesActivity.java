@@ -70,7 +70,9 @@ public class ListPOIPlacesActivity extends Activity {
 		actionBar.setTitle(streetName);
 		actionBar.setSubtitle(cityName);
 
-
+		getActionBar().setIcon(R.drawable.hospital);
+		
+		
 		// Set the Location at Action Bar
 
 		// Bug fix put the Street Name / Location in the Action Bar

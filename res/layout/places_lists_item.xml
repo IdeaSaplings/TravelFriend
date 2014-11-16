@@ -29,7 +29,7 @@
         android:padding="2dp"
         android:text=" 10 Kms"
         android:textColor="#f5f5dc"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
@@ -43,6 +43,22 @@
         android:paddingLeft="8dp"
         android:paddingRight="2dp"
         android:text="Rating Only - May *****"
+        android:textColor="#f5f5dc"
+        android:textSize="12sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/place_rating_view"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/place_distance_view"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/place_distance_view"
+        android:gravity="left"
+        android:paddingBottom="5dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="2dp"
+        android:text="AdfsBD"
         android:textColor="#f5f5dc"
         android:textSize="12sp"
         android:textStyle="bold|italic" />

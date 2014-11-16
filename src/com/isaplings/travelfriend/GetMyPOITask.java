@@ -2,10 +2,15 @@ package com.isaplings.travelfriend;
 
 import java.io.IOException;
 
-import org.gmarz.googleplaces.GooglePlaces;
-import org.gmarz.googleplaces.models.PlacesResult;
-import org.gmarz.googleplaces.models.Result.StatusCode;
-import org.json.JSONException;
+
+
+import com.a2plab.googleplaces.GooglePlaces;
+import com.a2plab.googleplaces.result.PlacesResult;
+import com.a2plab.googleplaces.result.Result.StatusCode;
+
+
+
+
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -48,7 +53,7 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 		Log.v("Test", "Navine : Before get hospitals");
 
 
-		PlacesResult result = null;
+		PlacesResult placesResult = null;
 
 		// Log.v(TAG, "GPS: Current Thread Before Priority is  set : " +
 		// Thread.currentThread().getPriority());
@@ -71,33 +76,33 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 			Log.v(TAG, "MYGPSLocation : Latitude " + latitude);
 			Log.v(TAG, "MYGPSLocation : Longitude " + longitude);
 			
-			result = googlePlaces.getPlaces("hospital", 2500, latitude, longitude);
+			placesResult = (PlacesResult) googlePlaces.getNearbyPlaces("hospital", "health", 2500, latitude, longitude);
 
 			Log.v(TAG,
-					"MYGPSLocation : Size of result1 - places  " + result.getPlaces().size());
+					"MYGPSLocation : Size of result1 - places  " + placesResult.getResults().size());
 			Log.v(TAG,
-					"MYGPSLocation : result1 - places - [Status Code]  " + result.getStatusCode());
+					"MYGPSLocation : result1 - places - [Status Code]  " + placesResult.getStatusCode());
 			
-			if ((result.getStatusCode() != StatusCode.OK) || (result.getPlaces().size()<5)) {
+			if ((placesResult.getStatusCode() != StatusCode.OK) || (placesResult.getResults().size()<5)) {
 					// Then hop to the next radius
 					Log.v(TAG, "MYGPSLocation : Trying to get POI details at level 2 radius");
 
 					
-					result = googlePlaces.getPlaces("hospital", 25000, latitude, longitude);
+					placesResult = (PlacesResult) googlePlaces.getNearbyPlaces("hospital","", 25000, latitude, longitude);
 					Log.v(TAG,
-							"MYGPSLocation : Size of result[2] - places  " + result.getPlaces().size());
+							"MYGPSLocation : Size of result[2] - places  " + placesResult.getResults().size());
 					Log.v(TAG,
-							"MYGPSLocation : result[2] - places - [Status Code]  " + result.getStatusCode());
+							"MYGPSLocation : result[2] - places - [Status Code]  " + placesResult.getStatusCode());
 					
-					if ((result.getStatusCode() != StatusCode.OK) || (result.getPlaces().size()<5)) {
+					if ((placesResult.getStatusCode() != StatusCode.OK) || (placesResult.getResults().size()<5)) {
 							// Then hop to the next radius
 							Log.v(TAG, "MYGPSLocation : Trying to get POI details at level 3 radius");
 
-							result = googlePlaces.getPlaces("hospital", 50000, latitude, longitude);
+							placesResult =(PlacesResult) googlePlaces.getNearbyPlaces("hospital", "health", 50000, latitude, longitude);
 							Log.v(TAG,
-									"MYGPSLocation : Size of result[2] - places  " + result.getPlaces().size());
+									"MYGPSLocation : Size of result[3] - places  " + placesResult.getResults().size());
 							Log.v(TAG,
-									"MYGPSLocation : result[2] - places - [Status Code]  " + result.getStatusCode());
+									"MYGPSLocation : result[3] - places - [Status Code]  " + placesResult.getStatusCode());
 					}
 			}
 				
@@ -107,20 +112,20 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 			Log.v(TAG,
 					"MYGPSLocation :  GetPlaces Throws IOException Not Available exception thrown ");
 			e.printStackTrace();
-			return result;
-		} catch (JSONException e) {
+			return placesResult;
+		/*} catch (JSONException e) {
 			Log.v(TAG,
 					"MYGPSLocation :  GetPlaces Throws LimitExceed Service Not Available exception thrown ");
 			e.printStackTrace();
-			return result;
+			return placesResult;*/
 		}catch (Exception e) {
 			Log.v(TAG, "MYGPSLocation :  GetPlaces Throws  exception thrown ");
 			e.printStackTrace();
-			return result;
+			return placesResult;
 
 		}
 
-		return result;
+		return placesResult;
 	}
 
 	protected void onPostExecute(PlacesResult placesList) {

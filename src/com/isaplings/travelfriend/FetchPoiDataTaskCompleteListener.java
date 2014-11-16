@@ -1,7 +1,10 @@
 package com.isaplings.travelfriend;
 
 
-import org.gmarz.googleplaces.models.PlacesResult;
+import java.util.List;
+
+import com.a2plab.googleplaces.models.Place;
+import com.a2plab.googleplaces.result.PlacesResult;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -30,7 +33,7 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 
 		// We can also execute the postExecute Method Here
 
-		if ((placesResult == null) || (placesResult.getPlaces().size() <= 0)) {
+		if ((placesResult == null) || (placesResult.getResults().size() <= 0)) {
 
 			
 			// Show a dialog box here that no results are found
@@ -73,8 +76,11 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 		
 		ListView listView = (ListView) mActivity.getWindow().getDecorView().findViewById(R.id.places_list);
 
+		@SuppressWarnings("unchecked")
+		List<Place> placesList = (List<Place>) placesResult.getResults();
+		
 		PlaceAdapter adapter = new PlaceAdapter(mActivity,
-				R.layout.places_lists_item, placesResult.getPlaces(), mLocation);
+				R.layout.places_lists_item, placesList, mLocation);
 		listView.setAdapter(adapter);
         
 	}
