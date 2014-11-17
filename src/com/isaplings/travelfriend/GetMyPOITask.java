@@ -148,7 +148,7 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 
 	protected void onPreExecute() {
 		Log.v(TAG,"MY GPS : Invokde  Progress Dialog" );
-		progressDialog = ProgressDialog.show(appActivity,"Connecting to server...","Please wait. Your request is in progress.");
+		progressDialog = ProgressDialog.show(appActivity,"Please Wait...","Retrieving information.");
 		progressDialog.setCancelable(false);
 		
 

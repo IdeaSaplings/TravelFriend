@@ -38,9 +38,9 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 			
 			// Show a dialog box here that no results are found
 			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-			builder.setTitle("Sorry, No data");
+			builder.setTitle("No Results");
 			builder.setMessage(
-					"No results in your search range. Try changing search range.")
+					"No results in the search range. Try changing search range.")
 					.setCancelable(false)
 					.setPositiveButton("Settings",
 							new DialogInterface.OnClickListener() {

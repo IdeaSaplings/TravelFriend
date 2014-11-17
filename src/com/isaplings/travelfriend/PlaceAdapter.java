@@ -2,6 +2,7 @@ package com.isaplings.travelfriend;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import com.a2plab.googleplaces.models.Place;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 public class PlaceAdapter extends ArrayAdapter<Place> {
@@ -26,6 +28,7 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 	Location mLocation;
 
 	public PlaceAdapter(Context context, int listViewResourceId, List<Place> places, Location location) {
+		
 		super(context, listViewResourceId, places);
 
 		mContext = context;
@@ -37,7 +40,7 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 		TextView nameTextView;
 		TextView addressTextView;
 		TextView distanceTextView;
-		TextView ratingTextView;
+		RatingBar ratingTextView;
 
 		MyViewHolder(View view) {
 			nameTextView = (TextView) view.findViewById(R.id.place_name_view);
@@ -45,8 +48,7 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 					.findViewById(R.id.place_address_view);
 			distanceTextView = (TextView) view
 					.findViewById(R.id.place_distance_view);
-			ratingTextView = (TextView) view
-					.findViewById(R.id.place_rating_view);
+			ratingTextView = (RatingBar) view.findViewById(R.id.place_rating_view);
 
 
 		}
@@ -108,7 +110,7 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 				poiAddress = poiAddress.substring(0, 77) + "...";
 			}
 			
-			if (poiAddress.length() <46) {
+			if (poiAddress.length() <43) {
 				
 				poiAddress = poiAddress + "\n ";
 			}
@@ -124,19 +126,19 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 		// This calculation is done only for kms metrics
 
 		Geometry geometry = (getItem(position).getGeometry());
+		
+		final float[] dist = new float[3];
+		
+		Location.distanceBetween(mLocation.getLatitude(), mLocation.getLongitude(), geometry.location.lat, geometry.location.lng, dist);
+		
+		
+		DecimalFormat df = new DecimalFormat("###.#");
 
-		// Location pLocation = ((Object) geometry).location();
-
-		// Double dist = (getItem(position).getDistanceTo(mLocation))/1000;
-
-		// BigDecimal bd = new BigDecimal(dist);
-		// bd = bd.setScale(1, RoundingMode.HALF_UP);
-
-		// String distanceTo = Double.toString(bd.doubleValue());
-		// holder.distanceTextView.setText(distanceTo+ "\n kms");
-
-		holder.distanceTextView.setText(" 99.9" + " km");
-		holder.ratingTextView.setText(" *Rating*");
+		
+		holder.distanceTextView.setText(" "+ df.format(dist[0]/1000) + " km");
+		
+		holder.ratingTextView.setStepSize((float) 0.25);
+		holder.ratingTextView.setRating((float) 3.5);
 
 		// Log.v("Debug", "MyGPS : List View getView Complete");
 
