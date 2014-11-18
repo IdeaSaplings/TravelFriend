@@ -7,9 +7,6 @@ import java.util.List;
 
 import com.a2plab.googleplaces.models.Place;
 import com.a2plab.googleplaces.models.Place.Geometry;
-import com.a2plab.googleplaces.GooglePlaces;
-import com.a2plab.googleplaces.result.PlacesResult;
-import com.a2plab.googleplaces.result.Result.StatusCode;
 
 import android.content.Context;
 import android.location.Location;
@@ -137,11 +134,23 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 		
 		holder.distanceTextView.setText(" "+ df.format(dist[0]/1000) + " km");
 		
+		Double poiRating;
+		
+		if (getItem(position).getRating() != null ){
+			poiRating = getItem(position).getRating();
+		} else poiRating = (Double) 0.0;
+		
+		BigDecimal bd = new BigDecimal(poiRating);
+		bd = bd.setScale(2, RoundingMode.HALF_UP);
+		
+		
 		holder.ratingTextView.setStepSize((float) 0.25);
-		holder.ratingTextView.setRating((float) 3.5);
+		holder.ratingTextView.setRating(bd.floatValue());
 
 		// Log.v("Debug", "MyGPS : List View getView Complete");
-
+		
+		Log.v("Debug" , "MYGPS : Place ID : " +getItem(position).getId());
+		Log.v("Debug" , "MYGPS : Rating : " +getItem(position).getRating());
 		return row;
 	}
 

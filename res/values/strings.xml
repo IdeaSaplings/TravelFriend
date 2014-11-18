@@ -6,7 +6,7 @@
     <string name="action_settings">Settings</string>
     
     <string name="atm">ATM</string>
-	<string name="car_repair">Car Repair</string>
+	<string name="car_repair">Repair Pal</string>
 	<string name="fuel_pump">Fuel Station</string>
 	<string name="hospital">Hospital</string>
 	<string name="pharmacy">Pharmacy</string>

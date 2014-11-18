@@ -4,9 +4,14 @@ import java.io.IOException;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.a2plab.googleplaces.GooglePlaces;
 import com.a2plab.googleplaces.result.PlacesResult;
 import com.a2plab.googleplaces.result.Result.StatusCode;
+
+
 
 
 
@@ -76,10 +81,15 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 			Log.v(TAG, "MYGPSLocation : Latitude " + latitude);
 			Log.v(TAG, "MYGPSLocation : Longitude " + longitude);
 			
-			placesResult = (PlacesResult) googlePlaces.getNearbyPlaces("hospital", "health", 2500, latitude, longitude);
+			List<String> types = new ArrayList<String>();
+			types.add("hospital");
+			types.add("dentist");
+			types.add("doctor");
+			
+			placesResult = (PlacesResult) googlePlaces.getNearbyPlaces(types, "", 2500, latitude, longitude);
 
 			Log.v(TAG,
-					"MYGPSLocation : Size of result1 - places  " + placesResult.getResults().size());
+					"MYGPSLocation : Size of Result1 - places  " + placesResult.getResults().size());
 			Log.v(TAG,
 					"MYGPSLocation : result1 - places - [Status Code]  " + placesResult.getStatusCode());
 			
@@ -88,7 +98,7 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 					Log.v(TAG, "MYGPSLocation : Trying to get POI details at level 2 radius");
 
 					
-					placesResult = (PlacesResult) googlePlaces.getNearbyPlaces("hospital","", 25000, latitude, longitude);
+					placesResult = (PlacesResult) googlePlaces.getNearbyPlaces(types, "", 25000, latitude, longitude);
 					Log.v(TAG,
 							"MYGPSLocation : Size of result[2] - places  " + placesResult.getResults().size());
 					Log.v(TAG,
@@ -98,7 +108,7 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 							// Then hop to the next radius
 							Log.v(TAG, "MYGPSLocation : Trying to get POI details at level 3 radius");
 
-							placesResult =(PlacesResult) googlePlaces.getNearbyPlaces("hospital", "health", 50000, latitude, longitude);
+							placesResult =(PlacesResult) googlePlaces.getNearbyPlaces(types, "", 50000, latitude, longitude);
 							Log.v(TAG,
 									"MYGPSLocation : Size of result[3] - places  " + placesResult.getResults().size());
 							Log.v(TAG,
