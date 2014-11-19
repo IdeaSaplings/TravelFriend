@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.a2plab.googleplaces.models.Place;
 import com.a2plab.googleplaces.result.PlacesResult;
+import com.isaplings.travelfriend.lib.SortPlaceList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -78,6 +79,13 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 
 		@SuppressWarnings("unchecked")
 		List<Place> placesList = (List<Place>) placesResult.getResults();
+		
+		//Sort the PlacesList
+		//sortByDistance(placesList, mLocation.latitude, mLocation.longitude)
+		
+		//placesList = SortPlaceList.sortbyRating(placesList);
+		
+		placesList = SortPlaceList.sortbyDistance(placesList, mLocation);
 		
 		PlaceAdapter adapter = new PlaceAdapter(mActivity,
 				R.layout.places_lists_item, placesList, mLocation);

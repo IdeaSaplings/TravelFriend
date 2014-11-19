@@ -24,8 +24,9 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 	List<Place> mPlaces;
 	Location mLocation;
 
-	public PlaceAdapter(Context context, int listViewResourceId, List<Place> places, Location location) {
-		
+	public PlaceAdapter(Context context, int listViewResourceId,
+			List<Place> places, Location location) {
+
 		super(context, listViewResourceId, places);
 
 		mContext = context;
@@ -45,8 +46,8 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 					.findViewById(R.id.place_address_view);
 			distanceTextView = (TextView) view
 					.findViewById(R.id.place_distance_view);
-			ratingTextView = (RatingBar) view.findViewById(R.id.place_rating_view);
-
+			ratingTextView = (RatingBar) view
+					.findViewById(R.id.place_rating_view);
 
 		}
 
@@ -74,84 +75,106 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 
 		poiName = getItem(position).getName();
 
-
-		if ((poiName != null )){
+		if ((poiName != null)) {
 			// Concatnate the string to length of the string to
 			// display within 2 lines
-			
-			
-			if (poiName.length() > 27 ){
-				
+
+			if (poiName.length() > 27) {
+
 				poiName = poiName.substring(0, 24) + "...";
 			}
-			
+
 		}
 
-		
 		holder.nameTextView.setText(poiName);
 
 		poiAddress = getItem(position).getVicinity();
-		
-		if ((poiAddress == null) || poiAddress.isEmpty()){
+
+		if ((poiAddress == null) || poiAddress.isEmpty()) {
 			poiAddress = getItem(position).getFormattedAddress();
 		}
 
-		
-		if ((poiAddress != null )){
+		if ((poiAddress != null)) {
 			// Concatnate the string to length of the string to
 			// display within 2 lines
-			
-			
-			if (poiAddress.length() > 80 ){
+
+			if (poiAddress.length() > 80) {
 
 				poiAddress = poiAddress.substring(0, 77) + "...";
 			}
-			
-			if (poiAddress.length() <43) {
-				
+
+			if (poiAddress.length() < 43) {
+
 				poiAddress = poiAddress + "\n ";
 			}
-			
+
 		}
-		
+
 		// if (poiAddress.equalsIgnoreCase(null)) poiAddress = "Rating: " +
 		// getItem(position).getRating();
 
-		//poiAddress = "Rating: " + "Rating Not available";
+		// poiAddress = "Rating: " + "Rating Not available";
 		holder.addressTextView.setText(poiAddress);
 
 		// This calculation is done only for kms metrics
 
 		Geometry geometry = (getItem(position).getGeometry());
-		
+
 		final float[] dist = new float[3];
-		
-		Location.distanceBetween(mLocation.getLatitude(), mLocation.getLongitude(), geometry.location.lat, geometry.location.lng, dist);
-		
-		
+
+		Location.distanceBetween(mLocation.getLatitude(),
+				mLocation.getLongitude(), geometry.location.lat,
+				geometry.location.lng, dist);
+
 		DecimalFormat df = new DecimalFormat("###.#");
 
-		
-		holder.distanceTextView.setText(" "+ df.format(dist[0]/1000) + " km");
-		
+		holder.distanceTextView
+				.setText(" " + df.format(dist[0] / 1000) + " km");
+
+//		Double poiDistance = this.calculationByDistance(
+//				mLocation.getLatitude(), mLocation.getLongitude(),
+//				geometry.location.lat, geometry.location.lng);
+
+		// Log.v("Debug" , "MYGPS : Haversine Distance : " + poiDistance);
+		// Log.v("Debug" , "MYGPS : distanceBetween : " +
+		// df.format(dist[0]/1000));
+
+		/*
+		 * 
+		 * BigDecimal bd = new BigDecimal(poiDistance);bd = bd.setScale(1,
+		 * RoundingMode.HALF_UP);
+		 * 
+		 * holder.distanceTextView.setText(" "+ bd.doubleValue() + " km");
+		 */
+
 		Double poiRating;
-		
-		if (getItem(position).getRating() != null ){
+
+		if (getItem(position).getRating() != null) {
 			poiRating = getItem(position).getRating();
-		} else poiRating = (Double) 0.0;
-		
+		} else
+			poiRating = (Double) 0.0;
+
 		BigDecimal bd = new BigDecimal(poiRating);
 		bd = bd.setScale(2, RoundingMode.HALF_UP);
-		
-		
+
 		holder.ratingTextView.setStepSize((float) 0.25);
 		holder.ratingTextView.setRating(bd.floatValue());
 
 		// Log.v("Debug", "MyGPS : List View getView Complete");
-		
-		Log.v("Debug" , "MYGPS : Place ID : " +getItem(position).getId());
-		Log.v("Debug" , "MYGPS : Rating : " +getItem(position).getRating());
+
+		Log.v("Debug", "MYGPS : Place ID : " + getItem(position).getId());
+		Log.v("Debug", "MYGPS : Rating : " + getItem(position).getRating());
 		return row;
 	}
 
+	/*
+	 * public double calculationByDistance(Double startLatitude, Double
+	 * startLongitude, Double endLatitude, Double endLongitude) { double lat1 =
+	 * startLatitude; double lat2 = endLatitude; double lon1 = startLongitude;
+	 * double lon2 = endLongitude; double dLat = Math.toRadians(lat2-lat1);
+	 * double dLon = Math.toRadians(lon2-lon1); double a = Math.sin(dLat/2) *
+	 * Math.sin(dLat/2) + Math.cos(Math.toRadians(lat1)) *
+	 * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+	 * double c = 2 * Math.asin(Math.sqrt(a)); return 6371 * c; }
+	 */
 }
