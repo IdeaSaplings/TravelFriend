@@ -49,8 +49,6 @@ public class Travel extends Activity implements OnClickListener {
 	private Double longitude;
 	private Location mLocation;
 
-	
-
 	public static Context appContext;
 
 	@Override
@@ -127,14 +125,14 @@ public class Travel extends Activity implements OnClickListener {
 			poiTask.execute(mLocation);
 		}
 
-
 	}
 
 	public void onGetHospital(View v) {
 		// Create a new Intent
 
-		if (mLocation == null)
+		if (mLocation == null) {
 			return;
+		}
 
 		Bundle bundle = new Bundle();
 		bundle.putParcelable("LOCATION", mLocation);
@@ -172,6 +170,8 @@ public class Travel extends Activity implements OnClickListener {
 				// Got the location!
 				if (location == null) {
 					Log.v(TAG, "MyGPSLocation Inside GotLocation: First Step ");
+
+					// implement - show message - #CodeReview
 				}
 
 				else {
@@ -190,8 +190,9 @@ public class Travel extends Activity implements OnClickListener {
 						getAddressFromLocation(appContext);
 						//
 
-					} else
+					} else {
 						Log.v(TAG, "MYGPSLocation : flag is false");
+					}
 
 				}
 
@@ -216,7 +217,7 @@ public class Travel extends Activity implements OnClickListener {
 
 						// Extracted from Address Component in JSONObject
 						// SubLocality - route || administrative_area_level_2 ||
-						// administrative_area_level_1
+						//   administrative_area_level_1
 						// Locality - locality || political
 						// SubAdminArea - administrative_area_level_2 || country
 
@@ -224,7 +225,8 @@ public class Travel extends Activity implements OnClickListener {
 							// btnGetLocation.setEnabled(true);
 							actionBar.setTitle("Unknown Location");
 							actionBar.setSubtitle("check your settings");
-
+							// #codereview - Show message - unable to retreive
+							// info - show alert box
 							return;
 						}
 
@@ -232,19 +234,24 @@ public class Travel extends Activity implements OnClickListener {
 
 							String streetName = result.get(0).getSubLocality();
 
-							String cityName = result.get(0).getLocality() + ", " + result.get(0).getSubAdminArea();
-							
+							String cityName = result.get(0).getLocality()
+									+ ", " + result.get(0).getSubAdminArea();
+
 							actionBar.setTitle(streetName);
 							actionBar.setSubtitle(cityName);
-							
+
 							Bundle extras = new Bundle();
 							extras.putString("STREETNAME", streetName);
 							extras.putString("CITYNAME", cityName);
-							
+
 							mLocation.setExtras(extras);
-							
-							//Log.v("Debug", "MyGPS : Travel-onSet: Street Name : " + mLocation.getExtras().getString("STREETNAME"));
-							//Log.v("Debug", "MyGPS : Travel-onSet: CityName : " + mLocation.getExtras().getString("CITYNAME"));
+
+							// Log.v("Debug",
+							// "MyGPS : Travel-onSet: Street Name : " +
+							// mLocation.getExtras().getString("STREETNAME"));
+							// Log.v("Debug",
+							// "MyGPS : Travel-onSet: CityName : " +
+							// mLocation.getExtras().getString("CITYNAME"));
 
 						}
 					}

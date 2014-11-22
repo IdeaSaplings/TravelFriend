@@ -82,12 +82,13 @@ public class MyLocation {
 			locationManager.requestLocationUpdates(
 					LocationManager.GPS_PROVIDER, 0, 0, locationListenerGps);
 		}
-		if (network_enabled)
+		if (network_enabled) {
 			Log.v("My GPS", "MyGPSLocation : Network is enabled <<");
 
 		locationManager
 				.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,
 						locationListenerNetwork);
+		}
 		timer = new Timer();
 		timer.schedule(new GetLastLocation(mActivity), 20000);
 		return true;
@@ -101,9 +102,10 @@ public class MyLocation {
 			Log.v("My GPS",
 					"MyGPSLocation : GPS is enabled - Inside GPS Location Listener");
 			timer.cancel();
-			locationResult.gotLocation(location);
 			locationManager.removeUpdates(this);
 			locationManager.removeUpdates(locationListenerNetwork);
+			locationResult.gotLocation(location);
+
 		}
 
 		public void onProviderDisabled(String provider) {
@@ -125,9 +127,10 @@ public class MyLocation {
 			Log.v("My GPS",
 					"MyGPSLocation : Network is enabled - Inside Network Location Listener");
 			timer.cancel();
-			locationResult.gotLocation(location);
 			locationManager.removeUpdates(this);
 			locationManager.removeUpdates(locationListenerGps);
+			locationResult.gotLocation(location);
+
 		}
 
 		public void onProviderDisabled(String provider) {
@@ -195,7 +198,7 @@ public class MyLocation {
 					if (net_loc != null) {
 						locationResult.gotLocation(net_loc);
 						Log.v("My GPS",
-								"MyGPSLocation : Last Known Location from GPS");
+								"MyGPSLocation : Last Known Location from Net");
 						return;
 					}
 					Log.v("My GPS",
