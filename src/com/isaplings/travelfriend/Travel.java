@@ -206,6 +206,7 @@ public class Travel extends Activity implements OnClickListener {
 
 					// implement - show message - #CodeReview
 					
+					resetUpdating();
 					
 					AlertDialog.Builder builder = new AlertDialog.Builder(Travel.this);
 					builder.setTitle("Alert");
