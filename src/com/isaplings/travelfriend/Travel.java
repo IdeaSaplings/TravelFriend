@@ -6,7 +6,9 @@ import com.isaplings.travelfriend.MyLocation.LocationResult;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.location.Address;
@@ -19,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.RelativeLayout;
 
 // Since this Base Class for TravelFriend
 // there will be many changes to this class
@@ -89,8 +92,8 @@ public class Travel extends Activity implements OnClickListener {
 		// This need to changed
 
 		actionBar = getActionBar();
-		actionBar.setTitle("Current Location");
-
+		actionBar.setTitle("Travel Friend");
+        actionBar.setSubtitle("SOS Help, closer to you");
 		/*
 		 * pb = (ProgressBar) findViewById(R.id.progressBar1);
 		 * pb.setVisibility(View.INVISIBLE);
@@ -172,6 +175,21 @@ public class Travel extends Activity implements OnClickListener {
 					Log.v(TAG, "MyGPSLocation Inside GotLocation: First Step ");
 
 					// implement - show message - #CodeReview
+					
+					
+					AlertDialog.Builder builder = new AlertDialog.Builder(Travel.this);
+					builder.setTitle("Alert");
+					builder.setMessage("Unable to retrieve current location. Please refresh after checking connectivity settings in phone.");
+					builder.setCancelable(true);
+					builder.setNeutralButton(android.R.string.ok,
+					        new DialogInterface.OnClickListener() {
+					    public void onClick(DialogInterface dialog, int id) {
+					        dialog.cancel();
+					    }
+					});
+
+					AlertDialog alert = builder.create();
+					alert.show();
 				}
 
 				else {
@@ -270,10 +288,66 @@ public class Travel extends Activity implements OnClickListener {
 					addTask.execute(mLocation);
 				}
 			}
+
+			@Override
+			public void gotLastLocation(Location location) {
+				// #codereview - Alert the user that last know location will be used
+				final Location mLocation = location;
+				// Show a dialog box here that no results are found
+				AlertDialog.Builder builder = new AlertDialog.Builder(Travel.this);
+				builder.setTitle("Alert");
+				builder.setMessage(
+						"Unable to retrieve current location. Click Ok to proceed with last known location.")
+						.setCancelable(false)
+						.setPositiveButton("Ok",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										// MyActivity.this.finish();
+										// Settings to be invoked
+										dialog.cancel();
+										gotLocation(mLocation);
+
+									}
+								})
+						.setNegativeButton("Cancel",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										dialog.cancel();
+										gotLocation(null);
+										return;
+									}
+								});
+				AlertDialog alert = builder.create();
+				alert.show();
+				
+
+				
+				//gotLocation(location);
+				
+			}
 		}; // LocationResult Definition Ends
 
 		MyLocation myLocation = new MyLocation(Travel.this, this);
+		
+		Log.v(TAG, "MYGPSLocation : Disabling the Layout Icons ");
+
+		RelativeLayout layout = (RelativeLayout) findViewById(R.id.home_screen);
+				
+		for (int i = 0; i < layout.getChildCount(); i++) {
+		    View child = layout.getChildAt(i);
+		    child.setEnabled(false);
+		}
+
+		
 		myLocation.getLocation(locationResult);
+		
+		for (int i = 0; i < layout.getChildCount(); i++) {
+		    View child = layout.getChildAt(i);
+		    child.setEnabled(true);
+		}
+		
 		Log.v(TAG,
 				"MyGPSLocation : All steps executed - wait for GPS/Network Update Action");
 	}

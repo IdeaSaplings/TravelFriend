@@ -134,9 +134,16 @@ public class GetMyAddressTask extends
 
 
 		}
+		
+
+		
+
+		
 		Log.v(TAG,
 				"MYGPSLocation : onPostExecute Method Completed - calling callback method of list ");
 
+		
+		
 		mlistener.onTaskComplete(addressList);
 
 	}
@@ -156,8 +163,9 @@ public class GetMyAddressTask extends
 		
 		editText.setText("Trying to get the City Name / Address \nPlease wait.. connecting to internet");
 */
-		
-		Log.v(TAG, "MYGPSLocation : Empty PreExecute Method ");
+
+		Log.v(TAG, "MYGPSLocation : Empty pre-execute ");
+
 		
 		//Placeholder for refresh button integration
 

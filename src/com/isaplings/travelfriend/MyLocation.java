@@ -182,23 +182,25 @@ public class MyLocation {
 					// if there are both values use the latest one
 					if (gps_loc != null && net_loc != null) {
 						if (gps_loc.getTime() > net_loc.getTime())
-							locationResult.gotLocation(gps_loc);
+							locationResult.gotLastLocation(gps_loc);
 						else
-							locationResult.gotLocation(net_loc);
+							locationResult.gotLastLocation(net_loc);
 						return;
 					}
 
 					if (gps_loc != null) {
-						locationResult.gotLocation(gps_loc);
 						Log.v("My GPS",
 								"MyGPSLocation : Last Known Location from GPS");
 
+						locationResult.gotLastLocation(gps_loc);
+						
 						return;
 					}
 					if (net_loc != null) {
-						locationResult.gotLocation(net_loc);
 						Log.v("My GPS",
 								"MyGPSLocation : Last Known Location from Net");
+						
+						locationResult.gotLastLocation(net_loc);
 						return;
 					}
 					Log.v("My GPS",
@@ -215,6 +217,8 @@ public class MyLocation {
 
 	public static abstract class LocationResult {
 		public abstract void gotLocation(Location location);
+		
+		public abstract void gotLastLocation(Location location);
 
 		// The below inner class is defined
 		protected abstract void getAddressFromLocation(Context context);
