@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.isaplings.travelfriend.MyLocation.LocationResult;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,11 +17,15 @@ import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 // Since this Base Class for TravelFriend
@@ -51,6 +56,7 @@ public class Travel extends Activity implements OnClickListener {
 	private Double latitude;
 	private Double longitude;
 	private Location mLocation;
+	private Menu mymenu;
 
 	public static Context appContext;
 
@@ -59,15 +65,26 @@ public class Travel extends Activity implements OnClickListener {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_activity_actions, menu);
+		mymenu=menu;
 		return super.onCreateOptionsMenu(menu);
 
 	}
 
+	@SuppressLint("InflateParams")
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
 		case R.id.action_refresh:
+			//adding code for refresh animation
+			//can be moved to pre-execute task. Task for Navine
+			LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        	ImageView iv = (ImageView)inflater.inflate(R.layout.iv_refresh, null);
+        	Animation rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_refresh);
+        	rotation.setRepeatCount(Animation.INFINITE);
+        	iv.startAnimation(rotation);
+        	item.setActionView(iv);
+			//End
 			onRefresh();
 			return true;
 		case R.id.action_settings:
@@ -79,6 +96,18 @@ public class Travel extends Activity implements OnClickListener {
 		}
 	}
 
+    public void resetUpdating()
+    {
+        // Get our refresh item from the menu
+        MenuItem m = mymenu.findItem(R.id.action_refresh);
+        if(m.getActionView()!=null)
+        {
+            // Remove the animation.
+            m.getActionView().clearAnimation();
+            m.setActionView(null);
+        }
+    }	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -333,20 +362,20 @@ public class Travel extends Activity implements OnClickListener {
 		
 		Log.v(TAG, "MYGPSLocation : Disabling the Layout Icons ");
 
-		RelativeLayout layout = (RelativeLayout) findViewById(R.id.home_screen);
-				
-		for (int i = 0; i < layout.getChildCount(); i++) {
-		    View child = layout.getChildAt(i);
-		    child.setEnabled(false);
-		}
+//		RelativeLayout layout = (RelativeLayout) findViewById(R.id.home_screen);
+//				
+//		for (int i = 0; i < layout.getChildCount(); i++) {
+//		    View child = layout.getChildAt(i);
+//		    child.setEnabled(false);
+//		}
 
 		
 		myLocation.getLocation(locationResult);
 		
-		for (int i = 0; i < layout.getChildCount(); i++) {
-		    View child = layout.getChildAt(i);
-		    child.setEnabled(true);
-		}
+//		for (int i = 0; i < layout.getChildCount(); i++) {
+//		    View child = layout.getChildAt(i);
+//		    child.setEnabled(true);
+//		}
 		
 		Log.v(TAG,
 				"MyGPSLocation : All steps executed - wait for GPS/Network Update Action");

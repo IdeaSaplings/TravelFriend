@@ -104,6 +104,7 @@ public class GetMyAddressTask extends
 */
 		Log.v(TAG, "MYGPSLocation : onPostExecute Method ");
 		
+		 ((Travel) appActivity).resetUpdating();
 		
 		if ((addressList != null) && (addressList.size() > 0)) {
 			Log.v(TAG, "MYGPSLocation : Print Address Method ");
@@ -164,9 +165,8 @@ public class GetMyAddressTask extends
 		editText.setText("Trying to get the City Name / Address \nPlease wait.. connecting to internet");
 */
 
-		Log.v(TAG, "MYGPSLocation : Empty pre-execute ");
+		Log.v(TAG, "MYGPSLocation : Empty PreExecute");
 
-		
 		//Placeholder for refresh button integration
 
 	}

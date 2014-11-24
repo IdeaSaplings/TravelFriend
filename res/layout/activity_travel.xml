@@ -1,141 +1,233 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/home_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    tools:context="com.example.homescreen.MainActivity" >
-
+    android:columnCount="1">
+<!--     tools:context="com.example.homescreen.MainActivity" -->
+   
     
-    <Button
-        android:id="@+id/btnSOS"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="22dp"
-        android:layout_marginTop="22dp"
-        android:background="@null"
-        android:drawableTop="@drawable/sos"
-        android:text="@string/sos"
-        android:textColor="@android:color/white"
-        android:textSize="13sp" />
-
-    <Button
-        android:id="@+id/btnTow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnSOS"
-        android:layout_below="@+id/btnFuelPump"
-        android:layout_marginTop="26dp"
-        android:background="@null"
-        android:drawableTop="@drawable/tow"
-        android:text="@string/tow"
-        android:textColor="@android:color/white"
-        android:textSize="13sp" />
-
-    <Button
-        android:id="@+id/btnATM"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btnTow"
-        android:layout_alignBottom="@+id/btnTow"
-        android:layout_alignRight="@+id/btnCarRepair"
-        android:background="@null"
-        android:drawableTop="@drawable/atm"
-        android:text="@string/atm"
-        android:textColor="@android:color/white"
-        android:textSize="13sp" />
-
-    <Button
-        android:id="@+id/btnRestaurant"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btnATM"
-        android:layout_alignBottom="@+id/btnATM"
-        android:layout_alignRight="@+id/btnPharmacy"
-        android:background="@null"
-        android:drawableTop="@drawable/restaurant"
-        android:text="@string/restaurant"
-        android:textColor="@android:color/white"
-        android:textSize="13sp" />
-
-    <Button
-        android:id="@+id/btnRestRoom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnSOS"
-        android:layout_below="@+id/btnTow"
-        android:layout_marginTop="22dp"
-        android:background="@null"
-        android:drawableTop="@drawable/rest_room"
-        android:text="@string/rest_room"
-        android:textColor="@android:color/white"
-        android:textSize="13sp" />
-
-    <Button
-        android:id="@+id/btnFuelPump"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="19dp"
-        android:layout_below="@+id/btnSOS"
-        android:layout_marginTop="24dp"
-        android:background="@null"
-        android:drawableTop="@drawable/fuel_pump"
-        android:text="@string/fuel_pump"
-        android:textColor="@android:color/white"
-        android:textSize="13sp" />
-
-    <Button
-        android:id="@+id/btnPharmacy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btnTow"
-        android:layout_marginLeft="23dp"
-        android:layout_toRightOf="@+id/btnShareLoc"
-        android:background="@null"
-        android:drawableTop="@drawable/pharmacy"
-        android:text="@string/pharmacy"
-        android:textColor="@android:color/white"
-        android:textSize="13sp" />
-
-    <Button
-        android:id="@+id/btnHospital"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btnFuelPump"
-        android:layout_alignLeft="@+id/btnPharmacy"
-        android:background="@null"
-        android:drawableTop="@drawable/hospital"
-        android:text="@string/hospital"
-        android:onClick="onGetHospital"
-        android:textColor="@android:color/white"
-        android:textSize="13sp" />
-
-    <Button
-        android:id="@+id/btnShareLoc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btnHospital"
-        android:layout_alignBottom="@+id/btnHospital"
-        android:layout_centerHorizontal="true"
-        android:background="@null"
-        android:drawableTop="@drawable/share_location"
-        android:text="@string/share_location"
-        android:textColor="@android:color/white"
-        android:textSize="13sp" />
-
-    <Button
-        android:id="@+id/btnCarRepair"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btnPharmacy"
-        android:layout_alignBottom="@+id/btnPharmacy"
-        android:layout_centerHorizontal="true"
-        android:background="@null"
-        android:drawableTop="@drawable/car_repair"
-        android:text="@string/car_repair"
-        android:textColor="@android:color/white"
-        android:textSize="13sp" />
+    <LinearLayout
+      	android:layout_width="fill_parent"
+	  	android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1" />    
+    </LinearLayout>
     
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:orientation="horizontal">
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+        
+    	<Button
+		  	android:layout_width="wrap_content"
+            android:layout_height="wrap_content"    	    
+        	android:id="@+id/btnSOS"
+        	android:background="@drawable/button_selector"
+        	android:drawableTop="@drawable/sos"
+        	android:text="@string/sos"
+        	android:textColor="@android:color/white"
+        	android:textSize="13sp"/>
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+ 
+    	<Button
+		  	android:layout_width="wrap_content"
+            android:layout_height="wrap_content"      	    
+        	android:id="@+id/btnHospital"
+        	android:background="@drawable/button_selector"
+        	android:drawableTop="@drawable/hospital"
+        	android:text="@string/hospital"
+        	android:onClick="onGetHospital"
+        	android:textColor="@android:color/white"
+        	android:textSize="13sp"/>
+        
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+        
+        <Button
+		  	android:layout_width="wrap_content"
+            android:layout_height="wrap_content"      	    
+        	android:id="@+id/btnPharmacy"
+        	android:background="@drawable/button_selector"
+	       	android:drawableTop="@drawable/pharmacy"
+        	android:text="@string/pharmacy"
+        	android:textColor="@android:color/white"
+        	android:textSize="13sp"/>        
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+        android:orientation="horizontal"
+    >
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1" />    
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+        android:orientation="horizontal"
+    >
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+        <Button
+    		android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        	android:id="@+id/btnCarRepair"
+        	android:background="@drawable/button_selector"
+        	android:drawableTop="@drawable/car_repair"
+        	android:text="@string/car_repair"
+        	android:textColor="@android:color/white"
+        	android:textSize="13sp"/>
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+        <Button
+    		android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        	android:id="@+id/btnTow"
+        	android:background="@drawable/button_selector"
+        	android:drawableTop="@drawable/tow"
+        	android:text="@string/tow"
+        	android:textColor="@android:color/white"
+        	android:textSize="13sp"/>
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+        <Button
+    		android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        	android:id="@+id/btnFuelPump"
+        	android:background="@drawable/button_selector"
+        	android:drawableTop="@drawable/fuel_pump"
+        	android:text="@string/fuel_pump"
+        	android:textColor="@android:color/white"
+        	android:textSize="13sp"/>
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />    	
+    </LinearLayout>
+    
+    <LinearLayout
+      	android:layout_width="fill_parent"
+	  	android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1" />    
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+        android:orientation="horizontal"
+    >
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+        <Button
+    		android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        	android:id="@+id/btnATM"
+        	android:background="@drawable/button_selector"
+        	android:drawableTop="@drawable/atm"
+        	android:text="@string/atm"
+        	android:textColor="@android:color/white"
+        	android:textSize="13sp"/>
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+        <Button
+    		android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        	android:id="@+id/btnRestaurant"
+        	android:background="@drawable/button_selector"
+        	android:drawableTop="@drawable/restaurant"
+        	android:text="@string/restaurant"
+        	android:textColor="@android:color/white"
+        	android:textSize="13sp"/>
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+        <Button
+    		android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        	android:id="@+id/btnRestRoom"
+        	android:background="@drawable/button_selector"
+        	android:drawableTop="@drawable/rest_room"
+        	android:text="@string/rest_room"
+        	android:textColor="@android:color/white"
+        	android:textSize="13sp"/>
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />  
+        
+    </LinearLayout>
+ <LinearLayout
+      	android:layout_width="fill_parent"
+	  	android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1" />    
+    </LinearLayout>
+    
+       <LinearLayout
+            android:layout_width="fill_parent"
+    		 android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+            <Button
+        		android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+            	android:id="@+id/btnShareLoc"
+            	android:background="@drawable/button_selector"
+            	android:drawableTop="@drawable/share_location"
+            	android:text="@string/share_location"
+            	android:textColor="@android:color/white"
+            	android:textSize="13sp"/>
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />  
+            
+    </LinearLayout>    
+</GridLayout>
