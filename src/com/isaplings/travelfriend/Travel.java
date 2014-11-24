@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -362,20 +363,20 @@ public class Travel extends Activity implements OnClickListener {
 		
 		Log.v(TAG, "MYGPSLocation : Disabling the Layout Icons ");
 
-//		RelativeLayout layout = (RelativeLayout) findViewById(R.id.home_screen);
-//				
-//		for (int i = 0; i < layout.getChildCount(); i++) {
-//		    View child = layout.getChildAt(i);
-//		    child.setEnabled(false);
-//		}
+		GridLayout layout = (GridLayout) findViewById(R.id.home_screen);
+				
+		for (int i = 0; i < layout.getChildCount(); i++) {
+		    View child = layout.getChildAt(i);
+		    child.setEnabled(false);
+		}
 
 		
 		myLocation.getLocation(locationResult);
 		
-//		for (int i = 0; i < layout.getChildCount(); i++) {
-//		    View child = layout.getChildAt(i);
-//		    child.setEnabled(true);
-//		}
+		for (int i = 0; i < layout.getChildCount(); i++) {
+		    View child = layout.getChildAt(i);
+		    child.setEnabled(true);
+		}
 		
 		Log.v(TAG,
 				"MyGPSLocation : All steps executed - wait for GPS/Network Update Action");
