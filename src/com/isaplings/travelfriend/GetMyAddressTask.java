@@ -105,6 +105,7 @@ public class GetMyAddressTask extends
 		Log.v(TAG, "MYGPSLocation : onPostExecute Method ");
 		
 		 ((Travel) appActivity).resetUpdating();
+		 ((Travel) appActivity).enableHomeScreenIcons();
 		
 		if ((addressList != null) && (addressList.size() > 0)) {
 			Log.v(TAG, "MYGPSLocation : Print Address Method ");

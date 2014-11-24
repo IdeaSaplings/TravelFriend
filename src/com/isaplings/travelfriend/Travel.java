@@ -27,6 +27,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 // Since this Base Class for TravelFriend
@@ -66,7 +67,7 @@ public class Travel extends Activity implements OnClickListener {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_activity_actions, menu);
-		mymenu=menu;
+		mymenu = menu;
 		return super.onCreateOptionsMenu(menu);
 
 	}
@@ -77,15 +78,17 @@ public class Travel extends Activity implements OnClickListener {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
 		case R.id.action_refresh:
-			//adding code for refresh animation
-			//can be moved to pre-execute task. Task for Navine
-			LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        	ImageView iv = (ImageView)inflater.inflate(R.layout.iv_refresh, null);
-        	Animation rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_refresh);
-        	rotation.setRepeatCount(Animation.INFINITE);
-        	iv.startAnimation(rotation);
-        	item.setActionView(iv);
-			//End
+			// adding code for refresh animation
+			// can be moved to pre-execute task. Task for Navine
+			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			ImageView iv = (ImageView) inflater.inflate(R.layout.iv_refresh,
+					null);
+			Animation rotation = AnimationUtils.loadAnimation(this,
+					R.anim.rotate_refresh);
+			rotation.setRepeatCount(Animation.INFINITE);
+			iv.startAnimation(rotation);
+			item.setActionView(iv);
+			// End
 			onRefresh();
 			return true;
 		case R.id.action_settings:
@@ -97,18 +100,16 @@ public class Travel extends Activity implements OnClickListener {
 		}
 	}
 
-    public void resetUpdating()
-    {
-        // Get our refresh item from the menu
-        MenuItem m = mymenu.findItem(R.id.action_refresh);
-        if(m.getActionView()!=null)
-        {
-            // Remove the animation.
-            m.getActionView().clearAnimation();
-            m.setActionView(null);
-        }
-    }	
-	
+	public void resetUpdating() {
+		// Get our refresh item from the menu
+		MenuItem m = mymenu.findItem(R.id.action_refresh);
+		if (m.getActionView() != null) {
+			// Remove the animation.
+			m.getActionView().clearAnimation();
+			m.setActionView(null);
+		}
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -123,7 +124,7 @@ public class Travel extends Activity implements OnClickListener {
 
 		actionBar = getActionBar();
 		actionBar.setTitle("Travel Friend");
-        actionBar.setSubtitle("SOS Help, closer to you");
+		actionBar.setSubtitle("SOS Help, closer to you");
 		/*
 		 * pb = (ProgressBar) findViewById(R.id.progressBar1);
 		 * pb.setVisibility(View.INVISIBLE);
@@ -181,6 +182,54 @@ public class Travel extends Activity implements OnClickListener {
 
 	}
 
+	public void disableHomeScreenIcons() {
+		// TODO Auto-generated method stub
+		
+		Log.v(TAG, "MYGPSLocation : Disabling the Layout Icons ");
+
+		
+		GridLayout layout = (GridLayout) findViewById(R.id.home_screen);
+
+		for (int i = 0; i < layout.getChildCount(); i++) {
+			LinearLayout linlayout = (LinearLayout) layout.getChildAt(i);
+
+			View child = linlayout.getChildAt(i);
+
+			for (int j = 0; j < linlayout.getChildCount(); j++) {
+				child = linlayout.getChildAt(j);
+				child.setEnabled(false);
+
+			}
+
+		}
+
+	}
+	
+
+	public void enableHomeScreenIcons() {
+		// TODO Auto-generated method stub
+		
+		Log.v(TAG, "MYGPSLocation : Enabling the Layout Icons ");
+
+		
+		GridLayout layout = (GridLayout) findViewById(R.id.home_screen);
+
+		for (int i = 0; i < layout.getChildCount(); i++) {
+			LinearLayout linlayout = (LinearLayout) layout.getChildAt(i);
+
+			View child = linlayout.getChildAt(i);
+
+			for (int j = 0; j < linlayout.getChildCount(); j++) {
+				child = linlayout.getChildAt(j);
+				child.setEnabled(true);
+
+			}
+
+		}
+
+	}
+
+
 	public void onRefresh() {
 
 		Log.v(TAG, "MyGPSLocation : onClick");
@@ -205,19 +254,22 @@ public class Travel extends Activity implements OnClickListener {
 					Log.v(TAG, "MyGPSLocation Inside GotLocation: First Step ");
 
 					// implement - show message - #CodeReview
-					
+
 					resetUpdating();
-					
-					AlertDialog.Builder builder = new AlertDialog.Builder(Travel.this);
+					enableHomeScreenIcons();
+
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							Travel.this);
 					builder.setTitle("Alert");
 					builder.setMessage("Unable to retrieve current location. Please refresh after checking connectivity settings in phone.");
 					builder.setCancelable(true);
 					builder.setNeutralButton(android.R.string.ok,
-					        new DialogInterface.OnClickListener() {
-					    public void onClick(DialogInterface dialog, int id) {
-					        dialog.cancel();
-					    }
-					});
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+								}
+							});
 
 					AlertDialog alert = builder.create();
 					alert.show();
@@ -266,7 +318,7 @@ public class Travel extends Activity implements OnClickListener {
 
 						// Extracted from Address Component in JSONObject
 						// SubLocality - route || administrative_area_level_2 ||
-						//   administrative_area_level_1
+						// administrative_area_level_1
 						// Locality - locality || political
 						// SubAdminArea - administrative_area_level_2 || country
 
@@ -322,10 +374,16 @@ public class Travel extends Activity implements OnClickListener {
 
 			@Override
 			public void gotLastLocation(Location location) {
-				// #codereview - Alert the user that last know location will be used
+				// #codereview - Alert the user that last know location will be
+				// used
 				final Location mLocation = location;
 				// Show a dialog box here that no results are found
-				AlertDialog.Builder builder = new AlertDialog.Builder(Travel.this);
+
+				// if there is ui issue then
+				// resetUpdating();
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						Travel.this);
 				builder.setTitle("Alert");
 				builder.setMessage(
 						"Unable to retrieve current location. Click Ok to proceed with last known location.")
@@ -352,34 +410,24 @@ public class Travel extends Activity implements OnClickListener {
 								});
 				AlertDialog alert = builder.create();
 				alert.show();
-				
 
-				
-				//gotLocation(location);
-				
+				// gotLocation(location);
+
 			}
 		}; // LocationResult Definition Ends
 
 		MyLocation myLocation = new MyLocation(Travel.this, this);
-		
-		Log.v(TAG, "MYGPSLocation : Disabling the Layout Icons ");
 
-		GridLayout layout = (GridLayout) findViewById(R.id.home_screen);
-				
-		for (int i = 0; i < layout.getChildCount(); i++) {
-		    View child = layout.getChildAt(i);
-		    child.setEnabled(false);
-		}
 
-		
+		disableHomeScreenIcons();
+
 		myLocation.getLocation(locationResult);
+
+
 		
-		for (int i = 0; i < layout.getChildCount(); i++) {
-		    View child = layout.getChildAt(i);
-		    child.setEnabled(true);
-		}
 		
 		Log.v(TAG,
 				"MyGPSLocation : All steps executed - wait for GPS/Network Update Action");
 	}
+
 }
