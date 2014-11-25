@@ -260,8 +260,8 @@ public class Travel extends Activity implements OnClickListener {
 
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							Travel.this);
-					builder.setTitle("Alert");
-					builder.setMessage("Unable to retrieve current location. Please refresh after checking connectivity settings in phone.");
+					builder.setTitle("Location Services Disabled");
+					builder.setMessage("Please enable Location Services in the Phone Settings to get current location");
 					builder.setCancelable(true);
 					builder.setNeutralButton(android.R.string.ok,
 							new DialogInterface.OnClickListener() {
