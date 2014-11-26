@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Manipal Hospitals"
+            android:textColor="#ffffff"
             android:textSize="16dp"
             android:textStyle="bold|italic" />
 
@@ -28,6 +29,7 @@
             android:layout_below="@+id/poi_name"
             android:layout_marginTop="10dp"
             android:text="W Smithfield, London EC1A 7BE, \nUnited Kingdom"
+            android:textColor="#ffffff"
             android:textSize="14dp"
             android:textStyle="bold|italic" />
 
@@ -40,6 +42,7 @@
             android:autoLink="phone"
             android:linksClickable="true"
             android:text="Phone (Local) - 020 7377 7000"
+            android:textColor="#ffffff"
             android:textSize="14dp"
             android:textStyle="bold|italic" />
 
@@ -52,6 +55,7 @@
             android:autoLink="phone"
             android:linksClickable="true"
             android:text="Phone (Inter) - +44 20 7377 7000"
+            android:textColor="#ffffff"
             android:textSize="14dp"
             android:textStyle="bold|italic" />
 
@@ -65,6 +69,7 @@
             android:autoLink="web"
             android:linksClickable="true"
             android:text="http://www.bartsandthelondon.nhs.uk"
+            android:textColor="#ffffff"
             android:textSize="14dp"
             android:textStyle="bold|italic" />
 
@@ -74,21 +79,21 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:autoLink="web"
+            android:linksClickable="true"
             android:paddingBottom="0sp"
             android:paddingLeft="0sp"
             android:paddingRight="0sp"
             android:paddingTop="0sp"
-            android:autoLink="web"
-            android:linksClickable="true"
             android:src="@drawable/ic_launcher" />
     </RelativeLayout>
 
-<!--     <Button -->
-<!--         android:id="@+id/close_pop" -->
-<!--         android:layout_width="match_parent" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:layout_alignParentBottom="true" -->
-<!--         android:layout_centerHorizontal="true" -->
-<!--         android:text="X" /> -->
+    <!-- <Button -->
+    <!-- android:id="@+id/close_pop" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_alignParentBottom="true" -->
+    <!-- android:layout_centerHorizontal="true" -->
+    <!-- android:text="X" /> -->
 
 </RelativeLayout>
