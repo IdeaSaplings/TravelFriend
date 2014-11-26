@@ -1,16 +1,29 @@
 package com.isaplings.travelfriend;
 
+
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 
 public class ListPOIPlacesActivity extends Activity {
 
 	private static final String TAG = "Debug";
 	private ActionBar actionBar;
+	
+	public boolean onOptionsItemSelected(MenuItem item) { 
+	    switch (item.getItemId()) {
+	        case android.R.id.home:
+	        	finish();
+	            return true;
+		default:
+	            return super.onOptionsItemSelected(item); 
+	    }
+	}
 
 	public void onCreate(Bundle savedInstanceState) {
 
@@ -18,8 +31,10 @@ public class ListPOIPlacesActivity extends Activity {
 
 		super.onCreate(savedInstanceState);
 
-		
 		setContentView(R.layout.list_places_details);
+		
+		android.app.ActionBar ab = getActionBar(); 
+		ab.setDisplayHomeAsUpEnabled(true);
 
 		// if you want to lock screen for always Portrait mode
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
