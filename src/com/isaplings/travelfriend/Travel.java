@@ -171,7 +171,7 @@ public class Travel extends Activity implements OnClickListener {
 		Bundle bundle = new Bundle();
 		bundle.putParcelable("LOCATION", mLocation);
 
-		Intent intent = new Intent(appContext, ListPOIPlacesActivity.class);
+		Intent intent = new Intent(appContext, ListHospitalsActivity.class);
 
 		// Location is sent as parcelable object
 		intent.putExtras(bundle);

@@ -36,7 +36,7 @@
         </activity>
         <activity android:name=".ListPlacesActivity" >
         </activity>
-        <activity android:name=".ListPOIPlacesActivity" >
+        <activity android:name=".ListHospitalsActivity" >
         </activity>
     </application>
 

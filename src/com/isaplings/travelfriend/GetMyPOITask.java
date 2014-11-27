@@ -32,6 +32,9 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 
 	Activity appActivity;
 	AsyncTaskCompleteListener<PlacesResult> mlistener;
+	
+	List<String> mTypes;
+	String mKeyword;
 
 	Double longitude, latitude;
 	
@@ -42,12 +45,28 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 	public GetMyPOITask(Activity activity,
 			AsyncTaskCompleteListener<PlacesResult> listener) {
 		super();
-		appActivity = activity;
+		this.appActivity = activity;
+		this.mlistener = listener;
+		this.mTypes = new ArrayList<String>();
+		this.mTypes.add("hospital");
+		this.mTypes.add("dentist");
+		this.mTypes.add("doctor");		
 		
-		mlistener = listener;
+		this.mKeyword = null;
 
 	}
 
+	public GetMyPOITask(Activity activity,
+			AsyncTaskCompleteListener<PlacesResult> listener, List<String> types, String keyword) {
+		super();
+		this.appActivity = activity;
+		this.mlistener = listener;
+		this.mTypes = types;
+		this.mKeyword = keyword;
+
+	}
+
+	
 	@Override
 	protected PlacesResult doInBackground(Location... params) {
 		// TODO Auto-generated method stub
@@ -81,12 +100,9 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 			Log.v(TAG, "MYGPSLocation : Latitude " + latitude);
 			Log.v(TAG, "MYGPSLocation : Longitude " + longitude);
 			
-			List<String> types = new ArrayList<String>();
-			types.add("hospital");
-			types.add("dentist");
-			types.add("doctor");
 			
-			placesResult = (PlacesResult) googlePlaces.getNearbyPlaces(types, "", 2500, latitude, longitude);
+			
+			placesResult = (PlacesResult) googlePlaces.getNearbyPlaces(mTypes, mKeyword, 2500, latitude, longitude);
 
 			Log.v(TAG,
 					"MYGPSLocation : Size of Result1 - places  " + placesResult.getResults().size());
@@ -98,7 +114,7 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 					Log.v(TAG, "MYGPSLocation : Trying to get POI details at level 2 radius");
 
 					
-					placesResult = (PlacesResult) googlePlaces.getNearbyPlaces(types, "", 25000, latitude, longitude);
+					placesResult = (PlacesResult) googlePlaces.getNearbyPlaces(mTypes, mKeyword, 25000, latitude, longitude);
 					Log.v(TAG,
 							"MYGPSLocation : Size of result[2] - places  " + placesResult.getResults().size());
 					Log.v(TAG,
@@ -108,7 +124,7 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 							// Then hop to the next radius
 							Log.v(TAG, "MYGPSLocation : Trying to get POI details at level 3 radius");
 
-							placesResult =(PlacesResult) googlePlaces.getNearbyPlaces(types, "", 50000, latitude, longitude);
+							placesResult =(PlacesResult) googlePlaces.getNearbyPlaces(mTypes, mKeyword, 50000, latitude, longitude);
 							Log.v(TAG,
 									"MYGPSLocation : Size of result[3] - places  " + placesResult.getResults().size());
 							Log.v(TAG,
