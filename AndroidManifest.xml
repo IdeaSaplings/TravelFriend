@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="16"
         android:targetSdkVersion="21" />
 
     <uses-permission
@@ -34,23 +34,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListPlacesActivity" >
+<!--         <activity android:name=".ListPlacesActivity" > -->
+<!--         </activity> -->
+        <activity android:name=".ListHospitalsActivity" 
+            android:parentActivityName=".Travel">
         </activity>
-        <activity android:name=".ListHospitalsActivity" >
+        <activity android:name=".ListPharmacyActivity" 
+            android:parentActivityName=".Travel">
         </activity>
-        <activity android:name=".ListPharmacyActivity" >
+         <activity android:name=".ListATMActivity" 
+             android:parentActivityName=".Travel">
         </activity>
-         <activity android:name=".ListATMActivity" >
+         <activity android:name=".ListRestaurantActivity" 
+             android:parentActivityName=".Travel">
         </activity>
-         <activity android:name=".ListRestaurantActivity" >
+         <activity android:name=".ListRepairPalActivity" 
+             android:parentActivityName=".Travel">
         </activity>
-         <activity android:name=".ListRepairPalActivity" >
+        <activity android:name=".ListFuelStationActivity" 
+            android:parentActivityName=".Travel">
         </activity>
-        <activity android:name=".ListFuelStationActivity" >
+         <activity android:name=".ListRestRoomActivity" 
+             android:parentActivityName=".Travel">
         </activity>
-         <activity android:name=".ListRestRoomActivity" >
-        </activity>
-         <activity android:name=".ListTowServiceActivity" >
+         <activity android:name=".ListTowServiceActivity" 
+             android:parentActivityName=".Travel">
         </activity>
          
          

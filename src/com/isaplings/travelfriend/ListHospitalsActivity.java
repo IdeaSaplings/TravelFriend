@@ -11,6 +11,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class ListHospitalsActivity extends  Activity {
 
@@ -35,9 +36,6 @@ public class ListHospitalsActivity extends  Activity {
 
 		setContentView(R.layout.list_places_details);
 		
-		android.app.ActionBar ab = getActionBar(); 
-		ab.setDisplayHomeAsUpEnabled(true);
-
 		// if you want to lock screen for always Portrait mode
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -54,12 +52,22 @@ public class ListHospitalsActivity extends  Activity {
 		
 		Log.v(TAG, "MyGPS : Street Name : " + streetName);
 		Log.v(TAG, "MyGPS : CityName : " + cityName);
-		
-		actionBar = getActionBar();
-		
-		actionBar.setTitle(streetName);
-		actionBar.setSubtitle(cityName);
 
+		// Code for setting action bar icon and title as custom view
+		// Fixing bug to resolve, only icon click on action bar should take back to Home
+		
+		String abTitle = streetName + "\n" + cityName;
+		actionBar = getActionBar(); 
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(R.layout.ab_title);
+
+		TextView title = (TextView) findViewById(android.R.id.text1);
+		title.setText(abTitle);
+		
 		actionBar.setIcon(R.drawable.hospital);
 		
 		
