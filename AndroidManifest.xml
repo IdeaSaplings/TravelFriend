@@ -38,6 +38,22 @@
         </activity>
         <activity android:name=".ListHospitalsActivity" >
         </activity>
+        <activity android:name=".ListPharmacyActivity" >
+        </activity>
+         <activity android:name=".ListATMActivity" >
+        </activity>
+         <activity android:name=".ListRestaurantActivity" >
+        </activity>
+         <activity android:name=".ListRepairPalActivity" >
+        </activity>
+        <activity android:name=".ListFuelStationActivity" >
+        </activity>
+         <activity android:name=".ListRestRoomActivity" >
+        </activity>
+         <activity android:name=".ListTowServiceActivity" >
+        </activity>
+         
+         
     </application>
 
 </manifest>

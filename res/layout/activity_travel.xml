@@ -65,6 +65,7 @@
         	android:background="@drawable/button_selector"
 	       	android:drawableTop="@drawable/pharmacy"
         	android:text="@string/pharmacy"
+        	android:onClick="onGetPharmacy"
         	android:textColor="@android:color/white"
         	android:textSize="13sp"/>        
         <Space
@@ -101,6 +102,7 @@
         	android:background="@drawable/button_selector"
         	android:drawableTop="@drawable/car_repair"
         	android:text="@string/car_repair"
+        	android:onClick="onGetRepairPal"
         	android:textColor="@android:color/white"
         	android:textSize="13sp"/>
         <Space
@@ -111,6 +113,7 @@
     		android:layout_width="wrap_content"
             android:layout_height="wrap_content"
         	android:id="@+id/btnTow"
+        	android:onClick="onGetTowService"
         	android:background="@drawable/button_selector"
         	android:drawableTop="@drawable/tow"
         	android:text="@string/tow"
@@ -124,6 +127,7 @@
     		android:layout_width="wrap_content"
             android:layout_height="wrap_content"
         	android:id="@+id/btnFuelPump"
+        	android:onClick="onGetFuelStation"
         	android:background="@drawable/button_selector"
         	android:drawableTop="@drawable/fuel_pump"
         	android:text="@string/fuel_pump"
@@ -162,6 +166,7 @@
         	android:background="@drawable/button_selector"
         	android:drawableTop="@drawable/atm"
         	android:text="@string/atm"
+        	android:onClick="onGetATM"
         	android:textColor="@android:color/white"
         	android:textSize="13sp"/>
         <Space
@@ -173,6 +178,7 @@
             android:layout_height="wrap_content"
         	android:id="@+id/btnRestaurant"
         	android:background="@drawable/button_selector"
+        	android:onClick="onGetRestaurant"
         	android:drawableTop="@drawable/restaurant"
         	android:text="@string/restaurant"
         	android:textColor="@android:color/white"
@@ -185,6 +191,7 @@
     		android:layout_width="wrap_content"
             android:layout_height="wrap_content"
         	android:id="@+id/btnRestRoom"
+        	android:onClick="onGetRestRoom"
         	android:background="@drawable/button_selector"
         	android:drawableTop="@drawable/rest_room"
         	android:text="@string/rest_room"

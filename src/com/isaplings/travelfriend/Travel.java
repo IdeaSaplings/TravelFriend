@@ -144,23 +144,156 @@ public class Travel extends Activity implements OnClickListener {
 
 	}
 
-	public void onHospital(View v) {
 
-		FetchPoiDataTaskCompleteListener fm = new FetchPoiDataTaskCompleteListener(
-				Travel.this, appContext, mLocation);
-		GetMyPOITask poiTask = new GetMyPOITask(Travel.this, fm);
+	public void onGetPharmacy(View v) {
+		// Create a new Intent
 
-		if (mLocation != null) {
-			// btnGetLocation.setEnabled(true);
-			Log.v(TAG,
-					"MyGPSLocation : GetPOIDetails Task Execute for Location :"
-							+ mLocation.getLatitude() + ","
-							+ mLocation.getLongitude());
-			poiTask.execute(mLocation);
+		if (mLocation == null) {
+			return;
 		}
+
+		Bundle bundle = new Bundle();
+		bundle.putParcelable("LOCATION", mLocation);
+
+		Intent intent = new Intent(appContext, ListPharmacyActivity.class);
+
+		// Location is sent as parcelable object
+		intent.putExtras(bundle);
+
+		startActivity(intent);
+
+		Log.v("Debug", "MyGPS : Intent start initiated ...");
+
+	}
+	
+	public void onGetATM(View v) {
+		// Create a new Intent
+
+		if (mLocation == null) {
+			return;
+		}
+
+		Bundle bundle = new Bundle();
+		bundle.putParcelable("LOCATION", mLocation);
+
+		Intent intent = new Intent(appContext, ListATMActivity.class);
+
+		// Location is sent as parcelable object
+		intent.putExtras(bundle);
+
+		startActivity(intent);
+
+		Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
 
+
+	public void onGetRestaurant(View v) {
+		// Create a new Intent
+
+		if (mLocation == null) {
+			return;
+		}
+
+		Bundle bundle = new Bundle();
+		bundle.putParcelable("LOCATION", mLocation);
+
+		Intent intent = new Intent(appContext, ListRestaurantActivity.class);
+
+		// Location is sent as parcelable object
+		intent.putExtras(bundle);
+
+		startActivity(intent);
+
+		Log.v("Debug", "MyGPS : Intent start initiated ...");
+
+	}
+
+
+	public void onGetRepairPal(View v) {
+		// Create a new Intent
+
+		if (mLocation == null) {
+			return;
+		}
+
+		Bundle bundle = new Bundle();
+		bundle.putParcelable("LOCATION", mLocation);
+
+		Intent intent = new Intent(appContext, ListRepairPalActivity.class);
+
+		// Location is sent as parcelable object
+		intent.putExtras(bundle);
+
+		startActivity(intent);
+
+		Log.v("Debug", "MyGPS : Intent start initiated ...");
+
+	}
+	
+	public void onGetFuelStation(View v) {
+		// Create a new Intent
+
+		if (mLocation == null) {
+			return;
+		}
+
+		Bundle bundle = new Bundle();
+		bundle.putParcelable("LOCATION", mLocation);
+
+		Intent intent = new Intent(appContext, ListFuelStationActivity.class);
+
+		// Location is sent as parcelable object
+		intent.putExtras(bundle);
+
+		startActivity(intent);
+
+		Log.v("Debug", "MyGPS : Intent start initiated ...");
+
+	}
+	
+	public void onGetRestRoom(View v) {
+		// Create a new Intent
+
+		if (mLocation == null) {
+			return;
+		}
+
+		Bundle bundle = new Bundle();
+		bundle.putParcelable("LOCATION", mLocation);
+
+		Intent intent = new Intent(appContext, ListRestRoomActivity.class);
+
+		// Location is sent as parcelable object
+		intent.putExtras(bundle);
+
+		startActivity(intent);
+
+		Log.v("Debug", "MyGPS : Intent start initiated ...");
+
+	}
+
+	public void onGetTowService(View v) {
+		// Create a new Intent
+
+		if (mLocation == null) {
+			return;
+		}
+
+		Bundle bundle = new Bundle();
+		bundle.putParcelable("LOCATION", mLocation);
+
+		Intent intent = new Intent(appContext, ListTowServiceActivity.class);
+
+		// Location is sent as parcelable object
+		intent.putExtras(bundle);
+
+		startActivity(intent);
+
+		Log.v("Debug", "MyGPS : Intent start initiated ...");
+
+	}
+	
 	public void onGetHospital(View v) {
 		// Create a new Intent
 
