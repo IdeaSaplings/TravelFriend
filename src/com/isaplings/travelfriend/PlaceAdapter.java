@@ -75,16 +75,6 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 
 		poiName = getItem(position).getName();
 
-		if ((poiName != null)) {
-			// Concatnate the string to length of the string to
-			// display within 2 lines
-
-			if (poiName.length() > 27) {
-
-				poiName = poiName.substring(0, 24) + "...";
-			}
-
-		}
 
 		holder.nameTextView.setText(poiName);
 
@@ -94,26 +84,7 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 			poiAddress = getItem(position).getFormattedAddress();
 		}
 
-		if ((poiAddress != null)) {
-			// Concatnate the string to length of the string to
-			// display within 2 lines
-
-			if (poiAddress.length() > 80) {
-
-				poiAddress = poiAddress.substring(0, 77) + "...";
-			}
-
-			if (poiAddress.length() < 43) {
-
-				poiAddress = poiAddress + "\n ";
-			}
-
-		}
-
-		// if (poiAddress.equalsIgnoreCase(null)) poiAddress = "Rating: " +
-		// getItem(position).getRating();
-
-		// poiAddress = "Rating: " + "Rating Not available";
+		
 		holder.addressTextView.setText(poiAddress);
 
 		// This calculation is done only for kms metrics
@@ -131,21 +102,6 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 		holder.distanceTextView
 				.setText(" " + df.format(dist[0] / 1000) + " km");
 
-//		Double poiDistance = this.calculationByDistance(
-//				mLocation.getLatitude(), mLocation.getLongitude(),
-//				geometry.location.lat, geometry.location.lng);
-
-		// Log.v("Debug" , "MYGPS : Haversine Distance : " + poiDistance);
-		// Log.v("Debug" , "MYGPS : distanceBetween : " +
-		// df.format(dist[0]/1000));
-
-		/*
-		 * 
-		 * BigDecimal bd = new BigDecimal(poiDistance);bd = bd.setScale(1,
-		 * RoundingMode.HALF_UP);
-		 * 
-		 * holder.distanceTextView.setText(" "+ bd.doubleValue() + " km");
-		 */
 
 		Double poiRating;
 

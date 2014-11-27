@@ -6,7 +6,6 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.location.Location;
 import android.os.Bundle;
@@ -53,8 +52,8 @@ public class ListHospitalsActivity extends  Activity {
 				
 		
 		
-		Log.v("Debug", "MyGPS : Street Name : " + streetName);
-		Log.v("Debug", "MyGPS : CityName : " + cityName);
+		Log.v(TAG, "MyGPS : Street Name : " + streetName);
+		Log.v(TAG, "MyGPS : CityName : " + cityName);
 		
 		actionBar = getActionBar();
 		
@@ -68,8 +67,8 @@ public class ListHospitalsActivity extends  Activity {
 
 		// Bug fix put the Street Name / Location in the Action Bar
 
-		Log.v("Debug", "MyGPS : Latitude : " + mLocation.getLatitude());
-		Log.v("Debug", "MyGPS : Longitude : " + mLocation.getLongitude());
+		Log.v(TAG, "MyGPS : Latitude : " + mLocation.getLatitude());
+		Log.v(TAG, "MyGPS : Longitude : " + mLocation.getLongitude());
 		
 		List<String> types = new ArrayList<String>();
 		types.add("hospital");
@@ -80,7 +79,7 @@ public class ListHospitalsActivity extends  Activity {
 
 		ListPOIPlacesActivity.getPOIList(ListHospitalsActivity.this, this, mLocation, types, keyword);
 
-		Log.v("Debug", "MyGPS : New Intent Complete");
+		Log.v(TAG, "MyGPS : New Intent Complete");
 
 	}
 
