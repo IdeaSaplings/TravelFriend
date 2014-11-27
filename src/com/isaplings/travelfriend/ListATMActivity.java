@@ -71,7 +71,8 @@ public class ListATMActivity extends  Activity {
 		Log.v(TAG, "MyGPS : Longitude : " + mLocation.getLongitude());
 		
 		List<String> types = new ArrayList<String>();
-		types.add("ATM");
+		types.add("atm");
+		types.add("bank");
 			
 		
 		String keyword = null;

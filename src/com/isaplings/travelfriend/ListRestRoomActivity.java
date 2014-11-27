@@ -73,7 +73,7 @@ public class ListRestRoomActivity extends  Activity {
 		List<String> types = new ArrayList<String>();
 		types.add("rest_room");
 		types.add("toilet");
-		
+		types.add("rest room");
 			
 		
 		String keyword = null;

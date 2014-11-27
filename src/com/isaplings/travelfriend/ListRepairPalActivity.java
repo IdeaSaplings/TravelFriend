@@ -72,6 +72,7 @@ public class ListRepairPalActivity extends  Activity {
 		
 		List<String> types = new ArrayList<String>();
 		types.add("car_repair");
+		types.add("car repair");
 	
 			
 		

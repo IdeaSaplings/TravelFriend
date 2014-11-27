@@ -122,7 +122,8 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 
 				Place placeRecord = (Place) parent.getItemAtPosition(position);
 
-				String placeId = placeRecord.getId();
+				//String placeId = placeRecord.getId();
+				String placeId = new String();
 
 				if (cachemapIdList.containsKey(uniqueId)) {
 
@@ -154,7 +155,7 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 					Log.v("Debug", "MyGPS : In Get Mode:  Unique id is "
 							+ uniqueId);
 					Log.v("Debug", "MyGPS : In Get Mode: Place id is "
-							+ placeId);
+							+ placeRecord.getId());
 
 					Log.v("Debug", "MyGPS : In Get Mode:  Place name is "
 							+ placeRecord.getName());

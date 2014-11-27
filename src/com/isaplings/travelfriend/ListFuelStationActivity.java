@@ -72,6 +72,7 @@ public class ListFuelStationActivity extends  Activity {
 		
 		List<String> types = new ArrayList<String>();
 		types.add("gas_station");
+		types.add("gas station");
 		
 			
 		

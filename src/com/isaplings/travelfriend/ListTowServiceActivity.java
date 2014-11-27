@@ -73,7 +73,8 @@ public class ListTowServiceActivity extends  Activity {
 		
 		List<String> types = new ArrayList<String>();
 		types.add("car_repair");
-		
+		types.add("car repair");
+
 			
 		
 		String keyword = "tow";
