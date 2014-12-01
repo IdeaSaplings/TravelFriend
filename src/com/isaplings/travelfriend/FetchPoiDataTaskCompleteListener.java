@@ -319,13 +319,35 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 		addressView.setText(placeDetails.getFormattedAddress());
 		
 		TextView localPhoneView = (TextView) layout.findViewById(R.id.poi_local_phone);
-		localPhoneView.setText("Phone (Local) - "+ placeDetails.getFormattedPhoneNumber());
+		
+		if ((placeDetails.getFormattedPhoneNumber()!="")&&(placeDetails.getFormattedPhoneNumber()!=null)){
+			
+			localPhoneView.setText("Phone (Local) : "+ placeDetails.getFormattedPhoneNumber());
+			
+		} else {
+
+			localPhoneView.setText("Phone (Local) :    ---   ");
+
+		}
+		
+		
 		
 		TextView interPhoneView = (TextView) layout.findViewById(R.id.poi_inter_phone);
-		interPhoneView.setText("Phone (Inter) - "+ placeDetails.getInternationalPhoneNumber());
+		if ((placeDetails.getInternationalPhoneNumber()!="")&&(placeDetails.getInternationalPhoneNumber()!=null)){
+			interPhoneView.setText("Phone (Inter) : "+ placeDetails.getInternationalPhoneNumber());
+			
+		} else {
+
+			interPhoneView.setText("Phone (Inter) :    ---   ");
+
+		}
+		
 		
 		TextView websiteLinkView = (TextView) layout.findViewById(R.id.poi_website);
-		websiteLinkView.setText("Website - "+ placeDetails.getWebsite());
+		if ((placeDetails.getWebsite() != "") && (placeDetails.getWebsite() != null) ){
+			websiteLinkView.setText(placeDetails.getWebsite());	
+		}
+		
 		
 		
 		popWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);

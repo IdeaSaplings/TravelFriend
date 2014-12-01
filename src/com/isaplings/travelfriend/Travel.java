@@ -125,22 +125,36 @@ public class Travel extends Activity implements OnClickListener {
 		actionBar = getActionBar();
 		actionBar.setTitle("Travel Friend");
 		actionBar.setSubtitle("SOS Help, closer to you");
-		/*
-		 * pb = (ProgressBar) findViewById(R.id.progressBar1);
-		 * pb.setVisibility(View.INVISIBLE);
-		 * 
-		 * editLocation = (EditText) findViewById(R.id.editTextLocation);
-		 * 
-		 * btnGetLocation = (Button) findViewById(R.id.btnLocation);
-		 * btnGetLocation.setOnClickListener(this);
-		 */
-		// onRefresh();
-
+		
+		//Load the AdHolder
+		
 	}
 
 	public void onClick(View v) {
 		// Closes the Activity
 		finish();
+
+	}
+
+	
+	public void onGetSoS(View v) {
+		// Create a new Intent
+
+//		if (mLocation == null) {
+//			return;
+//		}
+
+		Bundle bundle = new Bundle();
+		bundle.putParcelable("LOCATION", mLocation);
+
+		Intent intent = new Intent(appContext, ListSOSActivity.class);
+
+		// Location is sent as parcelable object
+		intent.putExtras(bundle);
+
+		startActivity(intent);
+
+		Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
 
@@ -297,10 +311,13 @@ public class Travel extends Activity implements OnClickListener {
 	public void onGetHospital(View v) {
 		// Create a new Intent
 
+		// Try to get the latest location
+		
 		if (mLocation == null) {
 			return;
 		}
-
+     
+		
 		Bundle bundle = new Bundle();
 		bundle.putParcelable("LOCATION", mLocation);
 
@@ -363,7 +380,7 @@ public class Travel extends Activity implements OnClickListener {
 	}
 
 
-	public void onRefresh() {
+	public boolean onRefresh() {
 
 		Log.v(TAG, "MyGPSLocation : onClick");
 
@@ -555,12 +572,11 @@ public class Travel extends Activity implements OnClickListener {
 		disableHomeScreenIcons();
 
 		myLocation.getLocation(locationResult);
-
-
-		
 		
 		Log.v(TAG,
 				"MyGPSLocation : All steps executed - wait for GPS/Network Update Action");
+		
+		return true;
 	}
 
 }

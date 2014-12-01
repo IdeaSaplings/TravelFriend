@@ -1,240 +1,258 @@
-<GridLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/home_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    android:columnCount="1">
-<!--     tools:context="com.example.homescreen.MainActivity" -->
-   
-    
+    android:columnCount="1" >
+
+    <!-- tools:context="com.example.homescreen.MainActivity" -->
+
     <LinearLayout
-      	android:layout_width="fill_parent"
-	  	android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
         <Space
             android:layout_width="0dp"
             android:layout_height="30dp"
-            android:layout_weight="1" />    
+            android:layout_weight="1" />
     </LinearLayout>
-    
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1" />
-        
-    	<Button
-		  	android:layout_width="wrap_content"
-            android:layout_height="wrap_content"    	    
-        	android:id="@+id/btnSOS"
-        	android:background="@drawable/button_selector"
-        	android:drawableTop="@drawable/sos"
-        	android:text="@string/sos"
-        	android:textColor="@android:color/white"
-        	android:textSize="13sp"/>
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
- 
-    	<Button
-		  	android:layout_width="wrap_content"
-            android:layout_height="wrap_content"      	    
-        	android:id="@+id/btnHospital"
-        	android:background="@drawable/button_selector"
-        	android:drawableTop="@drawable/hospital"
-        	android:text="@string/hospital"
-        	android:onClick="onGetHospital"
-        	android:textColor="@android:color/white"
-        	android:textSize="13sp"/>
-        
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-        
+
         <Button
-		  	android:layout_width="wrap_content"
-            android:layout_height="wrap_content"      	    
-        	android:id="@+id/btnPharmacy"
-        	android:background="@drawable/button_selector"
-	       	android:drawableTop="@drawable/pharmacy"
-        	android:text="@string/pharmacy"
-        	android:onClick="onGetPharmacy"
-        	android:textColor="@android:color/white"
-        	android:textSize="13sp"/>        
+            android:id="@+id/btnSOS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onGetSoS"
+            android:background="@drawable/button_selector"
+            android:drawableTop="@drawable/sos"
+            android:text="@string/sos"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
+
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1" />
-        
+
+        <Button
+            android:id="@+id/btnHospital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_selector"
+            android:drawableTop="@drawable/hospital"
+            android:onClick="onGetHospital"
+            android:text="@string/hospital"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btnPharmacy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_selector"
+            android:drawableTop="@drawable/pharmacy"
+            android:onClick="onGetPharmacy"
+            android:text="@string/pharmacy"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
     </LinearLayout>
-    
+
     <LinearLayout
         android:layout_width="fill_parent"
-		 android:layout_height="wrap_content"
-        android:orientation="horizontal"
-    >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
         <Space
             android:layout_width="0dp"
             android:layout_height="30dp"
-            android:layout_weight="1" />    
+            android:layout_weight="1" />
     </LinearLayout>
-    
+
     <LinearLayout
         android:layout_width="fill_parent"
-		 android:layout_height="wrap_content"
-        android:orientation="horizontal"
-    >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1" />
+
         <Button
-    		android:layout_width="wrap_content"
+            android:id="@+id/btnCarRepair"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-        	android:id="@+id/btnCarRepair"
-        	android:background="@drawable/button_selector"
-        	android:drawableTop="@drawable/car_repair"
-        	android:text="@string/car_repair"
-        	android:onClick="onGetRepairPal"
-        	android:textColor="@android:color/white"
-        	android:textSize="13sp"/>
+            android:background="@drawable/button_selector"
+            android:drawableTop="@drawable/car_repair"
+            android:onClick="onGetRepairPal"
+            android:text="@string/car_repair"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
+
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1" />
+
         <Button
-    		android:layout_width="wrap_content"
+            android:id="@+id/btnTow"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-        	android:id="@+id/btnTow"
-        	android:onClick="onGetTowService"
-        	android:background="@drawable/button_selector"
-        	android:drawableTop="@drawable/tow"
-        	android:text="@string/tow"
-        	android:textColor="@android:color/white"
-        	android:textSize="13sp"/>
+            android:background="@drawable/button_selector"
+            android:drawableTop="@drawable/tow"
+            android:onClick="onGetTowService"
+            android:text="@string/tow"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
+
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1" />
+
         <Button
-    		android:layout_width="wrap_content"
+            android:id="@+id/btnFuelPump"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-        	android:id="@+id/btnFuelPump"
-        	android:onClick="onGetFuelStation"
-        	android:background="@drawable/button_selector"
-        	android:drawableTop="@drawable/fuel_pump"
-        	android:text="@string/fuel_pump"
-        	android:textColor="@android:color/white"
-        	android:textSize="13sp"/>
+            android:background="@drawable/button_selector"
+            android:drawableTop="@drawable/fuel_pump"
+            android:onClick="onGetFuelStation"
+            android:text="@string/fuel_pump"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
+
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1" />    	
+            android:layout_weight="1" />
     </LinearLayout>
-    
+
     <LinearLayout
-      	android:layout_width="fill_parent"
-	  	android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
         <Space
             android:layout_width="0dp"
             android:layout_height="30dp"
-            android:layout_weight="1" />    
+            android:layout_weight="1" />
     </LinearLayout>
-    
+
     <LinearLayout
         android:layout_width="fill_parent"
-		 android:layout_height="wrap_content"
-        android:orientation="horizontal"
-    >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1" />
+
         <Button
-    		android:layout_width="wrap_content"
+            android:id="@+id/btnATM"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-        	android:id="@+id/btnATM"
-        	android:background="@drawable/button_selector"
-        	android:drawableTop="@drawable/atm"
-        	android:text="@string/atm"
-        	android:onClick="onGetATM"
-        	android:textColor="@android:color/white"
-        	android:textSize="13sp"/>
+            android:background="@drawable/button_selector"
+            android:drawableTop="@drawable/atm"
+            android:onClick="onGetATM"
+            android:text="@string/atm"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
+
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1" />
+
         <Button
-    		android:layout_width="wrap_content"
+            android:id="@+id/btnRestaurant"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-        	android:id="@+id/btnRestaurant"
-        	android:background="@drawable/button_selector"
-        	android:onClick="onGetRestaurant"
-        	android:drawableTop="@drawable/restaurant"
-        	android:text="@string/restaurant"
-        	android:textColor="@android:color/white"
-        	android:textSize="13sp"/>
+            android:background="@drawable/button_selector"
+            android:drawableTop="@drawable/restaurant"
+            android:onClick="onGetRestaurant"
+            android:text="@string/restaurant"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
+
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1" />
+
         <Button
-    		android:layout_width="wrap_content"
+            android:id="@+id/btnRestRoom"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-        	android:id="@+id/btnRestRoom"
-        	android:onClick="onGetRestRoom"
-        	android:background="@drawable/button_selector"
-        	android:drawableTop="@drawable/rest_room"
-        	android:text="@string/rest_room"
-        	android:textColor="@android:color/white"
-        	android:textSize="13sp"/>
+            android:background="@drawable/button_selector"
+            android:drawableTop="@drawable/rest_room"
+            android:onClick="onGetRestRoom"
+            android:text="@string/rest_room"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
+
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1" />  
-        
+            android:layout_weight="1" />
     </LinearLayout>
- <LinearLayout
-      	android:layout_width="fill_parent"
-	  	android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
         <Space
             android:layout_width="0dp"
             android:layout_height="30dp"
-            android:layout_weight="1" />    
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btnShareLoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_selector"
+            android:drawableTop="@drawable/share_location"
+            android:text="@string/share_location"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
     </LinearLayout>
     
-       <LinearLayout
-            android:layout_width="fill_parent"
-    		 android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-            <Button
-        		android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-            	android:id="@+id/btnShareLoc"
-            	android:background="@drawable/button_selector"
-            	android:drawableTop="@drawable/share_location"
-            	android:text="@string/share_location"
-            	android:textColor="@android:color/white"
-            	android:textSize="13sp"/>
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />  
-            
-    </LinearLayout>    
+
 </GridLayout>

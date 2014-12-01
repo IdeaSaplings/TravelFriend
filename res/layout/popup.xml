@@ -12,14 +12,35 @@
         android:background="@drawable/pop_border"
         android:padding="5sp" >
 
+        <ImageButton
+            android:id="@+id/imageButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:autoLink="web"
+            android:background="@null"
+            android:linksClickable="true"
+            android:paddingBottom="0sp"
+            android:paddingLeft="0sp"
+            android:paddingRight="0sp"
+            android:paddingTop="0sp"
+            android:src="@drawable/navigation" />
+
+        <RelativeLayout
+            android:id="@+id/text_poiview_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10sp" >
+
         <TextView
             android:id="@+id/poi_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="18dp"
             android:text="Manipal Hospitals"
             android:textColor="#ffffff"
-            android:textSize="16dp"
+            android:textSize="20dp"
             android:textStyle="bold|italic" />
 
         <TextView
@@ -27,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/poi_name"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="12dp"
             android:text="W Smithfield, London EC1A 7BE, \nUnited Kingdom"
             android:textColor="#ffffff"
             android:textSize="14dp"
@@ -64,36 +85,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/poi_inter_phone"
-            android:layout_marginBottom="20dp"
             android:layout_marginTop="10dp"
             android:autoLink="web"
             android:linksClickable="true"
-            android:text="http://www.bartsandthelondon.nhs.uk"
             android:textColor="#ffffff"
             android:textSize="14dp"
             android:textStyle="bold|italic" />
-
-        <ImageButton
-            android:id="@+id/imageButton1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:autoLink="web"
-            android:linksClickable="true"
-            android:paddingBottom="0sp"
-            android:paddingLeft="0sp"
-            android:paddingRight="0sp"
-            android:paddingTop="0sp"
-            android:src="@drawable/ic_launcher" />
     </RelativeLayout>
-
-    <!-- <Button -->
-    <!-- android:id="@+id/close_pop" -->
-    <!-- android:layout_width="match_parent" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_alignParentBottom="true" -->
-    <!-- android:layout_centerHorizontal="true" -->
-    <!-- android:text="X" /> -->
-
+</RelativeLayout>
 </RelativeLayout>

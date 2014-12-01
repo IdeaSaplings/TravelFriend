@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    
+   xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/list_header"
@@ -22,5 +26,17 @@
         android:divider="#D9D7D7"
         android:dividerHeight="3dp" >
     </ListView>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/ad_mob_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-9891495074913953/1510379425" >
+        
+    </com.google.android.gms.ads.AdView>
 
 </LinearLayout>
