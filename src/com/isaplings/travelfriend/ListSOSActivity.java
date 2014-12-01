@@ -34,8 +34,8 @@ public class ListSOSActivity extends Activity {
         
         Log.v("Debug" , " MYGPS : List Places Activity loaded");
         
-        getActionBar().setTitle("Outer Ring Road");
-		getActionBar().setSubtitle("Bellandur, Bangalore");
+        getActionBar().setTitle("Development Under Progress");
+		getActionBar().setSubtitle("Not for testing");
  
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.lvExp);

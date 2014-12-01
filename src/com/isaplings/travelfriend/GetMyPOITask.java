@@ -109,7 +109,7 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 			Log.v(TAG,
 					"MYGPSLocation : result1 - places - [Status Code]  " + placesResult.getStatusCode());
 			
-			if ((placesResult.getStatusCode() != StatusCode.OK) || (placesResult.getResults().size()<5)) {
+			if ((placesResult.getStatusCode() != StatusCode.OK) || (placesResult.getResults().size()<10)) {
 					// Then hop to the next radius
 					Log.v(TAG, "MYGPSLocation : Trying to get POI details at level 2 radius");
 
@@ -120,9 +120,11 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 					Log.v(TAG,
 							"MYGPSLocation : result[2] - places - [Status Code]  " + placesResult.getStatusCode());
 					
-					if ((placesResult.getStatusCode() != StatusCode.OK) || (placesResult.getResults().size()<5)) {
+					if ((placesResult.getStatusCode() != StatusCode.OK) || (placesResult.getResults().size()<10)) {
 							// Then hop to the next radius
 							Log.v(TAG, "MYGPSLocation : Trying to get POI details at level 3 radius");
+
+							//placesResult =(PlacesResult) googlePlaces.getNearbyPlaces(mTypes, mKeyword, "distance" , latitude, longitude);
 
 							placesResult =(PlacesResult) googlePlaces.getNearbyPlaces(mTypes, mKeyword, 50000, latitude, longitude);
 							Log.v(TAG,
