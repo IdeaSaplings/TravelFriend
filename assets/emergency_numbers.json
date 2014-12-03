@@ -1,0 +1,884 @@
+
+{
+  "html_attributions" : [],
+  "Version": "1.0",
+  "Attribute": "IdeaSaplings",
+  "Information": "http://chartsbin.com/view/1983",
+   "results" : [
+        {
+  "Country": "India",
+  "Country_Code": "IND",
+  "Emergency": {
+    "Police": "100",
+    "Ambulance": "108",
+    "Fire": "102"
+		}
+	},
+        {
+  "Country": "Germany",
+  "Country_Code": "DE",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "112",
+    "Fire": "112"
+		}
+	},       
+	{
+  "Country": "United States of America",
+  "Country_Code": "USA",
+  "Emergency": {
+    "Police": "911",
+    "Ambulance": "911",
+    "Fire": "911"
+		}
+	},
+	{ 
+ "Country": "Canada",
+  "Country_Code": "CA",
+  "Emergency": {
+    "Police": "911",
+    "Ambulance": "911",
+    "Fire": "911"
+		}
+	},
+	{
+ "Country": "Afganistan",
+  "Country_Code": "AF",
+  "Emergency": {
+    "Police": "119",
+    "Ambulance": "102",
+    "Fire": "119"
+   },
+ "Country": "Aland Islands",
+  "Country_Code": "ALA",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "112",
+    "Fire": "112"
+		}
+	},
+	{
+ "Country": "Albania",
+  "Country_Code": "AL",
+  "Emergency": {
+    "Police": "129",
+    "Ambulance": "127",
+    "Fire": "128"
+  		}
+	},
+	{
+ "Country": "Algeria",
+  "Country_Code": "AL",
+  "Emergency": {
+    "Police": "17",
+    "Ambulance": "021-23-63-81",
+    "Fire": "14"
+		}
+	},
+	{
+ "Country": "America Samoa",
+  "Country_Code": "AS",
+  "Emergency": {
+    "Police": "911",
+    "Ambulance": "911",
+    "Fire": "911"
+		}
+	},
+	{
+ "Country": "Andora",
+  "Country_Code": "AD",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "112",
+    "Fire": "112"
+		}
+	},
+	{
+ "Country": "Angola",
+  "Country_Code": "AO",
+  "Emergency": {
+    "Police": "113",
+    "Ambulance": "115",
+    "Fire": "112"
+		}
+	},
+	{
+ "Country": "Anguilla",
+  "Country_Code": "AI",
+  "Emergency": {
+    "Police": "911",
+    "Ambulance": "911",
+    "Fire": "911"
+		}
+	},
+	{
+ "Country": "Antigua and Barbuda",
+  "Country_Code": "AG",
+  "Emergency": {
+    "Police": "911",
+    "Ambulance": "911",
+    "Fire": "911"
+		}
+	},
+	{
+ "Country": "Armenia",
+  "Country_Code": "AM",
+  "Emergency": {
+    "Police": "102",
+    "Ambulance": "103",
+    "Fire": "101"
+		}
+	},
+	{ 
+"Country": "Aruba",
+  "Country_Code": "AW",
+  "Emergency": {
+    "Police": "911",
+    "Ambulance": "911",
+    "Fire": "911"
+		}
+	},
+	{
+ "Country": "Australia",
+  "Country_Code": "AU",
+  "Emergency": {
+    "Police": "0000",
+    "Ambulance": "0000",
+    "Fire": "0000"
+		}
+	},
+	{  
+ "Country": "Austria",
+  "Country_Code": "AT",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "112",
+    "Fire": "112"
+		}
+	},
+	{
+ "Country": "Azerbaijan",
+  "Country_Code": "AZ",
+  "Emergency": {
+    "Police": "911",
+    "Ambulance": "911",
+    "Fire": "911"
+		}
+	},
+	{		
+ "Country": "Bahamas,The",
+  "Country_Code": "BS",
+  "Emergency": {
+    "Police": "911919",
+    "Ambulance": "911919",
+    "Fire": "911919"
+		}
+	},
+	{	
+ "Country": "Bahrain",
+  "Country_Code": "BH",
+  "Emergency": {
+    "Police": "999",
+    "Ambulance": "999",
+    "Fire": "999"
+		}
+	},
+	{	
+ "Country": "Bangaladesh",
+  "Country_Code": "BD",
+  "Emergency": {
+    "Police": "999",
+    "Ambulance": "-",
+    "Fire": "-"
+		}
+	},
+	{
+ "Country": "Barbados",
+  "Country_Code": "BB",
+  "Emergency": {
+    "Police": "211",
+    "Ambulance": "511",
+    "Fire": "311"
+		}
+	},
+	{
+ "Country": "Belarus",
+  "Country_Code": "BY",
+  "Emergency": {
+    "Police": "102",
+    "Ambulance": "103",
+    "Fire": "101"
+		}
+	},
+	{
+ "Country": "Belgium",
+  "Country_Code": "BE",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "112",
+    "Fire": "112"
+		}
+	},
+	{
+ "Country": "Belize",
+  "Country_Code": "BZ",
+  "Emergency": {
+    "Police": "911",
+    "Ambulance": "911",
+    "Fire": "911"
+		}
+	},
+	{
+ "Country": "Benin",
+  "Country_Code": "BJ",
+  "Emergency": {
+    "Police": "-",
+    "Ambulance": "-",
+    "Fire": "-"
+		}
+	},
+	{
+ "Country": "Bermuda",
+  "Country_Code": "BM",
+  "Emergency": {
+    "Police": "911",
+    "Ambulance": "911",
+    "Fire": "911"
+		}
+	},
+	{
+ "Country": "Bhutan",
+  "Country_Code": "BT",
+  "Emergency": {
+    "Police": "113",
+    "Ambulance": "112",
+    "Fire": "110"
+		}
+	},
+	{
+ "Country": "Bolivia",
+  "Country_Code": "BO",
+  "Emergency": {
+    "Police": "110",
+    "Ambulance": "118",
+    "Fire": "110"
+		}
+	},
+	{
+ "Country": "Bosnia and Herzegovina",
+  "Country_Code": "BA",
+  "Emergency": {
+    "Police": "122",
+    "Ambulance": "124",
+    "Fire": "123"
+		}
+	},
+	{
+ "Country": "Botswana",
+  "Country_Code": "BW",
+  "Emergency": {
+    "Police": "999",
+    "Ambulance": "997",
+    "Fire": "998"
+		}
+	},
+	{
+ "Country": "Bouvet Island",
+  "Country_Code": "BV",
+  "Emergency": {
+    "Police": "-",
+    "Ambulance": "-",
+    "Fire": "-"
+		}
+	},
+	{		
+ "Country": "Brazil",
+  "Country_Code": "BR",
+  "Emergency": {
+    "Police": "190",
+    "Ambulance": "192",
+    "Fire": "193"
+		}
+	},
+	{
+ "Country": "British Indian Ocean Teritory",
+  "Country_Code": "IO",
+  "Emergency": {
+    "Police": "-",
+    "Ambulance": "-",
+    "Fire": "-"
+		}
+	},
+	{
+ "Country": "British virgin Islands",
+  "Country_Code": "VG",
+  "Emergency": {
+    "Police": "911999",
+    "Ambulance": "911999",
+    "Fire": "911999"
+		}
+	},
+	{
+ "Country": "Brunel",
+  "Country_Code": "-",
+  "Emergency": {
+    "Police": "993",
+    "Ambulance": "991",
+    "Fire": "955"
+		}
+	},
+	{
+ "Country": "Bulgaria",
+  "Country_Code": "BG",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "112",
+    "Fire": "112"
+		}
+	},
+	{
+ "Country": "Burkina Faso",
+  "Country_Code": "BF",
+  "Emergency": {
+    "Police": "50-30-66-45",
+    "Ambulance": "17",
+    "Fire": "50-30-66-44"
+		}
+	},
+	{
+ "Country": "Burma",
+  "Country_Code": "MM",
+  "Emergency": {
+    "Police": "999",
+    "Ambulance": "999",
+    "Fire": "999"
+		}
+	},
+	{
+ "Country": "Burundi",
+  "Country_Code": "BI",
+  "Emergency": {
+    "Police": "22-22-37-77",
+    "Ambulance": "-",
+    "Fire": "-"
+		}
+	},
+	{
+ "Country": "Combodia",
+  "Country_Code": "KH",
+  "Emergency": {
+    "Police": "117",
+    "Ambulance": "119",
+    "Fire": "118"
+		}
+	},
+	{
+"Country": "cameroon",
+  "Country_Code": "",
+  "Emergency": {
+    "Police": "-",
+    "Ambulance": "112",
+    "Fire": "-"
+		}
+	},
+	{
+"Country": "Cape Verde",
+  "Country_Code": "CV",
+  "Emergency": {
+    "Police": "132",
+    "Ambulance": "130",
+    "Fire": "131"
+		}
+	},
+	{
+"Country": "Cayman Islands",
+  "Country_Code": "KY",
+  "Emergency": {
+    "Police": "911",
+    "Ambulance": "911",
+    "Fire": "911"
+		}
+	},
+	{
+"Country": "Central African Republic",
+  "Country_Code": "CF",
+  "Emergency": {
+    "Police": "-",
+    "Ambulance": "-",
+    "Fire": "-"
+		}
+	},
+	{
+"Country": "Chad",
+  "Country_Code": "TD",
+  "Emergency": {
+    "Police": "133",
+    "Ambulance": "131",
+    "Fire": "132"
+		}
+	},
+	{
+"Country": "chile",
+  "Country_Code": "CL",
+  "Emergency": {
+    "Police": "133",
+    "Ambulance": "131",
+    "Fire": "132"
+		}
+	},
+	{
+"Country": "China",
+  "Country_Code": "CN",
+  "Emergency": {
+    "Police": "110",
+    "Ambulance": "120",
+    "Fire": "119"
+		}
+	},
+	{
+"Country": "Christmas Island",
+  "Country_Code": "CX",
+  "Emergency": {
+    "Police": "0000",
+    "Ambulance": "0000",
+    "Fire": "0000"
+		}
+	},
+	{
+"Country": "Cocos Islands",
+  "Country_Code": "CC",
+  "Emergency": {
+    "Police": "(08)9162 6600",
+    "Ambulance": "-",
+    "Fire": "-"
+		}
+	},
+	{
+"Country": "colombia",
+  "Country_Code": "CO",
+  "Emergency": {
+    "Police": "123",
+    "Ambulance": "1123",
+    "Fire": "123"
+		}
+	},
+	{
+"Country": "Combodia",
+  "Country_Code": "KH",
+  "Emergency": {
+    "Police": "117",
+    "Ambulance": "119",
+    "Fire": "118"
+		}
+	},
+	{
+"Country": "Comoros",
+  "Country_Code": "KM",
+  "Emergency": {
+    "Police": "17",
+    "Ambulance": "-",
+    "Fire": "-"
+		}
+	},
+	{
+"Country": "Congo,Democratic Republic ",
+  "Country_Code": "CG",
+  "Emergency": {
+    "Police": "24206665-4804",
+    "Ambulance": "24206665-4804",
+    "Fire": "24206665-4804"
+		}
+	},
+	{
+"Country": "Cook Islands",
+  "Country_Code": "CK",
+  "Emergency": {
+    "Police": "999",
+    "Ambulance": "998",
+    "Fire": "996"
+		}
+	},
+	{
+"Country": "Costa Rica",
+  "Country_Code": "CR",
+  "Emergency": {
+    "Police": "911",
+    "Ambulance": "911",
+    "Fire": "911"
+		}
+	},
+	{
+"Country": "Cote dlvoire ",
+  "Country_Code": "CI",
+  "Emergency": {
+    "Police": "180111",
+    "Ambulance": "111",
+    "Fire": "1101111170"
+		}
+	},
+	{
+"Country": "Croatia",
+  "Country_Code": "HR",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "112",
+    "Fire": "112"
+		}
+	},
+	{
+"Country": "Cuba",
+  "Country_Code": "CU",
+  "Emergency": {
+    "Police": "106",
+    "Ambulance": "-",
+    "Fire": "105"
+		}
+	},		
+	{
+"Country": "Cyprus",
+  "Country_Code": "CY",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "112",
+    "Fire": "112"
+		}
+	},
+	{
+"Country": "Czech Republic",
+  "Country_Code": "CZ",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "112",
+    "Fire": "112"
+		}
+	},
+	{
+"Country": "Denmark",
+  "Country_Code": "Dk",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "112",
+    "Fire": "112"
+		}	
+	},
+	{
+"Country": "Dijibouti",
+  "Country_Code": "DJ",
+  "Emergency": {
+    "Police": "17",
+    "Ambulance": "351351",
+    "Fire": "18"
+		}
+	},
+	{	
+"Country": "Dominica",
+  "Country_Code": "DM",
+  "Emergency": {
+    "Police": "911999",
+    "Ambulance": "911999",
+    "Fire": "911999"
+		}
+	},
+	{
+"Country": "Dominican republic",
+  "Country_Code": "DO",
+  "Emergency": {
+    "Police": "911",
+    "Ambulance": "911",
+    "Fire": "911"
+		}
+	},	
+	{
+"Country": "Ecuador",
+  "Country_Code": "EC",
+  "Emergency": {
+    "Police": "101",
+    "Ambulance": "101",
+    "Fire": "101"
+		}
+	},
+	{
+"Country": "Egypt",
+  "Country_Code": "EG",
+  "Emergency": {
+    "Police": "122",
+    "Ambulance": "122180",
+    "Fire": "122123"
+		}
+	},
+	{	
+"Country": "EI Salvador",
+  "Country_Code": "SV",
+  "Emergency": {
+    "Police": "911",
+    "Ambulance": "911",
+    "Fire": "911"
+		}
+	},	
+	{
+"Country": "Equatorial Guinea",
+  "Country_Code": "GQ",
+  "Emergency": {
+    "Police": "-",
+    "Ambulance": "-",
+    "Fire": "-"
+		}
+	},
+	{
+"Country": "Eritrea",
+  "Country_Code": "ER",
+  "Emergency": {
+    "Police": "-",
+    "Ambulance": "-",
+    "Fire": "-"
+		}
+	},
+	{
+"Country": "Estonia",
+  "Country_Code": "EE",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "112",
+    "Fire": "112"
+		}
+	},
+	{
+	
+"Country": "Ethiopia",
+  "Country_Code": "ET",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "112",
+    "Fire": "112"
+		}
+	},
+	{
+"Country": "Falkland Islands",
+  "Country_Code": "FK",
+  "Emergency": {
+    "Police": "999",
+    "Ambulance": "999",
+    "Fire": "999"
+		}
+	},	
+	{
+"Country": "Faroe Islands",
+  "Country_Code": "FQ",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "112",
+    "Fire": "112"
+		}
+	},
+	{	
+"Country": "Fiji",
+  "Country_Code": "FJ",
+  "Emergency": {
+    "Police": "911",
+    "Ambulance": "911",
+    "Fire": "911"
+		}
+	},
+	{
+"Country": "Finland",
+  "Country_Code": "FI",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "112",
+    "Fire": "112"
+		}
+	},
+	{
+"Country": "France",
+  "Country_Code": "FR",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "112",
+    "Fire": "112"
+		}
+	},	
+	{
+"Country": "French Guiana",
+  "Country_Code": "-",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "112",
+    "Fire": "112"
+		}
+	},
+	{
+"Country": "French Polynesia",
+  "Country_Code": "PF",
+  "Emergency": {
+    "Police": "17",
+    "Ambulance": "15",
+    "Fire": "18"
+		}
+	},
+	{
+"Country": "French Southern and Antartica lands",
+  "Country_Code": "-",
+  "Emergency": {
+    "Police": "-",
+    "Ambulance": "-",
+    "Fire": "-"
+		}
+	},	
+	{
+"Country": "Garbon",
+  "Country_Code": "KH",
+  "Emergency": {
+    "Police": "1730",
+    "Ambulance": "1300-1399",
+    "Fire": "18"
+		}
+	},	
+	{	
+"Country": "Gambia",
+  "Country_Code": "GM",
+  "Emergency": {
+    "Police": "117",
+    "Ambulance": "116",
+    "Fire": "118"
+		}
+	},
+	{
+"Country": "Georgia",
+  "Country_Code": "GE",
+  "Emergency": {
+    "Police": "22",
+    "Ambulance": "22",
+    "Fire": "22"
+		}
+	},
+	{
+ "Country": "Germany",
+  "Country_Code": "DE",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "112",
+    "Fire": "112"
+		}
+	},
+	{
+"Country": "Ghana",
+  "Country_Code": "GH",
+  "Emergency": {
+    "Police": "191",
+    "Ambulance": "193",
+    "Fire": "192"
+		}
+	},
+	{
+"Country": "Gibraltar",
+  "Country_Code": "GI",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "190",
+    "Fire": "190"
+		}
+	},	
+	{
+"Country": "Greece",
+  "Country_Code": "GR",
+  "Emergency": {
+    "Police": "112",
+    "Ambulance": "112",
+    "Fire": "112"
+		}
+	},	
+	{
+"Country": "Greenland",
+  "Country_Code": "GL",
+  "Emergency": {
+    "Police": "-",
+    "Ambulance": "-",
+    "Fire": "-"
+		}
+	},
+	{
+"Country": "Grenada",
+  "Country_Code": "GD",
+  "Emergency": {
+    "Police": "-",
+    "Ambulance": "-",
+    "Fire": "-"
+		}
+	},
+	{
+"Country": "Guadeloupe",
+  "Country_Code": "-",
+  "Emergency": {
+    "Police": "-",
+    "Ambulance": "-",
+    "Fire": "-"
+		}
+	},
+	{
+"Country": "Guam",
+  "Country_Code": "GU",
+  "Emergency": {
+    "Police": "911",
+    "Ambulance": "911",
+    "Fire": "911"
+		}
+	},
+	{
+"Country": "Guatemala",
+  "Country_Code": "GT",
+  "Emergency": {
+    "Police": "122123120",
+    "Ambulance": "122123120",
+    "Fire": "122123120"
+		}
+	},
+	{
+"Country": "Guernsey",
+  "Country_Code": "-",
+  "Emergency": {
+    "Police": "999",
+    "Ambulance": "999",
+    "Fire": "999"
+		}
+	},
+	{
+"Country": "Guinea",
+  "Country_Code": "GN",
+  "Emergency": {
+    "Police": "-",
+    "Ambulance": "-",
+    "Fire": "-"
+		}
+	},
+	{
+"Country": "Guyana",
+  "Country_Code": "GY",
+  "Emergency": {
+    "Police": "911",
+    "Ambulance": "911913",
+    "Fire": "911"
+		}
+	},
+	{
+"Country": "Haiti",
+  "Country_Code": "HT",
+  "Emergency": {
+    "Police": "114",
+    "Ambulance": "114",
+    "Fire": "114"
+		}
+	},
+	{
+"Country": "Heard Island and McDonald",
+  "Country_Code": "-",
+  "Emergency": {
+    "Police": "-",
+    "Ambulance": "-",
+    "Fire": "-"
+		}
+	}
+ ],
+   "status" : "OK"
+}
+
+

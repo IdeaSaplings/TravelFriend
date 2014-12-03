@@ -1,10 +1,19 @@
 package com.isaplings.travelfriend;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.isaplings.travelfriend.model.EmergencyRecord;
+
 import android.app.Activity;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -149,9 +158,56 @@ public class ListSOSActivity extends Activity {
             ambulance.add("108");
                     
             List<String> helpline = new ArrayList<String>();
-            helpline.add("18004087346");
-            helpline.add("18008364565");
+            //helpline.add("18004087346");
+            //helpline.add("18008364565");
      
+            //Get the Data from Static File
+            
+            EmergencyRecord emergencyRec = new EmergencyRecord();
+            StringBuilder stringBuilder = new StringBuilder();
+            try {
+				AssetManager assetManager = this.getAssets();
+				InputStream inputStream = assetManager.open("emergency_numbers.json");
+				
+				int x;
+				while ((x=inputStream.read()) != -1){
+					stringBuilder.append((char) x);
+					
+				}
+				String data = stringBuilder.toString();
+				
+				JSONObject jsonObj = new JSONObject(data);
+				JSONArray jsonArr = jsonObj.getJSONArray("results");
+				
+				for(int i=0; i<jsonArr.length();i++)
+				{
+					JSONObject item = jsonArr.getJSONObject(i);
+					
+					if (item.getString("Country").equalsIgnoreCase("canada")){
+						JSONObject emer = item.getJSONObject("Emergency");
+						emergencyRec.setPolice(emer.getString("Police"));
+						emergencyRec.setAmbulance(emer.getString("Ambulance"));
+						emergencyRec.setFire(emer.getString("Fire"));
+						
+						
+					}
+					
+				}
+					
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            
+            //ADD THE reCORDS	NOW
+            
+            police.add(emergencyRec.getPolice() + "  SL");
+            ambulance.add(emergencyRec.getAmbulance() + "  SL");
+            
+            
             listDataChild.put(listDataHeader.get(0), buddies); // Header, Child data
             listDataChild.put(listDataHeader.get(1), police);
             listDataChild.put(listDataHeader.get(2), ambulance);
