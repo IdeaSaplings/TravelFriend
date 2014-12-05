@@ -5,6 +5,9 @@ package com.isaplings.travelfriend;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -43,6 +46,17 @@ public class ListTowServiceActivity extends  Activity {
 		// if you want to lock screen for always Portrait mode
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+		// AdHolder update
+
+				AdView adView = (AdView) findViewById(R.id.ad_mob_view);
+				AdRequest adRequest = new AdRequest.Builder()
+						.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+						.addTestDevice("TEST_DEVICE_ID")
+						.addKeyword("automobile")
+						.build();
+				adView.loadAd(adRequest);
+
+		
 		Bundle bundle = this.getIntent().getExtras();
 		// List<Place> placesList = bundle.getParcelableArrayList("Place");
 
