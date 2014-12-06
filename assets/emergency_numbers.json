@@ -7,7 +7,7 @@
    "results" : [
         {
   "Country": "India",
-  "Country_Code": "IND",
+  "Country_Code": "IN",
   "Emergency": {
     "Police": "100",
     "Ambulance": "108",
@@ -25,7 +25,7 @@
 	},       
 	{
   "Country": "United States of America",
-  "Country_Code": "USA",
+  "Country_Code": "US",
   "Emergency": {
     "Police": "911",
     "Ambulance": "911",
@@ -42,7 +42,7 @@
 		}
 	},
 	{
- "Country": "Afganistan",
+ "Country": "Afghanistan",
   "Country_Code": "AF",
   "Emergency": {
     "Police": "119",

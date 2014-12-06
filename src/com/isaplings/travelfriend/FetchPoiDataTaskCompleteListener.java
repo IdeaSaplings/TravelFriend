@@ -163,7 +163,8 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 
 					
 					GetPlaceDetailsTask placeDetails = new GetPlaceDetailsTask(uniqueId);
-					placeDetails.execute(placeRecord.getReference());
+					//placeDetails.execute(placeRecord.getReference());
+					placeDetails.execute(placeRecord.getPlaceId());
 					
 					
 									

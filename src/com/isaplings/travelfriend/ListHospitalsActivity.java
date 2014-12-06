@@ -52,7 +52,6 @@ public class ListHospitalsActivity extends Activity {
 		adView.loadAd(adRequest);
 
 		Bundle bundle = this.getIntent().getExtras();
-		// List<Place> placesList = bundle.getParcelableArrayList("Place");
 
 		Location mLocation = bundle.getParcelable("LOCATION");
 

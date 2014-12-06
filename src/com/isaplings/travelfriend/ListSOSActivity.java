@@ -10,10 +10,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.a2plab.googleplaces.GooglePlaces;
+import com.a2plab.googleplaces.models.Place;
+import com.a2plab.googleplaces.models.PlaceDetails;
+import com.a2plab.googleplaces.result.PlaceDetailsResult;
+import com.a2plab.googleplaces.result.PlacesResult;
+import com.a2plab.googleplaces.result.Result.StatusCode;
+import com.isaplings.travelfriend.lib.POITextSearchTask;
 import com.isaplings.travelfriend.model.EmergencyRecord;
 
 import android.app.Activity;
 import android.content.res.AssetManager;
+import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,196 +33,376 @@ import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.Toast;
 
-
-
 public class ListSOSActivity extends Activity {
-	
-    ExpandableListAdapter listAdapter;
-    ExpandableListView expListView;
-    List<String> listDataHeader;
-    HashMap<String, List<String>> listDataChild;
 
-	
-	//places.add(new PlaceRecord("",""));
-	
+	private static final String TAG = "Debug";
+	ExpandableListAdapter listAdapter;
+	ExpandableListView expListView;
+	List<String> listDataHeader;
+	HashMap<String, List<String>> listDataChild;
+
+	List<String> ambulance = new ArrayList<String>();
+
+	// places.add(new PlaceRecord("",""));
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_sos_places);
-        
-        Log.v("Debug" , " MYGPS : List Places Activity loaded");
-        
-        getActionBar().setTitle("Development Under Progress");
-		getActionBar().setSubtitle("Not for testing");
- 
-        // get the listview
-        expListView = (ExpandableListView) findViewById(R.id.lvExp);
- 
-        // preparing list data
-        prepareListData();
- 
-        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
- 
-        // setting list adapter
-        expListView.setAdapter(listAdapter);
-        expListView.expandGroup(0);
- 
-        // Listview Group click listener
-        expListView.setOnGroupClickListener(new OnGroupClickListener() {
- 
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v,
-                    int groupPosition, long id) {
-                // Toast.makeText(getApplicationContext(),
-                // "Group Clicked " + listDataHeader.get(groupPosition),
-                // Toast.LENGTH_SHORT).show();
-            	return false;
-            }
-        });
- 
-        // Listview Group expanded listener
-        expListView.setOnGroupExpandListener(new OnGroupExpandListener() {
- 
-            @Override
-            public void onGroupExpand(int groupPosition) {
-            	int len = listAdapter.getGroupCount();
+		setContentView(R.layout.activity_list_sos_places);
 
-            	for (int i = 0; i < len; i++) {
-            	    if (i != groupPosition) {
-            	        expListView.collapseGroup(i);
-            	    }
-            	}
-               // Toast.makeText(getApplicationContext(),
-               //         listDataHeader.get(groupPosition) + " Expanded",
-                //        Toast.LENGTH_SHORT).show();
-            }
-        });
- 
-        // Listview Group collasped listener
-        expListView.setOnGroupCollapseListener(new OnGroupCollapseListener() {
- 
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-                //Toast.makeText(getApplicationContext(),
-                    //    listDataHeader.get(groupPosition) + " Collapsed",
-                    //    Toast.LENGTH_SHORT).show();
- 
-            }
-        });
- 
-        // Listview on child click listener
-        expListView.setOnChildClickListener(new OnChildClickListener() {
- 
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                    int groupPosition, int childPosition, long id) {
-                // TODO Auto-generated method stub
-                Toast.makeText(
-                        getApplicationContext(),
-                        listDataHeader.get(groupPosition)
-                                + " : "
-                                + listDataChild.get(
-                                        listDataHeader.get(groupPosition)).get(
-                                        childPosition), Toast.LENGTH_SHORT)
-                        .show();
-                return false;
-            }
-        });
-	}
-        
-        /*
-         * Preparing the list data
-         */
-        private void prepareListData() {
-            listDataHeader = new ArrayList<String>();
-            listDataChild = new HashMap<String, List<String>>();
-     
-            // Adding header data
-            listDataHeader.add("Buddies");
-            listDataHeader.add("Police");
-            listDataHeader.add("Ambulance");
-            listDataHeader.add("Toll Booth");
-            listDataHeader.add("Helpline");
-     
-            // Adding child data
-            List<String> buddies = new ArrayList<String>();
-            buddies.add("Elango +91 9880649789");
-            buddies.add("Navine +91 80 42120570");
-            buddies.add("Senthilnathan +91 9686033557");
-            buddies.add("Ramesh +91 9916922424");
-            
-     
-            List<String> police = new ArrayList<String>();
-            police.add("100");
-            police.add("102");
-            police.add("104");
-            
-            List<String> tollfree = new ArrayList<String>();
-            tollfree.add("08025746");
-            tollfree.add("04412345");
-            tollfree.add("02289745");
-     
-            List<String> ambulance = new ArrayList<String>();
-            ambulance.add("1088");
-            ambulance.add("108");
-                    
-            List<String> helpline = new ArrayList<String>();
-            //helpline.add("18004087346");
-            //helpline.add("18008364565");
-     
-            //Get the Data from Static File
-            
-            EmergencyRecord emergencyRec = new EmergencyRecord();
-            StringBuilder stringBuilder = new StringBuilder();
-            try {
-				AssetManager assetManager = this.getAssets();
-				InputStream inputStream = assetManager.open("emergency_numbers.json");
-				
-				int x;
-				while ((x=inputStream.read()) != -1){
-					stringBuilder.append((char) x);
-					
+		Bundle bundle = this.getIntent().getExtras();
+
+		Location mLocation = bundle.getParcelable("LOCATION");
+
+		String streetName = mLocation.getExtras().getString("STREETNAME");
+		String cityName = mLocation.getExtras().getString("CITYNAME");
+
+		Log.v(TAG, "MyGPS : Street Name : " + streetName);
+		Log.v(TAG, "MyGPS : CityName : " + cityName);
+
+		Log.v("Debug", " MYGPS : List Places Activity loaded");
+
+		getActionBar().setTitle("Development Under Progress");
+		getActionBar().setSubtitle("Not for testing");
+
+		// get the listview
+		expListView = (ExpandableListView) findViewById(R.id.lvExp);
+
+		// preparing list data
+		prepareListData();
+
+		listAdapter = new ExpandableListAdapter(this, listDataHeader,
+				listDataChild);
+
+		// setting list adapter
+		expListView.setAdapter(listAdapter);
+		expListView.expandGroup(2);
+
+		// Static Implementation is complete
+
+		// Dynamic Implementation starts
+
+		// Get Ambulance Data
+
+		class GetAmbulanceTaskListener implements
+				AsyncTaskCompleteListener<PlacesResult> {
+
+			@Override
+			public void onTaskComplete(PlacesResult placesResult) {
+				// TODO Auto-generated method stub
+
+				Log.v(TAG, "MyGPS : Get Ambulance Task Completed");
+
+				// No error message - if unable to get data
+				if ((placesResult == null)
+						|| (placesResult.getResults().size() <= 0)) {
+					Log.v(TAG, "MyGPS : Places result is null or empty");
 				}
-				String data = stringBuilder.toString();
-				
-				JSONObject jsonObj = new JSONObject(data);
-				JSONArray jsonArr = jsonObj.getJSONArray("results");
-				
-				for(int i=0; i<jsonArr.length();i++)
-				{
-					JSONObject item = jsonArr.getJSONObject(i);
+
+				@SuppressWarnings("unchecked")
+				List<Place> placesList = (List<Place>) placesResult
+						.getResults();
+
+				// Setting a limit for the iteration
+				int iterLimit = 4;
+				if (placesList.size() < 4) {
+					iterLimit = placesList.size();
+				}
+
+				for (int i = 0; i < iterLimit; i++) {
+
+					Log.v(TAG, "MyGPS : Places Name : "
+							+ placesList.get(i).getName());
+					Log.v(TAG, "MyGPS : Places Id : "
+							+ placesList.get(i).getPlaceId());
+					//ambulance.add(placesList.get(i).getName());
+					getContactNumber(placesList.get(i).getPlaceId());
+
+				}
+
+				//listAdapter.notifyDataSetChanged();
+
+			}
+
+		}
+
+		GetAmbulanceTaskListener ambListner = new GetAmbulanceTaskListener();
+
+		List<String> sTypes = new ArrayList<String>();
+		sTypes.add("hospital");
+		sTypes.add("health");
+		sTypes.add("doctor");
+
+		String sText = "ambulance";
+
+		POITextSearchTask getAmbulance = new POITextSearchTask(
+				ListSOSActivity.this, ambListner, sTypes, sText);
+
+		getAmbulance.execute(mLocation);
+
+		// Listener method implementation
+
+		// Listview Group click listener
+		expListView.setOnGroupClickListener(new OnGroupClickListener() {
+
+			@Override
+			public boolean onGroupClick(ExpandableListView parent, View v,
+					int groupPosition, long id) {
+				// Toast.makeText(getApplicationContext(),
+				// "Group Clicked " + listDataHeader.get(groupPosition),
+				// Toast.LENGTH_SHORT).show();
+				return false;
+			}
+		});
+
+		// Listview Group expanded listener
+		expListView.setOnGroupExpandListener(new OnGroupExpandListener() {
+
+			@Override
+			public void onGroupExpand(int groupPosition) {
+				int len = listAdapter.getGroupCount();
+
+				for (int i = 0; i < len; i++) {
+					if (i != groupPosition) {
+						expListView.collapseGroup(i);
+					}
+				}
+				// Toast.makeText(getApplicationContext(),
+				// listDataHeader.get(groupPosition) + " Expanded",
+				// Toast.LENGTH_SHORT).show();
+			}
+		});
+
+		// Listview Group collasped listener
+		expListView.setOnGroupCollapseListener(new OnGroupCollapseListener() {
+
+			@Override
+			public void onGroupCollapse(int groupPosition) {
+				// Toast.makeText(getApplicationContext(),
+				// listDataHeader.get(groupPosition) + " Collapsed",
+				// Toast.LENGTH_SHORT).show();
+
+			}
+		});
+
+		// Listview on child click listener
+		expListView.setOnChildClickListener(new OnChildClickListener() {
+
+			@Override
+			public boolean onChildClick(ExpandableListView parent, View v,
+					int groupPosition, int childPosition, long id) {
+				// TODO Auto-generated method stub
+				Toast.makeText(
+						getApplicationContext(),
+						listDataHeader.get(groupPosition)
+								+ " : "
+								+ listDataChild.get(
+										listDataHeader.get(groupPosition)).get(
+										childPosition), Toast.LENGTH_SHORT)
+						.show();
+				return false;
+			}
+		});
+	}
+
+	public String getContactNumber(String placeId) {
+
+		class GetPlaceDetailsTask extends
+				AsyncTask<String, String, PlaceDetailsResult> {
+
+			protected void onPreExecute(String... params) {
+
+			}
+
+			@Override
+			protected PlaceDetailsResult doInBackground(String... params) {
+				// TODO Auto-generated method stub
+				String placeId = params[0];
+
+				GooglePlaces gp = new GooglePlaces(
+						"AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA");
+				PlaceDetailsResult placeDetailsResult = new PlaceDetailsResult();
+				try {
+					placeDetailsResult = (PlaceDetailsResult) gp
+							.getPlaceDetails(placeId);
+					if (placeDetailsResult.getStatusCode() != StatusCode.OK) {
+						return null;
+					}
+
+				} catch (IOException e) {
+
+					e.printStackTrace();
+					return null;
+				}
+				Log.v("Debug",
+						" MyGPS : Successfully executed getPlaceDetails ");
+
+				return placeDetailsResult;
+			}
+
+			@SuppressWarnings("null")
+			protected void onPostExecute(PlaceDetailsResult placeDetailsResult) {
+
+				Log.v("Debug", " MyGPS : getPlaceDetails in PostExecute Method");
+
+				if (placeDetailsResult == null) {
+					return;
+				}
+
+				PlaceDetails placeDetails = placeDetailsResult.result;
+
+				if (placeDetailsResult.getStatusCode() == StatusCode.OK) {
+
+					Log.v("Debug", " MyGPS : getPlaceDetails status is OK");
+
+					Log.v("Debug", " MyGPS : Name :  " + placeDetails.getName());
+					Log.v("Debug", " MyGPS : Inter Phone Number: "
+							+ placeDetails.getInternationalPhoneNumber());
+					Log.v("Debug",
+							" MyGPS : PhoneNumber: "
+									+ placeDetails.getFormattedPhoneNumber());
 					
-					if (item.getString("Country").equalsIgnoreCase("canada")){
-						JSONObject emer = item.getJSONObject("Emergency");
-						emergencyRec.setPolice(emer.getString("Police"));
-						emergencyRec.setAmbulance(emer.getString("Ambulance"));
-						emergencyRec.setFire(emer.getString("Fire"));
+					// Append the name and phonenumber to list
+					String phoneNumber = new String();
+					if ((placeDetails.getInternationalPhoneNumber()== null) || (placeDetails.getInternationalPhoneNumber().isEmpty()) ){
+						phoneNumber = placeDetails.getInternationalPhoneNumber();
 						
+					} else {
+						Log.v("Debug",
+								" MyGPS PlacesList : Internation phone number is null  " + placeDetails.getFormattedPhoneNumber());
+						phoneNumber = placeDetails.getFormattedPhoneNumber();
+					}
+					
+					if (phoneNumber != null && !phoneNumber.isEmpty()) {
+					
+						ambulance.add(placeDetails.getName() + " " + phoneNumber);
+						listAdapter.notifyDataSetChanged();
+
+						Log.v("Debug",
+								" MyGPS PlacesList : Updated " + placeDetails.getName());
 						
 					}
 					
-				}
 					
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+					Log.v("Debug",
+							" MyGPS PlacesList : Put  the PlaceDetails from Places API into CachePlaceList");
+
+					
+					return;
+
+				}
+
+				else {
+					Log.v("Debug", " MyGPS : getPlaceDetails status is : "
+							+ placeDetailsResult.getStatusCode());
+
+					// Show Alert Unable to retrieve more information
+
+					return;
+
+				}
+
 			}
-            
-            //ADD THE reCORDS	NOW
-            
-            police.add(emergencyRec.getPolice() + "  SL");
-            ambulance.add(emergencyRec.getAmbulance() + "  SL");
-            
-            
-            listDataChild.put(listDataHeader.get(0), buddies); // Header, Child data
-            listDataChild.put(listDataHeader.get(1), police);
-            listDataChild.put(listDataHeader.get(2), ambulance);
-            listDataChild.put(listDataHeader.get(3), tollfree);
-            listDataChild.put(listDataHeader.get(4), helpline);
-        }
+		}
+		
+		GetPlaceDetailsTask placeDetails = new GetPlaceDetailsTask();
+		placeDetails.execute(placeId);
+
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * Preparing the list data
+	 */
+	private void prepareListData() {
+		listDataHeader = new ArrayList<String>();
+		listDataChild = new HashMap<String, List<String>>();
+
+		// Adding header data
+		listDataHeader.add("Buddies");
+		listDataHeader.add("Police");
+		listDataHeader.add("Ambulance");
+		listDataHeader.add("Toll Booth");
+		listDataHeader.add("Helpline");
+
+		// Adding child data
+		List<String> buddies = new ArrayList<String>();
+		buddies.add("Elango +91 9880649789");
+		buddies.add("Navine +91 80 42120570");
+		buddies.add("Senthilnathan +91 9686033557");
+		buddies.add("Ramesh +91 9916922424");
+
+		List<String> police = new ArrayList<String>();
+		police.add("100");
+		police.add("102");
+		police.add("104");
+
+		List<String> tollfree = new ArrayList<String>();
+		tollfree.add("08025746");
+		tollfree.add("04412345");
+		tollfree.add("02289745");
+
+		// List<String> ambulance = new ArrayList<String>();
+		// ambulance.add("1088");
+		// ambulance.add("108");
+		// ambulance.add("Immediate Assistants - +61 2 9460 2851");
+		// ambulance.add("Paddington Ambulance Station - +61 2 9320 7796");
+
+		List<String> helpline = new ArrayList<String>();
+		// helpline.add("18004087346");
+		// helpline.add("18008364565");
+
+		// Get the Data from Static File
+
+		EmergencyRecord emergencyRec = new EmergencyRecord();
+		StringBuilder stringBuilder = new StringBuilder();
+		try {
+			AssetManager assetManager = this.getAssets();
+			InputStream inputStream = assetManager
+					.open("emergency_numbers.json");
+
+			int x;
+			while ((x = inputStream.read()) != -1) {
+				stringBuilder.append((char) x);
+
+			}
+			String data = stringBuilder.toString();
+
+			JSONObject jsonObj = new JSONObject(data);
+			JSONArray jsonArr = jsonObj.getJSONArray("results");
+
+			for (int i = 0; i < jsonArr.length(); i++) {
+				JSONObject item = jsonArr.getJSONObject(i);
+
+				if (item.getString("Country").equalsIgnoreCase("algeria")) {
+					JSONObject emer = item.getJSONObject("Emergency");
+					emergencyRec.setPolice(emer.getString("Police"));
+					emergencyRec.setAmbulance(emer.getString("Ambulance"));
+					emergencyRec.setFire(emer.getString("Fire"));
+
+				}
+
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// ADD THE reCORDS NOW
+
+		police.add("Emergency Contact - " + emergencyRec.getPolice());
+		ambulance.add("Emergency Contact - " + emergencyRec.getAmbulance());
+
+		listDataChild.put(listDataHeader.get(0), buddies); // Header, Child data
+		listDataChild.put(listDataHeader.get(1), police);
+		listDataChild.put(listDataHeader.get(2), ambulance);
+		listDataChild.put(listDataHeader.get(3), tollfree);
+		listDataChild.put(listDataHeader.get(4), helpline);
+	}
 
 }
-
