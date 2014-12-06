@@ -42,6 +42,7 @@ public class ListSOSActivity extends Activity {
 	HashMap<String, List<String>> listDataChild;
 
 	List<String> ambulance = new ArrayList<String>();
+	List<String> police = new ArrayList<String>();
 
 	// places.add(new PlaceRecord("",""));
 
@@ -84,49 +85,8 @@ public class ListSOSActivity extends Activity {
 
 		// Get Ambulance Data
 
-		class GetAmbulanceTaskListener implements
-				AsyncTaskCompleteListener<PlacesResult> {
-
-			@Override
-			public void onTaskComplete(PlacesResult placesResult) {
-				// TODO Auto-generated method stub
-
-				Log.v(TAG, "MyGPS : Get Ambulance Task Completed");
-
-				// No error message - if unable to get data
-				if ((placesResult == null)
-						|| (placesResult.getResults().size() <= 0)) {
-					Log.v(TAG, "MyGPS : Places result is null or empty");
-				}
-
-				@SuppressWarnings("unchecked")
-				List<Place> placesList = (List<Place>) placesResult
-						.getResults();
-
-				// Setting a limit for the iteration
-				int iterLimit = 4;
-				if (placesList.size() < 4) {
-					iterLimit = placesList.size();
-				}
-
-				for (int i = 0; i < iterLimit; i++) {
-
-					Log.v(TAG, "MyGPS : Places Name : "
-							+ placesList.get(i).getName());
-					Log.v(TAG, "MyGPS : Places Id : "
-							+ placesList.get(i).getPlaceId());
-					//ambulance.add(placesList.get(i).getName());
-					getContactNumber(placesList.get(i).getPlaceId());
-
-				}
-
-				//listAdapter.notifyDataSetChanged();
-
-			}
-
-		}
-
-		GetAmbulanceTaskListener ambListner = new GetAmbulanceTaskListener();
+		TextSearchTaskListener ambListner = new TextSearchTaskListener(
+				"ambulance");
 
 		List<String> sTypes = new ArrayList<String>();
 		sTypes.add("hospital");
@@ -138,7 +98,25 @@ public class ListSOSActivity extends Activity {
 		POITextSearchTask getAmbulance = new POITextSearchTask(
 				ListSOSActivity.this, ambListner, sTypes, sText);
 
-		getAmbulance.execute(mLocation);
+		//getAmbulance.execute(mLocation);
+		
+		getAmbulance.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mLocation);
+		
+
+		sTypes = new ArrayList<String>();
+		sTypes.add("police");
+
+		sText = "Police Station";
+
+		TextSearchTaskListener polListener = new TextSearchTaskListener(
+				"police");
+
+		POITextSearchTask getPoliceStation = new POITextSearchTask(
+				ListSOSActivity.this, polListener, sTypes, sText);
+
+		//getPoliceStation.execute(mLocation);
+		getPoliceStation.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mLocation);
+
 
 		// Listener method implementation
 
@@ -205,7 +183,60 @@ public class ListSOSActivity extends Activity {
 		});
 	}
 
-	public String getContactNumber(String placeId) {
+	class TextSearchTaskListener implements
+			AsyncTaskCompleteListener<PlacesResult> {
+
+		String listType;
+
+		public TextSearchTaskListener(String listType) {
+			super();
+			this.listType = listType;
+		}
+
+		@Override
+		public void onTaskComplete(PlacesResult placesResult) {
+			// TODO Auto-generated method stub
+
+			Log.v(TAG, "MyGPS : Get Ambulance Task Completed");
+
+			// No error message - if unable to get data
+			if ((placesResult == null)
+					|| (placesResult.getResults().size() <= 0)) {
+				Log.v(TAG, "MyGPS : Places result is null or empty");
+			}
+
+			@SuppressWarnings("unchecked")
+			List<Place> placesList = (List<Place>) placesResult.getResults();
+
+			// placesList can be filter based on Types
+			// But Types is not implemented in Place (model)
+
+			// Setting a limit for the iteration
+			int iterLimit = 4;
+			if (placesList.size() < 4) {
+				iterLimit = placesList.size();
+			}
+
+			for (int i = 0; i < iterLimit; i++) {
+
+				Log.v(TAG, "MyGPS : Places Name : "
+						+ placesList.get(i).getName());
+				Log.v(TAG, "MyGPS : Places Id : "
+						+ placesList.get(i).getPlaceId());
+				// ambulance.add(placesList.get(i).getName());
+				getContactNumber(placesList.get(i).getPlaceId(), listType);
+
+			}
+
+			// listAdapter.notifyDataSetChanged();
+
+		}
+
+	}
+
+	public String getContactNumber(String placeId, String list) {
+
+		final String listType = list;
 
 		class GetPlaceDetailsTask extends
 				AsyncTask<String, String, PlaceDetailsResult> {
@@ -240,7 +271,6 @@ public class ListSOSActivity extends Activity {
 				return placeDetailsResult;
 			}
 
-			@SuppressWarnings("null")
 			protected void onPostExecute(PlaceDetailsResult placeDetailsResult) {
 
 				Log.v("Debug", " MyGPS : getPlaceDetails in PostExecute Method");
@@ -261,33 +291,50 @@ public class ListSOSActivity extends Activity {
 					Log.v("Debug",
 							" MyGPS : PhoneNumber: "
 									+ placeDetails.getFormattedPhoneNumber());
-					
+
 					// Append the name and phonenumber to list
 					String phoneNumber = new String();
-					if ((placeDetails.getInternationalPhoneNumber()== null) || (placeDetails.getInternationalPhoneNumber().isEmpty()) ){
-						phoneNumber = placeDetails.getInternationalPhoneNumber();
-						
+					if ((placeDetails.getInternationalPhoneNumber() == null)
+							|| (placeDetails.getInternationalPhoneNumber()
+									.isEmpty())) {
+						phoneNumber = placeDetails
+								.getInternationalPhoneNumber();
+
 					} else {
 						Log.v("Debug",
-								" MyGPS PlacesList : Internation phone number is null  " + placeDetails.getFormattedPhoneNumber());
+								" MyGPS PlacesList : Internation phone number is null  "
+										+ placeDetails
+												.getFormattedPhoneNumber());
 						phoneNumber = placeDetails.getFormattedPhoneNumber();
 					}
-					
-					if (phoneNumber != null && !phoneNumber.isEmpty()) {
-					
-						ambulance.add(placeDetails.getName() + " " + phoneNumber);
-						listAdapter.notifyDataSetChanged();
 
-						Log.v("Debug",
-								" MyGPS PlacesList : Updated " + placeDetails.getName());
-						
+					if (phoneNumber != null && !phoneNumber.isEmpty()) {
+
+						if (listType.equals("ambulance")) {
+							ambulance.add(placeDetails.getName() + " "
+									+ phoneNumber);
+							listAdapter.notifyDataSetChanged();
+
+							Log.v("Debug", " MyGPS PlacesList : Updated "
+									+ placeDetails.getName());
+
+						}
+
+						if (listType.equals("police")) {
+							police.add(placeDetails.getName() + " "
+									+ phoneNumber);
+							listAdapter.notifyDataSetChanged();
+
+							Log.v("Debug", " MyGPS PlacesList : Updated "
+									+ placeDetails.getName());
+
+						}
+
 					}
-					
-					
+
 					Log.v("Debug",
 							" MyGPS PlacesList : Put  the PlaceDetails from Places API into CachePlaceList");
 
-					
 					return;
 
 				}
@@ -304,7 +351,7 @@ public class ListSOSActivity extends Activity {
 
 			}
 		}
-		
+
 		GetPlaceDetailsTask placeDetails = new GetPlaceDetailsTask();
 		placeDetails.execute(placeId);
 
@@ -333,10 +380,10 @@ public class ListSOSActivity extends Activity {
 		buddies.add("Senthilnathan +91 9686033557");
 		buddies.add("Ramesh +91 9916922424");
 
-		List<String> police = new ArrayList<String>();
-		police.add("100");
-		police.add("102");
-		police.add("104");
+		// List<String> police = new ArrayList<String>();
+		// police.add("100");
+		// police.add("102");
+		// police.add("104");
 
 		List<String> tollfree = new ArrayList<String>();
 		tollfree.add("08025746");
