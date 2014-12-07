@@ -2,8 +2,6 @@ package com.isaplings.travelfriend;
 
 import java.io.IOException;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,17 +9,8 @@ import com.a2plab.googleplaces.GooglePlaces;
 import com.a2plab.googleplaces.result.PlacesResult;
 import com.a2plab.googleplaces.result.Result.StatusCode;
 
-
-
-
-
-
-
-
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -35,14 +24,14 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 
 	Activity appActivity;
 	AsyncTaskCompleteListener<PlacesResult> mlistener;
-	
+
 	List<String> mTypes;
 	String mKeyword;
-	
+
 	String qType;
 
 	Double longitude, latitude;
-	
+
 	ProgressDialog progressDialog;
 
 	private static final String TAG = "Debug";
@@ -55,39 +44,40 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 		this.mTypes = new ArrayList<String>();
 		this.mTypes.add("hospital");
 		this.mTypes.add("dentist");
-		this.mTypes.add("doctor");		
-		
+		this.mTypes.add("doctor");
+
 		this.mKeyword = null;
-		
+
 		this.qType = "nearbysearch";
 
 	}
 
 	public GetMyPOITask(Activity activity,
-			AsyncTaskCompleteListener<PlacesResult> listener, List<String> types, String keyword) {
+			AsyncTaskCompleteListener<PlacesResult> listener,
+			List<String> types, String keyword) {
 		super();
 		this.appActivity = activity;
 		this.mlistener = listener;
 		this.mTypes = types;
 		this.mKeyword = keyword;
-		
-		this.qType = "nearbysearch";
 
+		this.qType = "nearbysearch";
 
 	}
 
 	public GetMyPOITask(Activity activity,
-			AsyncTaskCompleteListener<PlacesResult> listener, List<String> types, String keyword, String queryType) {
+			AsyncTaskCompleteListener<PlacesResult> listener,
+			List<String> types, String keyword, String queryType) {
 		super();
 		this.appActivity = activity;
 		this.mlistener = listener;
 		this.mTypes = types;
 		this.mKeyword = keyword;
-		
+
 		this.qType = queryType;
 
 	}
-	
+
 	@Override
 	protected PlacesResult doInBackground(Location... params) {
 		// TODO Auto-generated method stub
@@ -96,7 +86,6 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 		GooglePlaces googlePlaces = new GooglePlaces(
 				"AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA");
 		Log.v("Test", "Navine : Before get hospitals");
-
 
 		PlacesResult placesResult = null;
 
@@ -113,92 +102,114 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 
 		try {
 			Log.v(TAG,
-					"MYGPSLocation : GetPOIDetails using Google Places Library  : type " + qType);
-			
+					"MYGPSLocation : GetPOIDetails using Google Places Library  : type "
+							+ qType);
+
 			latitude = loc.getLatitude();
 			longitude = loc.getLongitude();
 
 			Log.v(TAG, "MYGPSLocation : Latitude " + latitude);
 			Log.v(TAG, "MYGPSLocation : Longitude " + longitude);
-			
+
 			if (qType.equals("nearbysearch")) {
-				Log.v(TAG,
-						"MYGPSLocation : Executing Nearby Search  ");
-				
-			placesResult = (PlacesResult) googlePlaces.getNearbyPlaces(mTypes, mKeyword, 2500, latitude, longitude);
-			Log.v(TAG,
-					"MYGPSLocation : Size of Result1 - places  " + placesResult.getResults().size());
-			Log.v(TAG,
-					"MYGPSLocation : result1 - places - [Status Code]  " + placesResult.getStatusCode());
-			
+				Log.v(TAG, "MYGPSLocation : Executing Nearby Search  ");
 
-			} else if (qType.equals("textsearch")){
-				Log.v(TAG,
-						"MYGPSLocation : Executing Text Search  ");
-				placesResult = (PlacesResult) googlePlaces.getTextPlaces(mTypes, mKeyword, 2500, latitude, longitude);
-				
-				Log.v(TAG,
-						"MYGPSLocation : Size of Result1 - places  " + placesResult.getResults().size());
-				Log.v(TAG,
-						"MYGPSLocation : result1 - places - [Status Code]  " + placesResult.getStatusCode());
-				
+				placesResult = (PlacesResult) googlePlaces.getNearbyPlaces(
+						mTypes, mKeyword, 2500, latitude, longitude);
+				Log.v(TAG, "MYGPSLocation : Size of Result1 - places  "
+						+ placesResult.getResults().size());
+				Log.v(TAG, "MYGPSLocation : result1 - places - [Status Code]  "
+						+ placesResult.getStatusCode());
+
+			} else if (qType.equals("textsearch")) {
+				Log.v(TAG, "MYGPSLocation : Executing Text Search  ");
+				placesResult = (PlacesResult) googlePlaces.getTextPlaces(
+						mTypes, mKeyword, 2500, latitude, longitude);
+
+				Log.v(TAG, "MYGPSLocation : Size of Result1 - places  "
+						+ placesResult.getResults().size());
+				Log.v(TAG, "MYGPSLocation : result1 - places - [Status Code]  "
+						+ placesResult.getStatusCode());
+
 			}
-			
-			if ((placesResult.getStatusCode() != StatusCode.OK) || (placesResult.getResults().size()<10)) {
+
+			if ((placesResult.getStatusCode() != StatusCode.OK)
+					|| (placesResult.getResults().size() < 10)) {
+				// Then hop to the next radius
+				Log.v(TAG,
+						"MYGPSLocation : Trying to get POI details at level 2 radius");
+
+				if (qType.equals("nearbysearch")) {
+
+					placesResult = (PlacesResult) googlePlaces.getNearbyPlaces(
+							mTypes, mKeyword, 25000, latitude, longitude);
+					Log.v(TAG, "MYGPSLocation : Size of result[2] - places  "
+							+ placesResult.getResults().size());
+					Log.v(TAG,
+							"MYGPSLocation : result[2] - places - [Status Code]  "
+									+ placesResult.getStatusCode());
+
+				} else if (qType.equals("textsearch")) {
+					Log.v(TAG, "MYGPSLocation : Executing Text Search  ");
+					placesResult = (PlacesResult) googlePlaces.getTextPlaces(
+							mTypes, mKeyword, 25000, latitude, longitude);
+					Log.v(TAG, "MYGPSLocation : Size of result[2] - places  "
+							+ placesResult.getResults().size());
+					Log.v(TAG,
+							"MYGPSLocation : result[2] - places - [Status Code]  "
+									+ placesResult.getStatusCode());
+
+				}
+
+				if ((placesResult.getStatusCode() != StatusCode.OK)
+						|| (placesResult.getResults().size() < 10)) {
 					// Then hop to the next radius
-					Log.v(TAG, "MYGPSLocation : Trying to get POI details at level 2 radius");
+					Log.v(TAG,
+							"MYGPSLocation : Trying to get POI details at level 3 radius");
 
-					
+					// placesResult =(PlacesResult)
+					// googlePlaces.getNearbyPlaces(mTypes, mKeyword, "distance"
+					// , latitude, longitude);
+
 					if (qType.equals("nearbysearch")) {
-						
-						placesResult = (PlacesResult) googlePlaces.getNearbyPlaces(mTypes, mKeyword, 25000, latitude, longitude);
 
-						} else if (qType.equals("textsearch")){
-							Log.v(TAG,
-									"MYGPSLocation : Executing Text Search  ");
-							placesResult = (PlacesResult) googlePlaces.getTextPlaces(mTypes, mKeyword, 25000, latitude, longitude);
-						}
+						placesResult = (PlacesResult) googlePlaces
+								.getNearbyPlaces(mTypes, mKeyword, 50000,
+										latitude, longitude);
+						Log.v(TAG,
+								"MYGPSLocation : Size of result[3] - places  "
+										+ placesResult.getResults().size());
+						Log.v(TAG,
+								"MYGPSLocation : result[3] - places - [Status Code]  "
+										+ placesResult.getStatusCode());
 
-					Log.v(TAG,
-							"MYGPSLocation : Size of result[2] - places  " + placesResult.getResults().size());
-					Log.v(TAG,
-							"MYGPSLocation : result[2] - places - [Status Code]  " + placesResult.getStatusCode());
-					
-					if ((placesResult.getStatusCode() != StatusCode.OK) || (placesResult.getResults().size()<10)) {
-							// Then hop to the next radius
-							Log.v(TAG, "MYGPSLocation : Trying to get POI details at level 3 radius");
-
-							//placesResult =(PlacesResult) googlePlaces.getNearbyPlaces(mTypes, mKeyword, "distance" , latitude, longitude);
-
-							if (qType.equals("nearbysearch")) {
-								
-								placesResult = (PlacesResult) googlePlaces.getNearbyPlaces(mTypes, mKeyword, 50000, latitude, longitude);
-
-								} else if (qType.equals("textsearch")){
-									Log.v(TAG,
-											"MYGPSLocation : Executing Text Search  ");
-									placesResult = (PlacesResult) googlePlaces.getTextPlaces(mTypes, mKeyword, 50000, latitude, longitude);
-								}
-							Log.v(TAG,
-									"MYGPSLocation : Size of result[3] - places  " + placesResult.getResults().size());
-							Log.v(TAG,
-									"MYGPSLocation : result[3] - places - [Status Code]  " + placesResult.getStatusCode());
+					} else if (qType.equals("textsearch")) {
+						Log.v(TAG, "MYGPSLocation : Executing Text Search  ");
+						placesResult = (PlacesResult) googlePlaces
+								.getTextPlaces(mTypes, mKeyword, 50000,
+										latitude, longitude);
+						Log.v(TAG,
+								"MYGPSLocation : Size of result[3] - places  "
+										+ placesResult.getResults().size());
+						Log.v(TAG,
+								"MYGPSLocation : result[3] - places - [Status Code]  "
+										+ placesResult.getStatusCode());
 					}
+
+				}
 			}
-				
-			
 
 		} catch (IOException e) {
 			Log.v(TAG,
 					"MYGPSLocation :  GetPlaces Throws IOException Not Available exception thrown ");
-			e.printStackTrace();			
-			return null;
-		/*} catch (JSONException e) {
-			Log.v(TAG,
-					"MYGPSLocation :  GetPlaces Throws LimitExceed Service Not Available exception thrown ");
 			e.printStackTrace();
-			return placesResult;*/
-		}catch (Exception e) {
+			return null;
+			/*
+			 * } catch (JSONException e) { Log.v(TAG,
+			 * "MYGPSLocation :  GetPlaces Throws LimitExceed Service Not Available exception thrown "
+			 * ); e.printStackTrace(); return placesResult;
+			 */
+		} catch (Exception e) {
 			Log.v(TAG, "MYGPSLocation :  GetPlaces Throws  exception thrown ");
 			e.printStackTrace();
 			return null;
@@ -209,28 +220,25 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 	}
 
 	protected void onPostExecute(PlacesResult placesList) {
-		
+
 		Log.v(TAG, "MYGPSLocation : onPostExecute Method ");
 
-		
-		if(progressDialog != null && progressDialog.isShowing())
-        {
-            progressDialog.dismiss();
-        }
+		if (progressDialog != null && progressDialog.isShowing()) {
+			progressDialog.dismiss();
+		}
 
 		Log.v(TAG,
 				"MYGPSLocation : onPostExecute Method Completed - calling callback method of list ");
 
-		
 		mlistener.onTaskComplete(placesList);
 
 	}
 
 	protected void onPreExecute() {
-		Log.v(TAG,"MY GPS : Invokde  Progress Dialog" );
-		progressDialog = ProgressDialog.show(appActivity,"Please Wait...","Retrieving information.");
+		Log.v(TAG, "MY GPS : Invokde  Progress Dialog");
+		progressDialog = ProgressDialog.show(appActivity, "Please Wait...",
+				"Retrieving information.");
 		progressDialog.setCancelable(false);
-		
 
 	}
 

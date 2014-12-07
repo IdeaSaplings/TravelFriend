@@ -11,6 +11,7 @@ import com.a2plab.googleplaces.models.PlaceDetails;
 import com.a2plab.googleplaces.result.PlaceDetailsResult;
 import com.a2plab.googleplaces.result.PlacesResult;
 import com.a2plab.googleplaces.result.Result.StatusCode;
+import com.isaplings.travelfriend.lib.CheckNetwork;
 import com.isaplings.travelfriend.lib.SortPlaceList;
 
 import android.app.Activity;
@@ -61,7 +62,7 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 		if ((placesResult == null) || (placesResult.getResults().size() <= 0)) {
 
 			//Check Internet State here and Network Setting Related Error
-			// final ConnectivityManager conMgr = (ConnectivityManager)
+			// final ConnectivityManager conMgr = (ConnectivityManager);
 			// getSystemService(Context.CONNECTIVITY_SERVICE);
 			// final NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
 			// if (activeNetwork == null && !activeNetwork.isConnected()) {
@@ -70,6 +71,31 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 			//
 			//
 			// }
+			
+			if(!CheckNetwork.isInternetAvailable(mActivity)) {
+				 
+				Log.v("Debug", "MyGPS : NETWORK STATE :  NW is DOWN");
+
+				 AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+					builder.setTitle("Network Services Disabled");
+					builder.setMessage("Please enable Network Services in the Phone Settings to get current location");
+					builder.setCancelable(true);
+					builder.setNeutralButton(android.R.string.ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+									mActivity.finish();
+								}
+							});
+
+					AlertDialog alert = builder.create();
+					alert.show();
+					return;
+
+				 
+				 
+			}
 			
 			
 			// Show a dialog box here that no results are found
