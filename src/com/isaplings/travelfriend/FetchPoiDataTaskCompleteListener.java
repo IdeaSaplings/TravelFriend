@@ -19,6 +19,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.Gravity;
@@ -50,6 +52,7 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 
 	}
 
+	@SuppressWarnings("null")
 	@Override
 	public void onTaskComplete(PlacesResult placesResult) {
 
@@ -57,6 +60,18 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 
 		if ((placesResult == null) || (placesResult.getResults().size() <= 0)) {
 
+			//Check Internet State here and Network Setting Related Error
+			// final ConnectivityManager conMgr = (ConnectivityManager)
+			// getSystemService(Context.CONNECTIVITY_SERVICE);
+			// final NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
+			// if (activeNetwork == null && !activeNetwork.isConnected()) {
+			// // notify user you are online
+			// Log.v("Debug", "MyGPS : NETWORK STATE :  NW is DOWN");
+			//
+			//
+			// }
+			
+			
 			// Show a dialog box here that no results are found
 			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
 			builder.setTitle("No Results");

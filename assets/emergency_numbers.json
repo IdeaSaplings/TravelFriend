@@ -23,15 +23,6 @@
     "Fire": "112"
 		}
 	},       
-	{
-  "Country": "United States of America",
-  "Country_Code": "US",
-  "Emergency": {
-    "Police": "911",
-    "Ambulance": "911",
-    "Fire": "911"
-		}
-	},
 	{ 
  "Country": "Canada",
   "Country_Code": "CA",
@@ -50,7 +41,7 @@
     "Fire": "119"
    },
  "Country": "Aland Islands",
-  "Country_Code": "ALA",
+  "Country_Code": "AX",
   "Emergency": {
     "Police": "112",
     "Ambulance": "112",
@@ -142,9 +133,9 @@
  "Country": "Australia",
   "Country_Code": "AU",
   "Emergency": {
-    "Police": "0000",
-    "Ambulance": "0000",
-    "Fire": "0000"
+    "Police": "000",
+    "Ambulance": "000",
+    "Fire": "000"
 		}
 	},
 	{  

@@ -96,15 +96,21 @@ public class ListTowServiceActivity extends  Activity {
 		Log.v(TAG, "MyGPS : Latitude : " + mLocation.getLatitude());
 		Log.v(TAG, "MyGPS : Longitude : " + mLocation.getLongitude());
 		
-		List<String> types = new ArrayList<String>();
-		types.add("car_repair");
-		types.add("car repair");
+		
+		//Need to be added as type
+		//List<String> types = new ArrayList<String>();
+		
+		//types.add("car_repair");
+		//types.add("car repair");
 
 			
 		
-		String keyword = "tow";
+		String keyword = "towing";
+		
+		Log.v(TAG, "MyGPS : Towing Serving - Text Search");
 
-		ListPOIPlacesActivity.getPOIList(ListTowServiceActivity.this, this, mLocation, types, keyword);
+
+		ListPOIPlacesActivity.getPOIList(ListTowServiceActivity.this, this, mLocation, null, keyword, "textsearch");
 
 		Log.v(TAG, "MyGPS : New Intent Complete");
 

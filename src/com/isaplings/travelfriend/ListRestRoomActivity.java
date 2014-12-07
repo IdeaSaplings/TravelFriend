@@ -95,15 +95,21 @@ public class ListRestRoomActivity extends  Activity {
 		Log.v(TAG, "MyGPS : Latitude : " + mLocation.getLatitude());
 		Log.v(TAG, "MyGPS : Longitude : " + mLocation.getLongitude());
 		
-		List<String> types = new ArrayList<String>();
-		types.add("rest_room");
-		types.add("toilet");
-		types.add("rest room");
+		
+		//Need to be added as type not as types
+		//List<String> types = new ArrayList<String>();
+
+		//types.add("rest_room");
+		//types.add("toilet");
+		//types.add("rest room");
 			
 		
-		String keyword = null;
+		String keyword = "toilet|restroom";
+		
+		Log.v(TAG, "MyGPS : Rest Room - Text Search");
 
-		ListPOIPlacesActivity.getPOIList(ListRestRoomActivity.this, this, mLocation, types, keyword);
+
+		ListPOIPlacesActivity.getPOIList(ListRestRoomActivity.this, this, mLocation, null, keyword, "textsearch");
 
 		Log.v(TAG, "MyGPS : New Intent Complete");
 

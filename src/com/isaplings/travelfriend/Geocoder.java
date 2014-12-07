@@ -214,6 +214,8 @@ public final class Geocoder {
 								"locality"));
 						current.setCountryName(extractFromAdress(addrComp,
 								"country"));
+						current.setCountryCode(extractShortNameFromAdress(addrComp,
+								"country"));
 
 					}
 
@@ -273,6 +275,34 @@ public final class Geocoder {
 		return "";
 	}
 
+	private String extractShortNameFromAdress(JSONArray compItem, String typeString) {
+		try {
+			// Log.v("GPS", "GPS - dumping compItem length " +
+			// compItem.length());
+
+			for (int i = 0; i < compItem.length(); i++) {
+				JSONObject mItem = compItem.getJSONObject(i);
+
+				JSONArray types = mItem.getJSONArray("types");
+				 //Log.v("GPS", "GPS - dumping Types " + types);
+				 //Log.v("GPS", "GPS - dumping Types length " + types.length());
+
+				for (int j = 0; j < types.length(); j++) {
+					if (types.getString(j).equals(typeString))
+						return mItem.getString("short_name");
+				}
+			}
+
+		} catch (JSONException e) {
+
+			// Log.v("GPS", "GPS - Extract Address throws Exception");
+			e.printStackTrace();
+			return "";
+		}
+		return "";
+	}
+
+	
 	private void parseJson(List<Address> address, int maxResults, String data)
 			throws LimitExceededException {
 		try {
@@ -300,6 +330,8 @@ public final class Geocoder {
 
 
 						current.setCountryName(extractFromAdress(addrComp,
+								"country"));
+						current.setCountryCode(extractShortNameFromAdress(addrComp,
 								"country"));
 						current.setPostalCode(extractFromAdress(addrComp,
 								"postal_code"));

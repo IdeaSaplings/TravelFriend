@@ -140,9 +140,9 @@ public class Travel extends Activity implements OnClickListener {
 	public void onGetSoS(View v) {
 		// Create a new Intent
 
-//		if (mLocation == null) {
-//			return;
-//		}
+		if (mLocation == null) {
+			return;
+		}
 
 		Bundle bundle = new Bundle();
 		bundle.putParcelable("LOCATION", mLocation);
@@ -473,11 +473,31 @@ public class Travel extends Activity implements OnClickListener {
 						// SubAdminArea - administrative_area_level_2 || country
 
 						if (result == null) {
-							// btnGetLocation.setEnabled(true);
-							actionBar.setTitle("Unknown Location");
-							actionBar.setSubtitle("check your settings");
+
+							//actionBar.setTitle("Unknown Location");
+							//actionBar.setSubtitle("check your settings");
 							// #codereview - Show message - unable to retreive
 							// info - show alert box
+							
+							AlertDialog.Builder builder = new AlertDialog.Builder(
+									Travel.this);
+							builder.setTitle("Network Services Disabled");
+							builder.setMessage("Please enable Network Services in the Phone Settings to get current location");
+							builder.setCancelable(true);
+							builder.setNeutralButton(android.R.string.ok,
+									new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog,
+												int id) {
+											dialog.cancel();
+										}
+									});
+
+							AlertDialog alert = builder.create();
+							alert.show();
+
+							
+							//Resetting Location to Null
+							mLocation = null;
 							return;
 						}
 
@@ -494,6 +514,8 @@ public class Travel extends Activity implements OnClickListener {
 							Bundle extras = new Bundle();
 							extras.putString("STREETNAME", streetName);
 							extras.putString("CITYNAME", cityName);
+							extras.putString("COUNTRYNAME", result.get(0).getCountryName());
+							extras.putString("COUNTRYCODE", result.get(0).getCountryCode());
 
 							mLocation.setExtras(extras);
 

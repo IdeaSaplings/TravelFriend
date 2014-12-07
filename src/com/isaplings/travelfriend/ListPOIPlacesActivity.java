@@ -41,4 +41,31 @@ public class ListPOIPlacesActivity  {
 
 	}
 
+public static void getPOIList(Activity mActivity, Context mContext, Location mLocation, List<String> mTypes, String mKeyword, String queryType) {
+
+		
+		Log.v("Debug", "MyGPS : Latitude : " + mLocation.getLatitude());
+		Log.v("Debug", "MyGPS : Longitude : " + mLocation.getLongitude());
+
+		FetchPoiDataTaskCompleteListener fm = new FetchPoiDataTaskCompleteListener(
+				mActivity, mContext, mLocation);
+		GetMyPOITask poiTask = new GetMyPOITask(mActivity, fm, mTypes, mKeyword, queryType);
+
+	
+		if (mLocation != null) {
+			// btnGetLocation.setEnabled(true);
+			Log.v(TAG,
+					"MyGPSLocation : GetPOIDetails Task Execute for Location :"
+							+ mLocation.getLatitude() + ","
+							+ mLocation.getLongitude());
+			poiTask.execute(mLocation);
+		}
+
+		
+
+		Log.v("Debug", "MyGPS : New Intent Complete");
+
+	}
+
+	
 }

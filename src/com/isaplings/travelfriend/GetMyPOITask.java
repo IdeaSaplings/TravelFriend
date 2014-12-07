@@ -17,8 +17,11 @@ import com.a2plab.googleplaces.result.Result.StatusCode;
 
 
 
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -35,6 +38,8 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 	
 	List<String> mTypes;
 	String mKeyword;
+	
+	String qType;
 
 	Double longitude, latitude;
 	
@@ -53,6 +58,8 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 		this.mTypes.add("doctor");		
 		
 		this.mKeyword = null;
+		
+		this.qType = "nearbysearch";
 
 	}
 
@@ -63,9 +70,23 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 		this.mlistener = listener;
 		this.mTypes = types;
 		this.mKeyword = keyword;
+		
+		this.qType = "nearbysearch";
+
 
 	}
 
+	public GetMyPOITask(Activity activity,
+			AsyncTaskCompleteListener<PlacesResult> listener, List<String> types, String keyword, String queryType) {
+		super();
+		this.appActivity = activity;
+		this.mlistener = listener;
+		this.mTypes = types;
+		this.mKeyword = keyword;
+		
+		this.qType = queryType;
+
+	}
 	
 	@Override
 	protected PlacesResult doInBackground(Location... params) {
@@ -92,7 +113,7 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 
 		try {
 			Log.v(TAG,
-					"MYGPSLocation : GetPOIDetails Trying to get POI Details using Google Places Library  ");
+					"MYGPSLocation : GetPOIDetails using Google Places Library  : type " + qType);
 			
 			latitude = loc.getLatitude();
 			longitude = loc.getLongitude();
@@ -100,21 +121,44 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 			Log.v(TAG, "MYGPSLocation : Latitude " + latitude);
 			Log.v(TAG, "MYGPSLocation : Longitude " + longitude);
 			
-			
-			
+			if (qType.equals("nearbysearch")) {
+				Log.v(TAG,
+						"MYGPSLocation : Executing Nearby Search  ");
+				
 			placesResult = (PlacesResult) googlePlaces.getNearbyPlaces(mTypes, mKeyword, 2500, latitude, longitude);
-
 			Log.v(TAG,
 					"MYGPSLocation : Size of Result1 - places  " + placesResult.getResults().size());
 			Log.v(TAG,
 					"MYGPSLocation : result1 - places - [Status Code]  " + placesResult.getStatusCode());
+			
+
+			} else if (qType.equals("textsearch")){
+				Log.v(TAG,
+						"MYGPSLocation : Executing Text Search  ");
+				placesResult = (PlacesResult) googlePlaces.getTextPlaces(mTypes, mKeyword, 2500, latitude, longitude);
+				
+				Log.v(TAG,
+						"MYGPSLocation : Size of Result1 - places  " + placesResult.getResults().size());
+				Log.v(TAG,
+						"MYGPSLocation : result1 - places - [Status Code]  " + placesResult.getStatusCode());
+				
+			}
 			
 			if ((placesResult.getStatusCode() != StatusCode.OK) || (placesResult.getResults().size()<10)) {
 					// Then hop to the next radius
 					Log.v(TAG, "MYGPSLocation : Trying to get POI details at level 2 radius");
 
 					
-					placesResult = (PlacesResult) googlePlaces.getNearbyPlaces(mTypes, mKeyword, 25000, latitude, longitude);
+					if (qType.equals("nearbysearch")) {
+						
+						placesResult = (PlacesResult) googlePlaces.getNearbyPlaces(mTypes, mKeyword, 25000, latitude, longitude);
+
+						} else if (qType.equals("textsearch")){
+							Log.v(TAG,
+									"MYGPSLocation : Executing Text Search  ");
+							placesResult = (PlacesResult) googlePlaces.getTextPlaces(mTypes, mKeyword, 25000, latitude, longitude);
+						}
+
 					Log.v(TAG,
 							"MYGPSLocation : Size of result[2] - places  " + placesResult.getResults().size());
 					Log.v(TAG,
@@ -126,7 +170,15 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 
 							//placesResult =(PlacesResult) googlePlaces.getNearbyPlaces(mTypes, mKeyword, "distance" , latitude, longitude);
 
-							placesResult =(PlacesResult) googlePlaces.getNearbyPlaces(mTypes, mKeyword, 50000, latitude, longitude);
+							if (qType.equals("nearbysearch")) {
+								
+								placesResult = (PlacesResult) googlePlaces.getNearbyPlaces(mTypes, mKeyword, 50000, latitude, longitude);
+
+								} else if (qType.equals("textsearch")){
+									Log.v(TAG,
+											"MYGPSLocation : Executing Text Search  ");
+									placesResult = (PlacesResult) googlePlaces.getTextPlaces(mTypes, mKeyword, 50000, latitude, longitude);
+								}
 							Log.v(TAG,
 									"MYGPSLocation : Size of result[3] - places  " + placesResult.getResults().size());
 							Log.v(TAG,
@@ -139,8 +191,8 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 		} catch (IOException e) {
 			Log.v(TAG,
 					"MYGPSLocation :  GetPlaces Throws IOException Not Available exception thrown ");
-			e.printStackTrace();
-			return placesResult;
+			e.printStackTrace();			
+			return null;
 		/*} catch (JSONException e) {
 			Log.v(TAG,
 					"MYGPSLocation :  GetPlaces Throws LimitExceed Service Not Available exception thrown ");
@@ -149,7 +201,7 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 		}catch (Exception e) {
 			Log.v(TAG, "MYGPSLocation :  GetPlaces Throws  exception thrown ");
 			e.printStackTrace();
-			return placesResult;
+			return null;
 
 		}
 

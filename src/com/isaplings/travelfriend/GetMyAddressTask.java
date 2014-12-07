@@ -113,25 +113,14 @@ public class GetMyAddressTask extends
 			String cityName = addressList.get(0).getFeatureName();
 
 			Log.v(TAG, "MYGPSLocation : cityName " + cityName);
-
-			
-			/*String s = "I'm here : " + cityName
-					+ "\nhttp://maps.google.com/maps?f=q&geocode=&q="
-					+ latitude + "," + longitude + "&z=16";
-			*/
-			
-			/*editText.setText(s);
-
-			final ListView listView = (ListView) appActivity.getWindow()
-					.getDecorView().findViewById(R.id.address_list);
-			CityAddressAdapter adapter = new CityAddressAdapter(mContext,
-					R.layout.address_lists_item, addressList);
-			listView.setAdapter(adapter);
-			*/
 		} else {
 
 			/*String s = "unable to find address using geocoder";
 			editText.setText(s);*/
+			
+			Log.v(TAG, "MYGPSLocation : GetMyAddressTask returning null ");
+
+			
 			mlistener.onTaskComplete(null);
 
 
@@ -151,21 +140,7 @@ public class GetMyAddressTask extends
 	}
 
 	protected void onPreExecute() {
-		/*final EditText editText = (EditText) appActivity.getWindow()
-				.getDecorView().findViewById(R.id.editTextLocation);
-
-		final Button btnGetLocation = (Button) appActivity.getWindow()
-				.getDecorView().findViewById(R.id.btnLocation);
-
-		final ProgressBar progressBar = (ProgressBar) appActivity.getWindow()
-				.getDecorView().findViewById(R.id.progressBar1);
-
-		btnGetLocation.setEnabled(false);
-		progressBar.setVisibility(View.VISIBLE);
 		
-		editText.setText("Trying to get the City Name / Address \nPlease wait.. connecting to internet");
-*/
-
 		Log.v(TAG, "MYGPSLocation : Empty PreExecute");
 
 		//Placeholder for refresh button integration

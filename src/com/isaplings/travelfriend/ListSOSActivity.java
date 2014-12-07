@@ -44,7 +44,8 @@ public class ListSOSActivity extends Activity {
 	List<String> ambulance = new ArrayList<String>();
 	List<String> police = new ArrayList<String>();
 
-	// places.add(new PlaceRecord("",""));
+	String countryName;
+	String countryCode;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +61,21 @@ public class ListSOSActivity extends Activity {
 
 		Log.v(TAG, "MyGPS : Street Name : " + streetName);
 		Log.v(TAG, "MyGPS : CityName : " + cityName);
+		
+		countryName =  mLocation.getExtras().getString("COUNTRYNAME");
+		countryCode = mLocation.getExtras().getString("COUNTRYCODE");
+		
+		Log.v(TAG, "MyGPS : Country Name : " + countryName);
+		Log.v(TAG, "MyGPS : Counrty Code : " + countryCode);
+
 
 		Log.v("Debug", " MYGPS : List Places Activity loaded");
 
 		getActionBar().setTitle("Development Under Progress");
-		getActionBar().setSubtitle("Not for testing");
+		getActionBar().setSubtitle("Back Button Not for testing");
 
+		
+		
 		// get the listview
 		expListView = (ExpandableListView) findViewById(R.id.lvExp);
 
@@ -422,7 +432,7 @@ public class ListSOSActivity extends Activity {
 			for (int i = 0; i < jsonArr.length(); i++) {
 				JSONObject item = jsonArr.getJSONObject(i);
 
-				if (item.getString("Country").equalsIgnoreCase("algeria")) {
+				if (item.getString("Country_Code").equalsIgnoreCase(countryCode) || item.getString("Country").equalsIgnoreCase(countryName)) {
 					JSONObject emer = item.getJSONObject("Emergency");
 					emergencyRec.setPolice(emer.getString("Police"));
 					emergencyRec.setAmbulance(emer.getString("Ambulance"));
@@ -442,8 +452,8 @@ public class ListSOSActivity extends Activity {
 
 		// ADD THE reCORDS NOW
 
-		police.add("Emergency Contact - " + emergencyRec.getPolice());
-		ambulance.add("Emergency Contact - " + emergencyRec.getAmbulance());
+		police.add("Emergency Contact in " + countryCode + " - "  + emergencyRec.getPolice());
+		ambulance.add("Emergency Contact in " + countryCode + " - " + emergencyRec.getAmbulance());
 
 		listDataChild.put(listDataHeader.get(0), buddies); // Header, Child data
 		listDataChild.put(listDataHeader.get(1), police);
