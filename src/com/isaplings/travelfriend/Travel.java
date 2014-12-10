@@ -516,6 +516,7 @@ public class Travel extends Activity implements OnClickListener {
 							extras.putString("CITYNAME", cityName);
 							extras.putString("COUNTRYNAME", result.get(0).getCountryName());
 							extras.putString("COUNTRYCODE", result.get(0).getCountryCode());
+							extras.putString("LOCADDRESS", result.get(0).getFeatureName());
 
 							mLocation.setExtras(extras);
 
