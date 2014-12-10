@@ -331,6 +331,30 @@ public class Travel extends Activity implements OnClickListener {
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
+	
+	public void onShareLocation(View v) {
+		// Create a new Intent
+
+		// Try to get the latest location
+		
+		if (mLocation == null) {
+			return;
+		}
+     
+		
+		Bundle bundle = new Bundle();
+		bundle.putParcelable("LOCATION", mLocation);
+
+		Intent intent = new Intent(appContext, ShareMyLocation.class);
+
+		// Location is sent as parcelable object
+		intent.putExtras(bundle);
+
+		startActivity(intent);
+
+		Log.v("Debug", "MyGPS : Intent start initiated ...");
+
+	}
 
 	public void disableHomeScreenIcons() {
 		// TODO Auto-generated method stub

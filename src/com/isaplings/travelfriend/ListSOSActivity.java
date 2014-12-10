@@ -19,18 +19,21 @@ import com.a2plab.googleplaces.result.Result.StatusCode;
 import com.isaplings.travelfriend.lib.POITextSearchTask;
 import com.isaplings.travelfriend.model.EmergencyRecord;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.res.AssetManager;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ListSOSActivity extends Activity {
@@ -40,12 +43,23 @@ public class ListSOSActivity extends Activity {
 	ExpandableListView expListView;
 	List<String> listDataHeader;
 	HashMap<String, List<String>> listDataChild;
+	private ActionBar actionBar;
 
 	List<String> ambulance = new ArrayList<String>();
 	List<String> police = new ArrayList<String>();
 
 	String countryName;
 	String countryCode;
+	
+	public boolean onOptionsItemSelected(MenuItem item) { 
+    	switch (item.getItemId()) {
+    		case android.R.id.home:
+    		finish();
+        		return true;
+	default:
+        	return super.onOptionsItemSelected(item); 
+		}
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +85,24 @@ public class ListSOSActivity extends Activity {
 
 		Log.v("Debug", " MYGPS : List Places Activity loaded");
 
-		getActionBar().setTitle("Development Under Progress");
-		getActionBar().setSubtitle("Back Button Not for testing");
 
+		// Code for setting action bar icon and title as custom view
+		// Fixing bug to resolve, only icon click on action bar should take back
+		// to Home
+
+		String abTitle = streetName + "\n" + cityName;
+		actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(R.layout.ab_title);
+
+		TextView title = (TextView) findViewById(android.R.id.text1);
+		title.setText(abTitle);
+
+		actionBar.setIcon(R.drawable.sos);
 		
 		
 		// get the listview

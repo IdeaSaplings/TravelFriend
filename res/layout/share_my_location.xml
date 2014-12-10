@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg">
+    
+        <LinearLayout
+      	android:layout_width="fill_parent"
+	  	android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1" />    
+    </LinearLayout>
+    
+    
+    <LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    android:gravity="center"
+    >
+    
+ 	<TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You are at:"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:layout_gravity="center" />
+
+   <TextView
+       	android:id="@+id/textView2"
+       	android:layout_width="wrap_content"
+       	android:layout_height="wrap_content"
+       	android:background="@drawable/layout_border"
+       	android:text="Hello"
+       	android:textColor="@android:color/white"
+       	android:textSize="18sp"
+       	android:layout_gravity="center" />
+   
+	<Button
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:drawableLeft="@drawable/share_location"
+    	android:text="@string/share_location"
+    	android:onClick="sendMessage"
+    	android:layout_gravity="center" />
+    
+	</LinearLayout>
+
+    <LinearLayout 
+   	 	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:layout_marginTop="10dp">
+   
+	<Button android:id="@+id/share"
+    	android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+    	android:layout_gravity="center"
+    	android:drawableTop="@drawable/sos"
+    	android:onClick="sendMessage"
+    	android:background="@null"/>
+    </LinearLayout>        
+    
+    
+</LinearLayout>
