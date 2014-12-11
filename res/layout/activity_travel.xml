@@ -244,6 +244,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/button_selector"
             android:drawableTop="@drawable/share_location"
+            android:onClick="onShareLocation"
             android:text="@string/share_location"
             android:textColor="@android:color/white"
             android:textSize="13sp" />
