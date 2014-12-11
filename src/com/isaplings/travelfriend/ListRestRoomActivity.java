@@ -1,9 +1,6 @@
 package com.isaplings.travelfriend;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
