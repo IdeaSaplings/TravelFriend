@@ -16,6 +16,7 @@ import com.a2plab.googleplaces.models.PlaceDetails;
 import com.a2plab.googleplaces.result.PlaceDetailsResult;
 import com.a2plab.googleplaces.result.PlacesResult;
 import com.a2plab.googleplaces.result.Result.StatusCode;
+import com.isaplings.travelfriend.lib.ButteryProgressBar;
 import com.isaplings.travelfriend.lib.POITextSearchTask;
 import com.isaplings.travelfriend.model.EmergencyRecord;
 
@@ -25,20 +26,27 @@ import android.content.res.AssetManager;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class ListSOSActivity extends Activity {
 
 	private static final String TAG = "Debug";
+	
+	
 	ExpandableListAdapter listAdapter;
 	ExpandableListView expListView;
 	List<String> listDataHeader;
@@ -50,19 +58,25 @@ public class ListSOSActivity extends Activity {
 
 	String countryName;
 	String countryCode;
+
+	ButteryProgressBar progressBar;
+
 	
-	public boolean onOptionsItemSelected(MenuItem item) { 
-    	switch (item.getItemId()) {
-    		case android.R.id.home:
-    		finish();
-        		return true;
-	default:
-        	return super.onOptionsItemSelected(item); 
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
 		}
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
+
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_sos_places);
 
@@ -75,16 +89,14 @@ public class ListSOSActivity extends Activity {
 
 		Log.v(TAG, "MyGPS : Street Name : " + streetName);
 		Log.v(TAG, "MyGPS : CityName : " + cityName);
-		
-		countryName =  mLocation.getExtras().getString("COUNTRYNAME");
+
+		countryName = mLocation.getExtras().getString("COUNTRYNAME");
 		countryCode = mLocation.getExtras().getString("COUNTRYCODE");
-		
+
 		Log.v(TAG, "MyGPS : Country Name : " + countryName);
 		Log.v(TAG, "MyGPS : Counrty Code : " + countryCode);
 
-
 		Log.v("Debug", " MYGPS : List Places Activity loaded");
-
 
 		// Code for setting action bar icon and title as custom view
 		// Fixing bug to resolve, only icon click on action bar should take back
@@ -103,8 +115,7 @@ public class ListSOSActivity extends Activity {
 		title.setText(abTitle);
 
 		actionBar.setIcon(R.drawable.sos);
-		
-		
+
 		// get the listview
 		expListView = (ExpandableListView) findViewById(R.id.lvExp);
 
@@ -137,10 +148,10 @@ public class ListSOSActivity extends Activity {
 		POITextSearchTask getAmbulance = new POITextSearchTask(
 				ListSOSActivity.this, ambListner, sTypes, sText);
 
-		//getAmbulance.execute(mLocation);
-		
-		getAmbulance.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mLocation);
-		
+		// getAmbulance.execute(mLocation);
+
+		getAmbulance.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+				mLocation);
 
 		sTypes = new ArrayList<String>();
 		sTypes.add("police");
@@ -153,12 +164,42 @@ public class ListSOSActivity extends Activity {
 		POITextSearchTask getPoliceStation = new POITextSearchTask(
 				ListSOSActivity.this, polListener, sTypes, sText);
 
-		//getPoliceStation.execute(mLocation);
-		getPoliceStation.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mLocation);
-
+		// getPoliceStation.execute(mLocation);
+		getPoliceStation.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+				mLocation);
 
 		// Listener method implementation
+		
+		
+		
 
+		progressBar = new ButteryProgressBar(this);
+		progressBar.setLayoutParams(new LayoutParams(
+				LayoutParams.MATCH_PARENT, 24));
+
+		// retrieve the top view of our application
+		final FrameLayout decorView = (FrameLayout) getWindow()
+				.getDecorView();
+		decorView.addView(progressBar);
+
+		ViewTreeObserver observer = progressBar.getViewTreeObserver();
+		observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+			@Override
+			public void onGlobalLayout() {
+				View contentView = decorView
+						.findViewById(android.R.id.content);
+				progressBar.setY(contentView.getY() - 10);
+
+				ViewTreeObserver observer = progressBar
+						.getViewTreeObserver();
+				observer.removeGlobalOnLayoutListener(this);
+				Log.v("Debug", "MYGPS : on end of onGlobalLayout");
+
+			}
+		});
+
+		
 		// Listview Group click listener
 		expListView.setOnGroupClickListener(new OnGroupClickListener() {
 
@@ -280,10 +321,6 @@ public class ListSOSActivity extends Activity {
 		class GetPlaceDetailsTask extends
 				AsyncTask<String, String, PlaceDetailsResult> {
 
-			protected void onPreExecute(String... params) {
-
-			}
-
 			@Override
 			protected PlaceDetailsResult doInBackground(String... params) {
 				// TODO Auto-generated method stub
@@ -309,10 +346,37 @@ public class ListSOSActivity extends Activity {
 
 				return placeDetailsResult;
 			}
+			
+			 
+            protected void onPreExecute() {
+
+				// Butter Progress Bar
+				Log.v("Debug", "MYGPS : Initialising Buttery Progress Bar");
+				
+				Log.v("Debug", "My GetApplication Context " + getApplicationContext().toString() );
+				Log.v("Debug", "ListSOSActivity Context " + ListSOSActivity.this.toString() );
+				Log.v("Debug", "GetBase Context " + getBaseContext().toString() );
+				
+				new Handler().postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						progressBar.setVisibility(View.VISIBLE);
+						Log.v("Debug",
+								"MYGPS : Inside Handler :  set ButteryProgressBar Visible ");
+
+					}
+				}, 0);
+
+
+				
+
+			}
 
 			protected void onPostExecute(PlaceDetailsResult placeDetailsResult) {
 
 				Log.v("Debug", " MyGPS : getPlaceDetails in PostExecute Method");
+				
+				
 
 				if (placeDetailsResult == null) {
 					return;
@@ -350,9 +414,20 @@ public class ListSOSActivity extends Activity {
 					if (phoneNumber != null && !phoneNumber.isEmpty()) {
 
 						if (listType.equals("ambulance")) {
-							ambulance.add(placeDetails.getName() + " "
+							ambulance.add(placeDetails.getName() + "\n"
 									+ phoneNumber);
 							listAdapter.notifyDataSetChanged();
+							
+
+							new Handler().postDelayed(new Runnable() {
+								@Override
+								public void run() {
+									progressBar.setVisibility(View.GONE);
+									Log.v("Debug",
+											"MYGPS : Inside Handler :  set ButteryProgressBar InVisible ");
+
+								}
+							}, 0);
 
 							Log.v("Debug", " MyGPS PlacesList : Updated "
 									+ placeDetails.getName());
@@ -360,9 +435,20 @@ public class ListSOSActivity extends Activity {
 						}
 
 						if (listType.equals("police")) {
-							police.add(placeDetails.getName() + " "
+							police.add(placeDetails.getName() + "\n"
 									+ phoneNumber);
 							listAdapter.notifyDataSetChanged();
+							
+
+							new Handler().postDelayed(new Runnable() {
+								@Override
+								public void run() {
+									progressBar.setVisibility(View.GONE);
+									Log.v("Debug",
+											"MYGPS : Inside Handler :  set ButteryProgressBar InVisible ");
+
+								}
+							}, 0);
 
 							Log.v("Debug", " MyGPS PlacesList : Updated "
 									+ placeDetails.getName());
@@ -461,7 +547,10 @@ public class ListSOSActivity extends Activity {
 			for (int i = 0; i < jsonArr.length(); i++) {
 				JSONObject item = jsonArr.getJSONObject(i);
 
-				if (item.getString("Country_Code").equalsIgnoreCase(countryCode) || item.getString("Country").equalsIgnoreCase(countryName)) {
+				if (item.getString("Country_Code")
+						.equalsIgnoreCase(countryCode)
+						|| item.getString("Country").equalsIgnoreCase(
+								countryName)) {
 					JSONObject emer = item.getJSONObject("Emergency");
 					emergencyRec.setPolice(emer.getString("Police"));
 					emergencyRec.setAmbulance(emer.getString("Ambulance"));
@@ -481,8 +570,8 @@ public class ListSOSActivity extends Activity {
 
 		// ADD THE reCORDS NOW
 
-		police.add("Emergency Contact in " + countryCode + " - "  + emergencyRec.getPolice());
-		ambulance.add("Emergency Contact in " + countryCode + " - " + emergencyRec.getAmbulance());
+		police.add("Emergency Contact \n" + emergencyRec.getPolice());
+		ambulance.add("Emergency Contact \n" + emergencyRec.getAmbulance());
 
 		listDataChild.put(listDataHeader.get(0), buddies); // Header, Child data
 		listDataChild.put(listDataHeader.get(1), police);
