@@ -45,8 +45,7 @@ import android.widget.Toast;
 public class ListSOSActivity extends Activity {
 
 	private static final String TAG = "Debug";
-	
-	
+
 	ExpandableListAdapter listAdapter;
 	ExpandableListView expListView;
 	List<String> listDataHeader;
@@ -61,7 +60,6 @@ public class ListSOSActivity extends Activity {
 
 	ButteryProgressBar progressBar;
 
-	
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
@@ -74,9 +72,7 @@ public class ListSOSActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
 
-		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_sos_places);
 
@@ -168,18 +164,14 @@ public class ListSOSActivity extends Activity {
 		getPoliceStation.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
 				mLocation);
 
-		// Listener method implementation
-		
-		
-		
+		Log.v("Debug", "MYGPS : Initialising Buttery Progress Bar");
 
 		progressBar = new ButteryProgressBar(this);
-		progressBar.setLayoutParams(new LayoutParams(
-				LayoutParams.MATCH_PARENT, 24));
+		progressBar.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+				24));
 
 		// retrieve the top view of our application
-		final FrameLayout decorView = (FrameLayout) getWindow()
-				.getDecorView();
+		final FrameLayout decorView = (FrameLayout) getWindow().getDecorView();
 		decorView.addView(progressBar);
 
 		ViewTreeObserver observer = progressBar.getViewTreeObserver();
@@ -187,19 +179,18 @@ public class ListSOSActivity extends Activity {
 
 			@Override
 			public void onGlobalLayout() {
-				View contentView = decorView
-						.findViewById(android.R.id.content);
+				View contentView = decorView.findViewById(android.R.id.content);
 				progressBar.setY(contentView.getY() - 10);
 
-				ViewTreeObserver observer = progressBar
-						.getViewTreeObserver();
+				ViewTreeObserver observer = progressBar.getViewTreeObserver();
 				observer.removeGlobalOnLayoutListener(this);
 				Log.v("Debug", "MYGPS : on end of onGlobalLayout");
 
 			}
 		});
 
-		
+		// Listener method implementation
+
 		// Listview Group click listener
 		expListView.setOnGroupClickListener(new OnGroupClickListener() {
 
@@ -283,6 +274,26 @@ public class ListSOSActivity extends Activity {
 			if ((placesResult == null)
 					|| (placesResult.getResults().size() <= 0)) {
 				Log.v(TAG, "MyGPS : Places result is null or empty");
+				
+				if (progressBar.isShown()) {
+					Log.v("Debug",
+							"Buttery Progress Bar is Visible - isShown ");
+
+					new Handler().postDelayed(new Runnable() {
+
+						@Override
+						public void run() {
+							progressBar.setVisibility(View.GONE);
+							Log.v("Debug",
+									"MYGPS : Inside Handler :  set ButteryProgressBar InVisible ");
+
+						}
+					}, 0);
+
+				}
+
+				
+				return;
 			}
 
 			@SuppressWarnings("unchecked")
@@ -346,37 +357,41 @@ public class ListSOSActivity extends Activity {
 
 				return placeDetailsResult;
 			}
-			
-			 
-            protected void onPreExecute() {
+
+			protected void onPreExecute() {
 
 				// Butter Progress Bar
-				Log.v("Debug", "MYGPS : Initialising Buttery Progress Bar");
+
+				// Log.v("Debug", "My GetApplication Context " +
+				// getApplicationContext().toString() );
+				// Log.v("Debug", "ListSOSActivity Context " +
+				// ListSOSActivity.this.toString() );
+				// Log.v("Debug", "GetBase Context " +
+				// getBaseContext().toString() );
+
+				if (!progressBar.isShown()){
+					Log.v ("Debug", "MyGPS : InPreExecute - Setting Progress Bar to visible");
+					
+					new Handler().postDelayed(new Runnable() {
+						
+						@Override
+						public void run() {
+							progressBar.setVisibility(View.VISIBLE);
+							Log.v("Debug",
+									"MYGPS : Inside Handler :  set ButteryProgressBar Visible ");
+
+						}
+					}, 0);
+
+					
+				}
 				
-				Log.v("Debug", "My GetApplication Context " + getApplicationContext().toString() );
-				Log.v("Debug", "ListSOSActivity Context " + ListSOSActivity.this.toString() );
-				Log.v("Debug", "GetBase Context " + getBaseContext().toString() );
 				
-				new Handler().postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						progressBar.setVisibility(View.VISIBLE);
-						Log.v("Debug",
-								"MYGPS : Inside Handler :  set ButteryProgressBar Visible ");
-
-					}
-				}, 0);
-
-
-				
-
 			}
 
 			protected void onPostExecute(PlaceDetailsResult placeDetailsResult) {
 
 				Log.v("Debug", " MyGPS : getPlaceDetails in PostExecute Method");
-				
-				
 
 				if (placeDetailsResult == null) {
 					return;
@@ -417,20 +432,26 @@ public class ListSOSActivity extends Activity {
 							ambulance.add(placeDetails.getName() + "\n"
 									+ phoneNumber);
 							listAdapter.notifyDataSetChanged();
-							
 
-							new Handler().postDelayed(new Runnable() {
-								@Override
-								public void run() {
-									progressBar.setVisibility(View.GONE);
-									Log.v("Debug",
-											"MYGPS : Inside Handler :  set ButteryProgressBar InVisible ");
+							if (progressBar.isShown()) {
+								Log.v("Debug",
+										"Buttery Progress Bar is Visible - isShown ");
 
-								}
-							}, 0);
+								new Handler().postDelayed(new Runnable() {
 
-							Log.v("Debug", " MyGPS PlacesList : Updated "
-									+ placeDetails.getName());
+									@Override
+									public void run() {
+										progressBar.setVisibility(View.GONE);
+										Log.v("Debug",
+												"MYGPS : Inside Handler :  set ButteryProgressBar InVisible ");
+
+									}
+								}, 0);
+
+							}
+
+							Log.v("Debug",
+									" MyGPS PlacesList : Updated Exp List " + placeDetails.getName());
 
 						}
 
@@ -438,20 +459,27 @@ public class ListSOSActivity extends Activity {
 							police.add(placeDetails.getName() + "\n"
 									+ phoneNumber);
 							listAdapter.notifyDataSetChanged();
-							
 
-							new Handler().postDelayed(new Runnable() {
-								@Override
-								public void run() {
-									progressBar.setVisibility(View.GONE);
-									Log.v("Debug",
-											"MYGPS : Inside Handler :  set ButteryProgressBar InVisible ");
+							if (progressBar.isShown()) {
 
-								}
-							}, 0);
+								Log.v("Debug",
+										"Buttery Progress Bar is Visible - isShown ");
 
-							Log.v("Debug", " MyGPS PlacesList : Updated "
-									+ placeDetails.getName());
+								new Handler().postDelayed(new Runnable() {
+									@Override
+									public void run() {
+										progressBar.setVisibility(View.GONE);
+										Log.v("Debug",
+												"MYGPS : Inside Handler :  set ButteryProgressBar InVisible ");
+
+									}
+								}, 0);
+
+							}
+
+							Log.v("Debug",
+									" MyGPS PlacesList : Updated Expandable List"
+											+ placeDetails.getName());
 
 						}
 
