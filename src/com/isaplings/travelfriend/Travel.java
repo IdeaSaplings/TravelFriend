@@ -1,5 +1,6 @@
 package com.isaplings.travelfriend;
 
+import java.util.Calendar;
 import java.util.List;
 
 import com.isaplings.travelfriend.MyLocation.LocationResult;
@@ -15,6 +16,7 @@ import android.content.pm.ActivityInfo;
 import android.location.Address;
 //import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -58,6 +60,9 @@ public class Travel extends Activity implements OnClickListener {
 	private Double latitude;
 	private Double longitude;
 	private Location mLocation;
+
+	private Boolean locationFlag = false;
+
 	private Menu mymenu;
 
 	public static Context appContext;
@@ -125,9 +130,9 @@ public class Travel extends Activity implements OnClickListener {
 		actionBar = getActionBar();
 		actionBar.setTitle("Travel Friend");
 		actionBar.setSubtitle("SOS Help, closer to you");
-		
-		//Load the AdHolder
-		
+
+		// Load the AdHolder
+
 	}
 
 	public void onClick(View v) {
@@ -136,7 +141,6 @@ public class Travel extends Activity implements OnClickListener {
 
 	}
 
-	
 	public void onGetSoS(View v) {
 		// Create a new Intent
 
@@ -158,7 +162,6 @@ public class Travel extends Activity implements OnClickListener {
 
 	}
 
-
 	public void onGetPharmacy(View v) {
 		// Create a new Intent
 
@@ -179,7 +182,7 @@ public class Travel extends Activity implements OnClickListener {
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
-	
+
 	public void onGetATM(View v) {
 		// Create a new Intent
 
@@ -200,7 +203,6 @@ public class Travel extends Activity implements OnClickListener {
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
-
 
 	public void onGetRestaurant(View v) {
 		// Create a new Intent
@@ -223,7 +225,6 @@ public class Travel extends Activity implements OnClickListener {
 
 	}
 
-
 	public void onGetRepairPal(View v) {
 		// Create a new Intent
 
@@ -244,7 +245,7 @@ public class Travel extends Activity implements OnClickListener {
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
-	
+
 	public void onGetFuelStation(View v) {
 		// Create a new Intent
 
@@ -265,7 +266,7 @@ public class Travel extends Activity implements OnClickListener {
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
-	
+
 	public void onGetRestRoom(View v) {
 		// Create a new Intent
 
@@ -307,17 +308,16 @@ public class Travel extends Activity implements OnClickListener {
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
-	
+
 	public void onGetHospital(View v) {
 		// Create a new Intent
 
 		// Try to get the latest location
-		
+
 		if (mLocation == null) {
 			return;
 		}
-     
-		
+
 		Bundle bundle = new Bundle();
 		bundle.putParcelable("LOCATION", mLocation);
 
@@ -331,17 +331,16 @@ public class Travel extends Activity implements OnClickListener {
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
-	
+
 	public void onShareLocation(View v) {
 		// Create a new Intent
 
 		// Try to get the latest location
-		
+
 		if (mLocation == null) {
 			return;
 		}
-     
-		
+
 		Bundle bundle = new Bundle();
 		bundle.putParcelable("LOCATION", mLocation);
 
@@ -358,10 +357,9 @@ public class Travel extends Activity implements OnClickListener {
 
 	public void disableHomeScreenIcons() {
 		// TODO Auto-generated method stub
-		
+
 		Log.v(TAG, "MYGPSLocation : Disabling the Layout Icons ");
 
-		
 		GridLayout layout = (GridLayout) findViewById(R.id.home_screen);
 
 		for (int i = 0; i < layout.getChildCount(); i++) {
@@ -378,14 +376,12 @@ public class Travel extends Activity implements OnClickListener {
 		}
 
 	}
-	
 
 	public void enableHomeScreenIcons() {
 		// TODO Auto-generated method stub
-		
+
 		Log.v(TAG, "MYGPSLocation : Enabling the Layout Icons ");
 
-		
 		GridLayout layout = (GridLayout) findViewById(R.id.home_screen);
 
 		for (int i = 0; i < layout.getChildCount(); i++) {
@@ -403,29 +399,17 @@ public class Travel extends Activity implements OnClickListener {
 
 	}
 
-
-	public boolean onRefresh() {
+	public void onRefresh() {
 
 		Log.v(TAG, "MyGPSLocation : onClick");
-
-		/*
-		 * editLocation.setText("Please!! move your device to" +
-		 * " see the changes in coordinates." + "\n Refresh again..");
-		 * 
-		 * pb.setVisibility(View.VISIBLE);
-		 */
-		// The following part of code needs refactoring
-		// LocationResult needs to be re-factored.
-		// GetAddressTask (Async) need to be defined separately
-		// Please refer : Extracting Async Task as separate task
-		// http://www.jameselsey.co.uk/blogs/techblog/extracting-out-your-asynctasks-into-separate-classes-makes-your-code-cleaner/
 
 		LocationResult locationResult = new LocationResult() {
 			@Override
 			public void gotLocation(Location location) {
 				// Got the location!
 				if (location == null) {
-					Log.v(TAG, "MyGPSLocation Inside GotLocation: First Step ");
+					Log.v(TAG,
+							"MyGPSLocation Inside GotLocation: location is null");
 
 					// implement - show message - #CodeReview
 
@@ -435,7 +419,7 @@ public class Travel extends Activity implements OnClickListener {
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							Travel.this);
 					builder.setTitle("Location Services Disabled");
-					builder.setMessage("Please enable Location Services in the Phone Settings to get current location");
+					builder.setMessage("Please check Location Services in the Phone Settings to get current location");
 					builder.setCancelable(true);
 					builder.setNeutralButton(android.R.string.ok,
 							new DialogInterface.OnClickListener() {
@@ -447,9 +431,14 @@ public class Travel extends Activity implements OnClickListener {
 
 					AlertDialog alert = builder.create();
 					alert.show();
+					return;
 				}
 
 				else {
+
+					Log.v(TAG,
+							"MyGPSLocation Inside GotLocation: location is identified");
+
 					mLocation = location;
 					latitude = location.getLatitude();
 					longitude = location.getLongitude();
@@ -467,6 +456,7 @@ public class Travel extends Activity implements OnClickListener {
 
 					} else {
 						Log.v(TAG, "MYGPSLocation : flag is false");
+						return;
 					}
 
 				}
@@ -498,20 +488,15 @@ public class Travel extends Activity implements OnClickListener {
 
 						if (result == null) {
 
-							//actionBar.setTitle("Unknown Location");
-							//actionBar.setSubtitle("check your settings");
-							// #codereview - Show message - unable to retreive
-							// info - show alert box
-							
 							AlertDialog.Builder builder = new AlertDialog.Builder(
 									Travel.this);
 							builder.setTitle("Network Services Disabled");
-							builder.setMessage("Please enable Network Services in the Phone Settings to get current location");
+							builder.setMessage("Please check Network Services in the Phone Settings to get current location");
 							builder.setCancelable(true);
 							builder.setNeutralButton(android.R.string.ok,
 									new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface dialog,
-												int id) {
+										public void onClick(
+												DialogInterface dialog, int id) {
 											dialog.cancel();
 										}
 									});
@@ -519,8 +504,7 @@ public class Travel extends Activity implements OnClickListener {
 							AlertDialog alert = builder.create();
 							alert.show();
 
-							
-							//Resetting Location to Null
+							// Resetting Location to Null
 							mLocation = null;
 							return;
 						}
@@ -538,18 +522,16 @@ public class Travel extends Activity implements OnClickListener {
 							Bundle extras = new Bundle();
 							extras.putString("STREETNAME", streetName);
 							extras.putString("CITYNAME", cityName);
-							extras.putString("COUNTRYNAME", result.get(0).getCountryName());
-							extras.putString("COUNTRYCODE", result.get(0).getCountryCode());
-							extras.putString("LOCADDRESS", result.get(0).getFeatureName());
+							extras.putString("COUNTRYNAME", result.get(0)
+									.getCountryName());
+							extras.putString("COUNTRYCODE", result.get(0)
+									.getCountryCode());
+							extras.putString("LOCADDRESS", result.get(0)
+									.getFeatureName());
 
 							mLocation.setExtras(extras);
 
-							// Log.v("Debug",
-							// "MyGPS : Travel-onSet: Street Name : " +
-							// mLocation.getExtras().getString("STREETNAME"));
-							// Log.v("Debug",
-							// "MyGPS : Travel-onSet: CityName : " +
-							// mLocation.getExtras().getString("CITYNAME"));
+							locationFlag = true;
 
 						}
 					}
@@ -559,6 +541,8 @@ public class Travel extends Activity implements OnClickListener {
 				GetMyAddressTask addTask = new GetMyAddressTask(Travel.this,
 						appContext, fm);
 
+				if (mLocation == null) return ;
+
 				if (mLocation != null) {
 					// btnGetLocation.setEnabled(true);
 					Log.v(TAG,
@@ -567,12 +551,13 @@ public class Travel extends Activity implements OnClickListener {
 									+ mLocation.getLongitude());
 					addTask.execute(mLocation);
 				}
+				return;
 			}
 
 			@Override
 			public void gotLastLocation(Location location) {
-				// #codereview - Alert the user that last know location will be
-				// used
+				
+				
 				final Location mLocation = location;
 				// Show a dialog box here that no results are found
 
@@ -593,6 +578,7 @@ public class Travel extends Activity implements OnClickListener {
 										// Settings to be invoked
 										dialog.cancel();
 										gotLocation(mLocation);
+										return;
 
 									}
 								})
@@ -613,17 +599,79 @@ public class Travel extends Activity implements OnClickListener {
 			}
 		}; // LocationResult Definition Ends
 
-		MyLocation myLocation = new MyLocation(Travel.this, this);
+		class LocationControl extends AsyncTask<Context, Void, Void> {
 
+			protected void onPreExecute() {
+				// Empyt on PreExecute
+			}
+
+			protected Void doInBackground(Context... params) {
+				// Wait 10 seconds to see if we can get a location from either
+				// network or GPS, otherwise stop
+				Long t = Calendar.getInstance().getTimeInMillis();
+				while (!locationFlag
+						&& Calendar.getInstance().getTimeInMillis() - t < 15000) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				;
+				return null;
+			}
+
+			protected void onPostExecute(final Void unused) {
+
+				// if (currentLocation != null)
+				// {
+				// //useLocation();
+				// return ;
+				// }
+				// else
+				// {
+				// //Couldn't find location, do something like show an alert
+				// dialog
+				// }
+
+			}
+		}
+
+		MyLocation myLocation = new MyLocation(Travel.this, this);
 
 		disableHomeScreenIcons();
 
-		myLocation.getLocation(locationResult);
-		
-		Log.v(TAG,
-				"MyGPSLocation : All steps executed - wait for GPS/Network Update Action");
-		
-		return true;
+		Boolean flag = myLocation.getLocation(locationResult);
+
+		LocationControl locationControlTask = new LocationControl();
+		locationControlTask.execute(this);
+		/*
+		 * locationFlag = false; Long t =
+		 * Calendar.getInstance().getTimeInMillis(); while (!locationFlag &&
+		 * Calendar.getInstance().getTimeInMillis()-t<50000) { // try {
+		 * Log.v(TAG, "MyGPS : **** Going to Sleep"); // Thread.sleep(0); // }
+		 * catch (InterruptedException e) { // // TODO Auto-generated catch
+		 * block // e.printStackTrace(); // return false; // } } // while loop
+		 * 
+		 * Log.v(TAG, "MyGPS : Out of Sleep Loop - locationFlag : " +
+		 * locationFlag);
+		 */
+
+		/*if (locationFlag) {
+
+			Log.v(TAG, "MyGPSLocation : **** Get Location was successfull");
+
+			return true;
+		}
+
+		else
+			return false;*/
+
+		// Log.v(TAG,
+		// "MyGPSLocation : All steps executed - wait for GPS/Network Update Action");
+		//
+		// return true;
+		// return flag;
 	}
 
 }
