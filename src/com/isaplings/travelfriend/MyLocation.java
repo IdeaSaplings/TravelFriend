@@ -74,8 +74,10 @@ public class MyLocation {
 		if (!gps_enabled && !network_enabled) {
 
 			Log.v("My GPS", "MyGPSLocation : Both GPS & Network is disabled");
-
-			return false;
+			// Fix the bug here - Navine
+			locationResult.gotLocation(null);
+			
+			//return false;
 		}
 		if (gps_enabled) {
 			Log.v("My GPS", "MyGPSLocation : GPS is enabled");

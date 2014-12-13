@@ -47,7 +47,7 @@ public class GetMyAddressTask extends
 		//Log.v(TAG, "GPS: Current Thread Before Priority is  set : " + Thread.currentThread().getPriority());
 		
 		// Backgroud task is run with the highest priority
-		// check if it is allowed
+		// It is allowed at rare conditions - Android would take note of this foot print though
 		
 		
 		Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
@@ -96,12 +96,7 @@ public class GetMyAddressTask extends
 
 	protected void onPostExecute(List<Address> addressList) {
 
-		/*final ProgressBar progressBar = (ProgressBar) appActivity.getWindow()
-				.getDecorView().findViewById(R.id.progressBar1);
-		final EditText editText = (EditText) appActivity.getWindow()
-				.getDecorView().findViewById(R.id.editTextLocation);
-		progressBar.setVisibility(View.INVISIBLE);
-*/
+		
 		Log.v(TAG, "MYGPSLocation : onPostExecute Method ");
 		
 		 ((Travel) appActivity).resetUpdating();

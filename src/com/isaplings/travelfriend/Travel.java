@@ -1,6 +1,5 @@
 package com.isaplings.travelfriend;
 
-import java.util.Calendar;
 import java.util.List;
 
 import com.isaplings.travelfriend.MyLocation.LocationResult;
@@ -30,7 +29,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 // Since this Base Class for TravelFriend
 // there will be many changes to this class
@@ -413,6 +411,7 @@ public class Travel extends Activity implements OnClickListener {
 
 					// implement - show message - #CodeReview
 
+					mLocation = null;
 					resetUpdating();
 					enableHomeScreenIcons();
 
@@ -430,6 +429,7 @@ public class Travel extends Activity implements OnClickListener {
 							});
 
 					AlertDialog alert = builder.create();
+					locationFlag = true;
 					alert.show();
 					return;
 				}
@@ -532,6 +532,7 @@ public class Travel extends Activity implements OnClickListener {
 							mLocation.setExtras(extras);
 
 							locationFlag = true;
+							Log.v(TAG,"MYGPS : AddressTask - locationFlag :" + locationFlag);
 
 						}
 					}
@@ -549,7 +550,8 @@ public class Travel extends Activity implements OnClickListener {
 							"MyGPSLocation : GetMyAddress Task Execute for Location :"
 									+ mLocation.getLatitude() + ","
 									+ mLocation.getLongitude());
-					addTask.execute(mLocation);
+					//addTask.execute(mLocation);
+					addTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mLocation);
 				}
 				return;
 			}
@@ -599,30 +601,62 @@ public class Travel extends Activity implements OnClickListener {
 			}
 		}; // LocationResult Definition Ends
 
-		class LocationControl extends AsyncTask<Context, Void, Void> {
+		class LocationControl extends AsyncTask<Context, Void, Boolean> {
 
 			protected void onPreExecute() {
 				// Empyt on PreExecute
+				Log.v (TAG, " MYGPS : locaction control preExecute method  ");
+				Log.v (TAG, " MYGPS : LC preExecute : locationFlag : " + locationFlag);
+
+				
 			}
 
-			protected Void doInBackground(Context... params) {
+			protected Boolean doInBackground(Context... params) {
 				// Wait 10 seconds to see if we can get a location from either
 				// network or GPS, otherwise stop
-				Long t = Calendar.getInstance().getTimeInMillis();
-				while (!locationFlag
-						&& Calendar.getInstance().getTimeInMillis() - t < 15000) {
-					try {
+				
+				Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
+
+				
+				//Long t = Calendar.getInstance().getTimeInMillis();
+				//while (!locationFlag
+					//	&& Calendar.getInstance().getTimeInMillis() - t < 100000) {
+					
+				while (!locationFlag) {
+				try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
 				;
-				return null;
+				Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
+
+				return locationFlag;
 			}
 
-			protected void onPostExecute(final Void unused) {
+			@Override
+			protected void onPostExecute(Boolean flag) {
 
+			
+			//protected void onPostExecute() {
+				Log.v (TAG, " MYGPS : locaction control postExecute Method  ");
+				Log.v (TAG, " MYGPS : LC postExecute : locationFlag : " + locationFlag);
+
+				
+				if (flag) {
+				
+					if (mLocation == null) {
+						Log.v (TAG, " MYGPS : LocControl : locaction identified as null ");
+
+					} else
+					Log.v (TAG, " MYGPS : LocControl : locaction was retrieved successfully  ");
+				} else 
+				{
+					Log.v (TAG, "MYGPS : LocControl : location retreival was unsuccessfull");
+					
+				}
+				
 				// if (currentLocation != null)
 				// {
 				// //useLocation();
@@ -641,37 +675,15 @@ public class Travel extends Activity implements OnClickListener {
 
 		disableHomeScreenIcons();
 
-		Boolean flag = myLocation.getLocation(locationResult);
+		myLocation.getLocation(locationResult);
 
 		LocationControl locationControlTask = new LocationControl();
-		locationControlTask.execute(this);
-		/*
-		 * locationFlag = false; Long t =
-		 * Calendar.getInstance().getTimeInMillis(); while (!locationFlag &&
-		 * Calendar.getInstance().getTimeInMillis()-t<50000) { // try {
-		 * Log.v(TAG, "MyGPS : **** Going to Sleep"); // Thread.sleep(0); // }
-		 * catch (InterruptedException e) { // // TODO Auto-generated catch
-		 * block // e.printStackTrace(); // return false; // } } // while loop
-		 * 
-		 * Log.v(TAG, "MyGPS : Out of Sleep Loop - locationFlag : " +
-		 * locationFlag);
-		 */
-
-		/*if (locationFlag) {
-
-			Log.v(TAG, "MyGPSLocation : **** Get Location was successfull");
-
-			return true;
-		}
-
-		else
-			return false;*/
-
-		// Log.v(TAG,
-		// "MyGPSLocation : All steps executed - wait for GPS/Network Update Action");
-		//
-		// return true;
-		// return flag;
-	}
+		locationFlag = false;
+		//locationControlTask.execute(this);
+		locationControlTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
+		
+		
+		
+			}
 
 }
