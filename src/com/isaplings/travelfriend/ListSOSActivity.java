@@ -184,6 +184,7 @@ public class ListSOSActivity extends Activity {
 
 				ViewTreeObserver observer = progressBar.getViewTreeObserver();
 				observer.removeGlobalOnLayoutListener(this);
+				//observer.removeOnGlobalLayoutListener(this);
 				Log.v("Debug", "MYGPS : on end of onGlobalLayout");
 
 			}

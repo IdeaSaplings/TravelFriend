@@ -3,6 +3,7 @@ package com.isaplings.travelfriend;
 import java.util.List;
 
 import com.isaplings.travelfriend.MyLocation.LocationResult;
+import com.isaplings.travelfriend.lib.ButteryProgressBar;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -13,7 +14,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.location.Address;
-//import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,9 +23,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -64,6 +68,8 @@ public class Travel extends Activity implements OnClickListener {
 	private Menu mymenu;
 
 	public static Context appContext;
+
+	ButteryProgressBar progressBar;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -131,10 +137,42 @@ public class Travel extends Activity implements OnClickListener {
 
 		// Load the AdHolder
 
+		progressBar = new ButteryProgressBar(appContext);
+		progressBar.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+				24));
+
+		// retrieve the top view of our application
+		final FrameLayout decorView = (FrameLayout) getWindow().getDecorView();
+		decorView.addView(progressBar);
+
+		ViewTreeObserver observer = progressBar.getViewTreeObserver();
+		observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+			@SuppressWarnings("deprecation")
+			@Override
+			public void onGlobalLayout() {
+				View contentView = decorView.findViewById(android.R.id.content);
+				progressBar.setY(contentView.getY() - 10);
+
+				ViewTreeObserver observer = progressBar.getViewTreeObserver();
+				observer.removeGlobalOnLayoutListener(this);
+				// observer.removeOnGlobalLayoutListener(this);
+				Log.v("Debug", "MYGPS : on end of onGlobalLayout");
+
+			}
+		});
+
+		Log.v("Debug",
+				" MyGPS : Buttery Progress Bar Visiblity Check - isShown : "
+						+ progressBar.isShown());
+
+		progressBar.setVisibility(View.GONE);
+
 	}
 
 	public void onClick(View v) {
 		// Closes the Activity
+
 		finish();
 
 	}
@@ -312,6 +350,43 @@ public class Travel extends Activity implements OnClickListener {
 
 		// Try to get the latest location
 
+		Log.v(TAG, "MyGPSLocation : onRefresh Click");
+
+		MyLocation myLocation = new MyLocation(Travel.this, this);
+
+		disableHomeScreenIcons();
+		disableRefreshButton();
+
+		if (myLocation.getLocation(locationResult)) {
+
+			// Hospital Icon Id is passed -which is equivalent of v.getId()
+
+			LocationControl locationControlTask = new LocationControl(
+					R.id.btnHospital);
+			locationFlag = false;
+			// Executing on parallel thread - Location Control Task will call
+			// the
+			// the right method
+			locationControlTask.executeOnExecutor(
+					AsyncTask.THREAD_POOL_EXECUTOR, this);
+		}
+
+	}
+
+	private void enableRefreshButton() {
+		MenuItem refreshButton = mymenu.findItem(R.id.action_refresh);
+		refreshButton.setEnabled(true);
+
+	}
+
+	private void disableRefreshButton() {
+
+		MenuItem refreshButton = mymenu.findItem(R.id.action_refresh);
+		refreshButton.setEnabled(false);
+
+	}
+
+	private void HospitalActivity() {
 		if (mLocation == null) {
 			return;
 		}
@@ -326,7 +401,7 @@ public class Travel extends Activity implements OnClickListener {
 
 		startActivity(intent);
 
-		Log.v("Debug", "MyGPS : Intent start initiated ...");
+		Log.v("Debug", "MyGPS : Hospital intent - Started ...");
 
 	}
 
@@ -397,279 +472,347 @@ public class Travel extends Activity implements OnClickListener {
 
 	}
 
-	public void onRefresh() {
+	LocationResult locationResult = new LocationResult() {
+		@Override
+		public void gotLocation(Location location) {
+			// Got the location!
+			if (location == null) {
+				Log.v(TAG, "MyGPSLocation Inside GotLocation: location is null");
 
-		Log.v(TAG, "MyGPSLocation : onClick");
+				// implement - show message - #CodeReview
 
-		LocationResult locationResult = new LocationResult() {
-			@Override
-			public void gotLocation(Location location) {
-				// Got the location!
-				if (location == null) {
+				mLocation = null;
+				resetUpdating();
+				enableHomeScreenIcons();
+				enableRefreshButton();
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						Travel.this);
+				builder.setTitle("Check Location Services");
+				builder.setMessage("Please check Location Services in the Phone Settings to get current location");
+				builder.setCancelable(true);
+				builder.setNeutralButton(android.R.string.ok,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+				AlertDialog alert = builder.create();
+				locationFlag = true;
+				alert.show();
+				return;
+			}
+
+			else {
+
+				Log.v(TAG,
+						"MyGPSLocation Inside GotLocation: location is identified");
+
+				mLocation = location;
+				latitude = location.getLatitude();
+				longitude = location.getLongitude();
+				Log.v(TAG, "GPS Location - Latitude " + latitude);
+				Log.v(TAG, "GPS Location - Longitude " + longitude);
+
+				if ((latitude != null) && (longitude != null)) {
+
 					Log.v(TAG,
-							"MyGPSLocation Inside GotLocation: location is null");
+							"MYGPSLocation : Calling Async Task to get the City Name");
 
-					// implement - show message - #CodeReview
+					/*----------to get City-Name from coordinates ------------- */
+					getAddressFromLocation(appContext);
+					//
 
-					mLocation = null;
-					resetUpdating();
-					enableHomeScreenIcons();
+				} else {
+					Log.v(TAG, "MYGPSLocation : flag is false");
+					return;
+				}
 
-					AlertDialog.Builder builder = new AlertDialog.Builder(
-							Travel.this);
-					builder.setTitle("Location Services Disabled");
-					builder.setMessage("Please check Location Services in the Phone Settings to get current location");
-					builder.setCancelable(true);
-					builder.setNeutralButton(android.R.string.ok,
+			}
+
+		}
+
+		@Override
+		protected void getAddressFromLocation(Context context) {
+			// This class will get the address from location
+
+			Log.v(TAG, "MYGPSLocation : getAddressFromLocation called ");
+
+			class FetchMyDataTaskCompleteListener implements
+					AsyncTaskCompleteListener<List<Address>> {
+
+				@Override
+				public void onTaskComplete(List<Address> result) {
+
+					// We can also execute the postExecute Method Here
+
+					Log.v(TAG, "MYGPSLocation : Inside onTaskComplete called ");
+
+					// Extracted from Address Component in JSONObject
+					// SubLocality - route || administrative_area_level_2 ||
+					// administrative_area_level_1
+					// Locality - locality || political
+					// SubAdminArea - administrative_area_level_2 || country
+
+					if (result == null) {
+
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								Travel.this);
+						builder.setTitle("Check Network Services");
+						builder.setMessage("Please check Network Services in the Phone Settings to get current location");
+						builder.setCancelable(true);
+						builder.setNeutralButton(android.R.string.ok,
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										dialog.cancel();
+									}
+								});
+
+						AlertDialog alert = builder.create();
+						alert.show();
+
+						// Resetting Location to Null
+						mLocation = null;
+						locationFlag = true;
+						enableHomeScreenIcons();
+						enableRefreshButton();
+
+						return;
+					}
+
+					if ((result != null) & (result.size() > 0)) {
+
+						String streetName = result.get(0).getSubLocality();
+
+						String cityName = result.get(0).getLocality() + ", "
+								+ result.get(0).getSubAdminArea();
+
+						actionBar.setTitle(streetName);
+						actionBar.setSubtitle(cityName);
+
+						Bundle extras = new Bundle();
+						extras.putString("STREETNAME", streetName);
+						extras.putString("CITYNAME", cityName);
+						extras.putString("COUNTRYNAME", result.get(0)
+								.getCountryName());
+						extras.putString("COUNTRYCODE", result.get(0)
+								.getCountryCode());
+						extras.putString("LOCADDRESS", result.get(0)
+								.getFeatureName());
+
+						mLocation.setExtras(extras);
+
+						locationFlag = true;
+						Log.v(TAG, "MYGPS : AddressTask - locationFlag :"
+								+ locationFlag);
+
+					}
+				}
+			}
+
+			FetchMyDataTaskCompleteListener fm = new FetchMyDataTaskCompleteListener();
+			GetMyAddressTask addTask = new GetMyAddressTask(Travel.this,
+					appContext, fm);
+
+			if (mLocation == null)
+				return;
+
+			if (mLocation != null) {
+				// btnGetLocation.setEnabled(true);
+				Log.v(TAG,
+						"MyGPSLocation : GetMyAddress Task Execute for Location :"
+								+ mLocation.getLatitude() + ","
+								+ mLocation.getLongitude());
+				// addTask.execute(mLocation);
+				addTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+						mLocation);
+			}
+			return;
+		}
+
+		@Override
+		public void gotLastLocation(Location location) {
+
+			final Location mLocation = location;
+			// Show a dialog box here that no results are found
+
+			// if there is ui issue then
+			// resetUpdating();
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(Travel.this);
+			builder.setTitle("Alert");
+			builder.setMessage(
+					"Unable to retrieve current location. Click Ok to proceed with last known location.")
+					.setCancelable(false)
+					.setPositiveButton("Ok",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
 									dialog.cancel();
+									gotLocation(mLocation);
+									return;
+
+								}
+							})
+					.setNegativeButton("Cancel",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+									gotLocation(null);
+									return;
 								}
 							});
+			AlertDialog alert = builder.create();
+			alert.show();
 
-					AlertDialog alert = builder.create();
-					locationFlag = true;
-					alert.show();
-					return;
-				}
-
-				else {
-
-					Log.v(TAG,
-							"MyGPSLocation Inside GotLocation: location is identified");
-
-					mLocation = location;
-					latitude = location.getLatitude();
-					longitude = location.getLongitude();
-					Log.v(TAG, "GPS Location - Latitude " + latitude);
-					Log.v(TAG, "GPS Location - Longitude " + longitude);
-
-					if ((latitude != null) && (longitude != null)) {
-
-						Log.v(TAG,
-								"MYGPSLocation : Calling Async Task to get the City Name");
-
-						/*----------to get City-Name from coordinates ------------- */
-						getAddressFromLocation(appContext);
-						//
-
-					} else {
-						Log.v(TAG, "MYGPSLocation : flag is false");
-						return;
-					}
-
-				}
-
-			}
-
-			@Override
-			protected void getAddressFromLocation(Context context) {
-				// This class will get the address from location
-
-				Log.v(TAG, "MYGPSLocation : getAddressFromLocation called ");
-
-				class FetchMyDataTaskCompleteListener implements
-						AsyncTaskCompleteListener<List<Address>> {
-
-					@Override
-					public void onTaskComplete(List<Address> result) {
-
-						// We can also execute the postExecute Method Here
-
-						Log.v(TAG,
-								"MYGPSLocation : Inside onTaskComplete called ");
-
-						// Extracted from Address Component in JSONObject
-						// SubLocality - route || administrative_area_level_2 ||
-						// administrative_area_level_1
-						// Locality - locality || political
-						// SubAdminArea - administrative_area_level_2 || country
-
-						if (result == null) {
-
-							AlertDialog.Builder builder = new AlertDialog.Builder(
-									Travel.this);
-							builder.setTitle("Network Services Disabled");
-							builder.setMessage("Please check Network Services in the Phone Settings to get current location");
-							builder.setCancelable(true);
-							builder.setNeutralButton(android.R.string.ok,
-									new DialogInterface.OnClickListener() {
-										public void onClick(
-												DialogInterface dialog, int id) {
-											dialog.cancel();
-										}
-									});
-
-							AlertDialog alert = builder.create();
-							alert.show();
-
-							// Resetting Location to Null
-							mLocation = null;
-							return;
-						}
-
-						if ((result != null) & (result.size() > 0)) {
-
-							String streetName = result.get(0).getSubLocality();
-
-							String cityName = result.get(0).getLocality()
-									+ ", " + result.get(0).getSubAdminArea();
-
-							actionBar.setTitle(streetName);
-							actionBar.setSubtitle(cityName);
-
-							Bundle extras = new Bundle();
-							extras.putString("STREETNAME", streetName);
-							extras.putString("CITYNAME", cityName);
-							extras.putString("COUNTRYNAME", result.get(0)
-									.getCountryName());
-							extras.putString("COUNTRYCODE", result.get(0)
-									.getCountryCode());
-							extras.putString("LOCADDRESS", result.get(0)
-									.getFeatureName());
-
-							mLocation.setExtras(extras);
-
-							locationFlag = true;
-							Log.v(TAG,"MYGPS : AddressTask - locationFlag :" + locationFlag);
-
-						}
-					}
-				}
-
-				FetchMyDataTaskCompleteListener fm = new FetchMyDataTaskCompleteListener();
-				GetMyAddressTask addTask = new GetMyAddressTask(Travel.this,
-						appContext, fm);
-
-				if (mLocation == null) return ;
-
-				if (mLocation != null) {
-					// btnGetLocation.setEnabled(true);
-					Log.v(TAG,
-							"MyGPSLocation : GetMyAddress Task Execute for Location :"
-									+ mLocation.getLatitude() + ","
-									+ mLocation.getLongitude());
-					//addTask.execute(mLocation);
-					addTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mLocation);
-				}
-				return;
-			}
-
-			@Override
-			public void gotLastLocation(Location location) {
-				
-				
-				final Location mLocation = location;
-				// Show a dialog box here that no results are found
-
-				// if there is ui issue then
-				// resetUpdating();
-
-				AlertDialog.Builder builder = new AlertDialog.Builder(
-						Travel.this);
-				builder.setTitle("Alert");
-				builder.setMessage(
-						"Unable to retrieve current location. Click Ok to proceed with last known location.")
-						.setCancelable(false)
-						.setPositiveButton("Ok",
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int id) {
-										// MyActivity.this.finish();
-										// Settings to be invoked
-										dialog.cancel();
-										gotLocation(mLocation);
-										return;
-
-									}
-								})
-						.setNegativeButton("Cancel",
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int id) {
-										dialog.cancel();
-										gotLocation(null);
-										return;
-									}
-								});
-				AlertDialog alert = builder.create();
-				alert.show();
-
-				// gotLocation(location);
-
-			}
-		}; // LocationResult Definition Ends
-
-		class LocationControl extends AsyncTask<Context, Void, Boolean> {
-
-			protected void onPreExecute() {
-				// Empyt on PreExecute
-				Log.v (TAG, " MYGPS : locaction control preExecute method  ");
-				Log.v (TAG, " MYGPS : LC preExecute : locationFlag : " + locationFlag);
-
-				
-			}
-
-			protected Boolean doInBackground(Context... params) {
-				// Wait 10 seconds to see if we can get a location from either
-				// network or GPS, otherwise stop
-				
-				Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
-
-				
-				//Long t = Calendar.getInstance().getTimeInMillis();
-				//while (!locationFlag
-					//	&& Calendar.getInstance().getTimeInMillis() - t < 100000) {
-					
-				while (!locationFlag) {
-				try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				;
-				Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
-
-				return locationFlag;
-			}
-
-			@Override
-			protected void onPostExecute(Boolean flag) {
-
-			
-			//protected void onPostExecute() {
-				Log.v (TAG, " MYGPS : locaction control postExecute Method  ");
-				Log.v (TAG, " MYGPS : LC postExecute : locationFlag : " + locationFlag);
-
-				
-				if (flag) {
-				
-					if (mLocation == null) {
-						Log.v (TAG, " MYGPS : LocControl : locaction identified as null ");
-
-					} else
-					Log.v (TAG, " MYGPS : LocControl : locaction was retrieved successfully  ");
-				} else 
-				{
-					Log.v (TAG, "MYGPS : LocControl : location retreival was unsuccessfull");
-					
-				}
-				
-				// if (currentLocation != null)
-				// {
-				// //useLocation();
-				// return ;
-				// }
-				// else
-				// {
-				// //Couldn't find location, do something like show an alert
-				// dialog
-				// }
-
-			}
 		}
+	}; // LocationResult Definition Ends
+
+	class LocationControl extends AsyncTask<Context, Void, Boolean> {
+
+		int itemId;
+
+		LocationControl() {
+			this.itemId = 0;
+		};
+
+		LocationControl(int itemId) {
+			this.itemId = itemId;
+		}
+
+		protected void onPreExecute() {
+			// Empyt on PreExecute
+			Log.v(TAG, " MYGPS : locaction control preExecute method  ");
+			Log.v(TAG, " MYGPS : LC preExecute : locationFlag : "
+					+ locationFlag);
+			Log.v(TAG,
+					" MYGPS : LC preExecute : ProgressBar : "
+							+ progressBar.isShown());
+
+			if (!progressBar.isShown()) {
+				Log.v("Debug",
+						" MYGPS : Buttery Progress Bar is to be made Visible ");
+
+				progressBar.setVisibility(View.VISIBLE);
+				Log.v("Debug",
+						"MYGPS : set ButteryProgressBar Visible - isShown : "
+								+ progressBar.isShown());
+
+			}
+
+		}
+
+		protected Boolean doInBackground(Context... params) {
+			// Wait locactionFlag to toggle to see if we can get a location from
+			// either
+			// network or GPS, otherwise stop
+
+			Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
+
+			// Long t = Calendar.getInstance().getTimeInMillis();
+			// while (!locationFlag
+			// && Calendar.getInstance().getTimeInMillis() - t < 100000) {
+
+			while (!locationFlag) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			;
+			Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
+
+			return locationFlag;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean flag) {
+
+			Log.v(TAG,
+					" MYGPS : LC postExecute : ProgressBar : "
+							+ progressBar.isShown());
+
+			if (progressBar.isShown()) {
+
+				Log.v("Debug", " MYGPS : Buttery Progress Bar is to be removed");
+
+				progressBar.setVisibility(View.GONE);
+				Log.v("Debug",
+						"MYGPS : After set ButteryProgressBar set GONE - isShown : "
+								+ progressBar.isShown());
+
+			}
+
+			// protected void onPostExecute() {
+			Log.v(TAG, " MYGPS : locaction control postExecute Method  ");
+			Log.v(TAG, " MYGPS : LC postExecute : locationFlag : "
+					+ locationFlag);
+
+			if (flag) {
+
+				if (mLocation == null) {
+					Log.v(TAG,
+							" MYGPS : LocControl : locaction identified as null ");
+
+				} else {
+					Log.v(TAG,
+							" MYGPS : LocControl : locaction was retrieved successfully  ");
+					useLocation(itemId);
+
+				}
+			} else {
+				Log.v(TAG,
+						"MYGPS : LocControl : location retreival was unsuccessfull");
+
+			}
+
+		}
+	}
+
+	public void onRefresh() {
+
+		Log.v(TAG, "MyGPSLocation : onRefresh Click");
+
+		MyLocation myLocation = new MyLocation(Travel.this, this);
+
+		disableHomeScreenIcons();
+
+		if (myLocation.getLocation(locationResult)) {
+
+			LocationControl locationControlTask = new LocationControl(
+					R.id.action_refresh);
+			locationFlag = false;
+			// Executing on parallel thread
+			locationControlTask.executeOnExecutor(
+					AsyncTask.THREAD_POOL_EXECUTOR, this);
+		}
+
+	}
+
+	public void useLocation(int itemId) {
+		// TODO Auto-generated method stub
+		switch (itemId) {
+		case R.id.action_refresh:
+			enableHomeScreenIcons();
+
+			return;
+
+		case R.id.btnHospital:
+			Log.v(TAG, " MYGPS : Call Hospital Here ");
+			HospitalActivity();
+			enableHomeScreenIcons();
+			enableRefreshButton();
+			return;
+
+		}
+	}
+
+	public void onTravelActivity(View v) {
+		Log.v(TAG, "MyGPSLocation : onRefresh Click");
 
 		MyLocation myLocation = new MyLocation(Travel.this, this);
 
@@ -679,11 +822,10 @@ public class Travel extends Activity implements OnClickListener {
 
 		LocationControl locationControlTask = new LocationControl();
 		locationFlag = false;
-		//locationControlTask.execute(this);
-		locationControlTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
-		
-		
-		
-			}
+		// Executing on parallel thread
+		locationControlTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+				this);
+
+	}
 
 }
