@@ -178,7 +178,243 @@ public class Travel extends Activity implements OnClickListener {
 	}
 
 	public void onGetSoS(View v) {
-		// Create a new Intent
+		MyLocation myLocation = new MyLocation(Travel.this, this);
+
+		disableHomeScreenIcons();
+		disableRefreshButton();
+
+		if (myLocation.getLocation(locationResult)) {
+
+			// Tow Service Icon Id is passed -which is equivalent of v.getId()
+
+			LocationControl locationControlTask = new LocationControl(
+					R.id.btnSOS);
+			locationFlag = false;
+			// Executing on parallel thread
+			// Location Control Task will call the appropriate method with the
+			// id
+			locationControlTask.executeOnExecutor(
+					AsyncTask.THREAD_POOL_EXECUTOR, this);
+		}
+
+	}
+
+	public void onGetPharmacy(View v) {
+
+		MyLocation myLocation = new MyLocation(Travel.this, this);
+
+		disableHomeScreenIcons();
+		disableRefreshButton();
+
+		if (myLocation.getLocation(locationResult)) {
+
+			// Tow Service Icon Id is passed -which is equivalent of v.getId()
+
+			LocationControl locationControlTask = new LocationControl(
+					R.id.btnPharmacy);
+			locationFlag = false;
+			// Executing on parallel thread
+			// Location Control Task will call the appropriate method with the
+			// id
+			locationControlTask.executeOnExecutor(
+					AsyncTask.THREAD_POOL_EXECUTOR, this);
+		}
+
+	}
+
+	public void onGetATM(View v) {
+		MyLocation myLocation = new MyLocation(Travel.this, this);
+
+		disableHomeScreenIcons();
+		disableRefreshButton();
+
+		if (myLocation.getLocation(locationResult)) {
+
+			// Tow Service Icon Id is passed -which is equivalent of v.getId()
+
+			LocationControl locationControlTask = new LocationControl(
+					R.id.btnATM);
+			locationFlag = false;
+			// Executing on parallel thread
+			// Location Control Task will call the appropriate method with the
+			// id
+			locationControlTask.executeOnExecutor(
+					AsyncTask.THREAD_POOL_EXECUTOR, this);
+		}
+
+	}
+
+	public void onGetRestaurant(View v) {
+		MyLocation myLocation = new MyLocation(Travel.this, this);
+
+		disableHomeScreenIcons();
+		disableRefreshButton();
+
+		if (myLocation.getLocation(locationResult)) {
+
+			// Tow Service Icon Id is passed -which is equivalent of v.getId()
+
+			LocationControl locationControlTask = new LocationControl(
+					R.id.btnRestaurant);
+			locationFlag = false;
+			// Executing on parallel thread
+			// Location Control Task will call the appropriate method with the
+			// id
+			locationControlTask.executeOnExecutor(
+					AsyncTask.THREAD_POOL_EXECUTOR, this);
+		}
+
+	}
+
+	public void onGetRepairPal(View v) {
+
+		MyLocation myLocation = new MyLocation(Travel.this, this);
+
+		disableHomeScreenIcons();
+		disableRefreshButton();
+
+		if (myLocation.getLocation(locationResult)) {
+
+			// Tow Service Icon Id is passed -which is equivalent of v.getId()
+
+			LocationControl locationControlTask = new LocationControl(
+					R.id.btnCarRepair);
+			locationFlag = false;
+			// Executing on parallel thread
+			// Location Control Task will call the appropriate method with the
+			// id
+			locationControlTask.executeOnExecutor(
+					AsyncTask.THREAD_POOL_EXECUTOR, this);
+		}
+
+	}
+
+	public void onGetFuelStation(View v) {
+		MyLocation myLocation = new MyLocation(Travel.this, this);
+
+		disableHomeScreenIcons();
+		disableRefreshButton();
+
+		if (myLocation.getLocation(locationResult)) {
+
+			// Tow Service Icon Id is passed -which is equivalent of v.getId()
+
+			LocationControl locationControlTask = new LocationControl(
+					R.id.btnFuelPump);
+			locationFlag = false;
+			// Executing on parallel thread
+			// Location Control Task will call the appropriate method with the
+			// id
+			locationControlTask.executeOnExecutor(
+					AsyncTask.THREAD_POOL_EXECUTOR, this);
+		}
+
+	}
+
+	public void onGetRestRoom(View v) {
+		MyLocation myLocation = new MyLocation(Travel.this, this);
+
+		disableHomeScreenIcons();
+		disableRefreshButton();
+
+		if (myLocation.getLocation(locationResult)) {
+
+			// Tow Service Icon Id is passed -which is equivalent of v.getId()
+
+			LocationControl locationControlTask = new LocationControl(
+					R.id.btnRestRoom);
+			locationFlag = false;
+			// Executing on parallel thread
+			// Location Control Task will call the appropriate method with the
+			// id
+			locationControlTask.executeOnExecutor(
+					AsyncTask.THREAD_POOL_EXECUTOR, this);
+		}
+
+	}
+
+	public void onGetTowService(View v) {
+
+		MyLocation myLocation = new MyLocation(Travel.this, this);
+
+		disableHomeScreenIcons();
+		disableRefreshButton();
+
+		if (myLocation.getLocation(locationResult)) {
+
+			// Tow Service Icon Id is passed -which is equivalent of v.getId()
+
+			LocationControl locationControlTask = new LocationControl(
+					R.id.btnTow);
+			locationFlag = false;
+			// Executing on parallel thread
+			// Location Control Task will call the appropriate method with the
+			// id
+			locationControlTask.executeOnExecutor(
+					AsyncTask.THREAD_POOL_EXECUTOR, this);
+		}
+
+	}
+
+	public void onGetHospital(View v) {
+
+		MyLocation myLocation = new MyLocation(Travel.this, this);
+
+		disableHomeScreenIcons();
+		disableRefreshButton();
+
+		if (myLocation.getLocation(locationResult)) {
+
+			// Hospital Icon Id is passed -which is equivalent of v.getId()
+
+			LocationControl locationControlTask = new LocationControl(
+					R.id.btnHospital);
+			locationFlag = false;
+			// Executing on parallel thread
+			// Location Control Task will call the appropriate method with the
+			// id
+			locationControlTask.executeOnExecutor(
+					AsyncTask.THREAD_POOL_EXECUTOR, this);
+		}
+
+	}
+
+	public void onShareLocation(View v) {
+		MyLocation myLocation = new MyLocation(Travel.this, this);
+
+		disableHomeScreenIcons();
+		disableRefreshButton();
+
+		if (myLocation.getLocation(locationResult)) {
+
+			// Hospital Icon Id is passed -which is equivalent of v.getId()
+
+			LocationControl locationControlTask = new LocationControl(
+					R.id.btnShareLoc);
+			locationFlag = false;
+			// Executing on parallel thread
+			// Location Control Task will call the appropriate method with the
+			// id
+			locationControlTask.executeOnExecutor(
+					AsyncTask.THREAD_POOL_EXECUTOR, this);
+		}
+
+	}
+
+	private void enableRefreshButton() {
+		MenuItem refreshButton = mymenu.findItem(R.id.action_refresh);
+		refreshButton.setEnabled(true);
+
+	}
+
+	private void disableRefreshButton() {
+
+		MenuItem refreshButton = mymenu.findItem(R.id.action_refresh);
+		refreshButton.setEnabled(false);
+
+	}
+
+	private void SOSActivity() {
 
 		if (mLocation == null) {
 			return;
@@ -198,7 +434,7 @@ public class Travel extends Activity implements OnClickListener {
 
 	}
 
-	public void onGetPharmacy(View v) {
+	private void PharmacyActivity() {
 		// Create a new Intent
 
 		if (mLocation == null) {
@@ -219,8 +455,7 @@ public class Travel extends Activity implements OnClickListener {
 
 	}
 
-	public void onGetATM(View v) {
-		// Create a new Intent
+	private void ATMActivity() {
 
 		if (mLocation == null) {
 			return;
@@ -240,8 +475,7 @@ public class Travel extends Activity implements OnClickListener {
 
 	}
 
-	public void onGetRestaurant(View v) {
-		// Create a new Intent
+	private void RestaurantActivity() {
 
 		if (mLocation == null) {
 			return;
@@ -261,8 +495,7 @@ public class Travel extends Activity implements OnClickListener {
 
 	}
 
-	public void onGetRepairPal(View v) {
-		// Create a new Intent
+	private void RepairPalActivity() {
 
 		if (mLocation == null) {
 			return;
@@ -282,8 +515,7 @@ public class Travel extends Activity implements OnClickListener {
 
 	}
 
-	public void onGetFuelStation(View v) {
-		// Create a new Intent
+	private void FuelStationActivity() {
 
 		if (mLocation == null) {
 			return;
@@ -303,8 +535,7 @@ public class Travel extends Activity implements OnClickListener {
 
 	}
 
-	public void onGetRestRoom(View v) {
-		// Create a new Intent
+	private void RestRoomActivity() {
 
 		if (mLocation == null) {
 			return;
@@ -324,9 +555,7 @@ public class Travel extends Activity implements OnClickListener {
 
 	}
 
-	public void onGetTowService(View v) {
-		// Create a new Intent
-
+	private void TowServiceActivity() {
 		if (mLocation == null) {
 			return;
 		}
@@ -342,47 +571,6 @@ public class Travel extends Activity implements OnClickListener {
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
-
-	}
-
-	public void onGetHospital(View v) {
-		// Create a new Intent
-
-		// Try to get the latest location
-
-		Log.v(TAG, "MyGPSLocation : onRefresh Click");
-
-		MyLocation myLocation = new MyLocation(Travel.this, this);
-
-		disableHomeScreenIcons();
-		disableRefreshButton();
-
-		if (myLocation.getLocation(locationResult)) {
-
-			// Hospital Icon Id is passed -which is equivalent of v.getId()
-
-			LocationControl locationControlTask = new LocationControl(
-					R.id.btnHospital);
-			locationFlag = false;
-			// Executing on parallel thread - Location Control Task will call
-			// the
-			// the right method
-			locationControlTask.executeOnExecutor(
-					AsyncTask.THREAD_POOL_EXECUTOR, this);
-		}
-
-	}
-
-	private void enableRefreshButton() {
-		MenuItem refreshButton = mymenu.findItem(R.id.action_refresh);
-		refreshButton.setEnabled(true);
-
-	}
-
-	private void disableRefreshButton() {
-
-		MenuItem refreshButton = mymenu.findItem(R.id.action_refresh);
-		refreshButton.setEnabled(false);
 
 	}
 
@@ -405,7 +593,7 @@ public class Travel extends Activity implements OnClickListener {
 
 	}
 
-	public void onShareLocation(View v) {
+	private void ShareLocationActivity() {
 		// Create a new Intent
 
 		// Try to get the latest location
@@ -644,9 +832,9 @@ public class Travel extends Activity implements OnClickListener {
 			AlertDialog.Builder builder = new AlertDialog.Builder(Travel.this);
 			builder.setTitle("Alert");
 			builder.setMessage(
-					"Unable to retrieve current location. Click Ok to proceed with last known location.")
+					"Unable to retrieve current location. Do you want to proceed with last known location ?")
 					.setCancelable(false)
-					.setPositiveButton("Ok",
+					.setPositiveButton("Yes",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
@@ -656,7 +844,7 @@ public class Travel extends Activity implements OnClickListener {
 
 								}
 							})
-					.setNegativeButton("Cancel",
+					.setNegativeButton("No",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
@@ -798,12 +986,62 @@ public class Travel extends Activity implements OnClickListener {
 		switch (itemId) {
 		case R.id.action_refresh:
 			enableHomeScreenIcons();
+			return;
 
+		case R.id.btnShareLoc:
+			ShareLocationActivity();
+			enableHomeScreenIcons();
+			enableRefreshButton();
 			return;
 
 		case R.id.btnHospital:
-			Log.v(TAG, " MYGPS : Call Hospital Here ");
 			HospitalActivity();
+			enableHomeScreenIcons();
+			enableRefreshButton();
+			return;
+
+		case R.id.btnTow:
+			TowServiceActivity();
+			enableHomeScreenIcons();
+			enableRefreshButton();
+			return;
+
+		case R.id.btnRestRoom:
+			RestRoomActivity();
+			enableHomeScreenIcons();
+			enableRefreshButton();
+			return;
+
+		case R.id.btnFuelPump:
+			FuelStationActivity();
+			enableHomeScreenIcons();
+			enableRefreshButton();
+			return;
+
+		case R.id.btnCarRepair:
+			RepairPalActivity();
+			enableHomeScreenIcons();
+			enableRefreshButton();
+			return;
+
+		case R.id.btnRestaurant:
+			RestaurantActivity();
+			enableHomeScreenIcons();
+			enableRefreshButton();
+			return;
+
+		case R.id.btnATM:
+			ATMActivity();
+			enableHomeScreenIcons();
+			enableRefreshButton();
+			return;
+		case R.id.btnPharmacy:
+			PharmacyActivity();
+			enableHomeScreenIcons();
+			enableRefreshButton();
+			return;
+		case R.id.btnSOS:
+			SOSActivity();
 			enableHomeScreenIcons();
 			enableRefreshButton();
 			return;
