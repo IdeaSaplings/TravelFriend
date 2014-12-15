@@ -32,7 +32,7 @@ public class ListHospitalsActivity extends Activity {
 
 	public void onCreate(Bundle savedInstanceState) {
 
-		Log.v("Debug", "MyGPS : New Intent Start");
+		Log.v("Debug", "MyGPS : Hospital Intent Start");
 
 		super.onCreate(savedInstanceState);
 

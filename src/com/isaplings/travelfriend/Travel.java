@@ -427,7 +427,9 @@ public class Travel extends Activity implements OnClickListener {
 
 		// Location is sent as parcelable object
 		intent.putExtras(bundle);
-
+		enableRefreshButton();
+		enableHomeScreenIcons();
+	
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
@@ -448,7 +450,9 @@ public class Travel extends Activity implements OnClickListener {
 
 		// Location is sent as parcelable object
 		intent.putExtras(bundle);
-
+		enableRefreshButton();
+		enableHomeScreenIcons();
+	
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
@@ -468,7 +472,9 @@ public class Travel extends Activity implements OnClickListener {
 
 		// Location is sent as parcelable object
 		intent.putExtras(bundle);
-
+		enableRefreshButton();
+		enableHomeScreenIcons();
+	
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
@@ -488,7 +494,9 @@ public class Travel extends Activity implements OnClickListener {
 
 		// Location is sent as parcelable object
 		intent.putExtras(bundle);
-
+		enableRefreshButton();
+		enableHomeScreenIcons();
+	
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
@@ -508,7 +516,9 @@ public class Travel extends Activity implements OnClickListener {
 
 		// Location is sent as parcelable object
 		intent.putExtras(bundle);
-
+		enableRefreshButton();
+		enableHomeScreenIcons();
+	
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
@@ -528,7 +538,9 @@ public class Travel extends Activity implements OnClickListener {
 
 		// Location is sent as parcelable object
 		intent.putExtras(bundle);
-
+		enableRefreshButton();
+		enableHomeScreenIcons();
+	
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
@@ -549,6 +561,9 @@ public class Travel extends Activity implements OnClickListener {
 		// Location is sent as parcelable object
 		intent.putExtras(bundle);
 
+		enableRefreshButton();
+		enableHomeScreenIcons();
+	
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
@@ -567,7 +582,11 @@ public class Travel extends Activity implements OnClickListener {
 
 		// Location is sent as parcelable object
 		intent.putExtras(bundle);
-
+	
+		enableRefreshButton();
+		enableHomeScreenIcons();
+	
+		
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
@@ -586,10 +605,12 @@ public class Travel extends Activity implements OnClickListener {
 
 		// Location is sent as parcelable object
 		intent.putExtras(bundle);
-
+		
+		enableRefreshButton();		
+		enableHomeScreenIcons();
+		
 		startActivity(intent);
-
-		Log.v("Debug", "MyGPS : Hospital intent - Started ...");
+		Log.v("Debug", "MyGPS : Hospital intent - Started after icons enabled ...");
 
 	}
 
@@ -609,7 +630,11 @@ public class Travel extends Activity implements OnClickListener {
 
 		// Location is sent as parcelable object
 		intent.putExtras(bundle);
-
+		
+		enableRefreshButton();
+		enableHomeScreenIcons();
+	
+		
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
@@ -990,60 +1015,40 @@ public class Travel extends Activity implements OnClickListener {
 
 		case R.id.btnShareLoc:
 			ShareLocationActivity();
-			enableHomeScreenIcons();
-			enableRefreshButton();
 			return;
 
 		case R.id.btnHospital:
 			HospitalActivity();
-			enableHomeScreenIcons();
-			enableRefreshButton();
 			return;
 
 		case R.id.btnTow:
 			TowServiceActivity();
-			enableHomeScreenIcons();
-			enableRefreshButton();
 			return;
 
 		case R.id.btnRestRoom:
 			RestRoomActivity();
-			enableHomeScreenIcons();
-			enableRefreshButton();
 			return;
 
 		case R.id.btnFuelPump:
 			FuelStationActivity();
-			enableHomeScreenIcons();
-			enableRefreshButton();
 			return;
 
 		case R.id.btnCarRepair:
 			RepairPalActivity();
-			enableHomeScreenIcons();
-			enableRefreshButton();
 			return;
 
 		case R.id.btnRestaurant:
 			RestaurantActivity();
-			enableHomeScreenIcons();
-			enableRefreshButton();
 			return;
 
 		case R.id.btnATM:
 			ATMActivity();
-			enableHomeScreenIcons();
-			enableRefreshButton();
 			return;
 		case R.id.btnPharmacy:
 			PharmacyActivity();
-			enableHomeScreenIcons();
-			enableRefreshButton();
 			return;
 		case R.id.btnSOS:
 			SOSActivity();
-			enableHomeScreenIcons();
-			enableRefreshButton();
 			return;
 
 		}
