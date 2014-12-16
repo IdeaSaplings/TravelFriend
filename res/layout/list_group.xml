@@ -6,21 +6,20 @@
     android:padding="8dp"
     android:background="#40ffffff">
  
- 
     <TextView
         android:id="@+id/lblListHeader"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="@drawable/gradient"
+        android:paddingEnd="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:paddingStart="?android:attr/expandableListPreferredItemPaddingLeft"
         android:shadowColor="#4d000000"
         android:shadowDx="3"
         android:shadowDy="3"
         android:shadowRadius="0.01"
-        android:paddingStart="?android:attr/expandableListPreferredItemPaddingLeft"
-        android:paddingEnd="?android:attr/expandableListPreferredItemPaddingLeft"
-        android:textSize="24sp"
         android:textColor="#8B4513"
-                >
+        android:gravity="center_vertical"
+        android:textSize="24sp" >
         
     </TextView>
      

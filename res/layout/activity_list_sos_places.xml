@@ -19,11 +19,13 @@
 
             <ExpandableListView
                 android:id="@+id/lvExp"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="match_parent"
+                android:background="@android:color/transparent"
                 android:childDivider="#ffffff"
                 android:divider="#000000"
-                android:dividerHeight="2dp"
-                 />
+                android:groupIndicator="@drawable/indicator"
+                android:indicatorRight="@dimen/activity_vertical_margin"
+                android:visibility="visible" />
 
 </LinearLayout>

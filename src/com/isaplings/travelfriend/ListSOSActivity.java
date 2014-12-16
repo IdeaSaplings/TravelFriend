@@ -1,5 +1,9 @@
 package com.isaplings.travelfriend;
 
+// This code is owned by Raja and Anu
+// Final Integration : 16 Dec 2015
+// Code not reviewed
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -89,8 +93,8 @@ public class ListSOSActivity extends Activity {
 		countryName = mLocation.getExtras().getString("COUNTRYNAME");
 		countryCode = mLocation.getExtras().getString("COUNTRYCODE");
 
-		Log.v(TAG, "MyGPS : Country Name : " + countryName);
-		Log.v(TAG, "MyGPS : Counrty Code : " + countryCode);
+		Log.v(TAG, "MyGPS :  Country Name : " + countryName);
+		Log.v(TAG, "MyGPS :  Counrty Code : " + countryCode);
 
 		Log.v("Debug", " MYGPS : List Places Activity loaded");
 
@@ -114,7 +118,7 @@ public class ListSOSActivity extends Activity {
 
 		// get the listview
 		expListView = (ExpandableListView) findViewById(R.id.lvExp);
-
+		expListView.setIndicatorBounds(5, 60);
 		// preparing list data
 		prepareListData();
 
