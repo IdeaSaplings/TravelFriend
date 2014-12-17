@@ -100,6 +100,10 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 									// Settings to be invoked
 									dialog.cancel();
 									mActivity.finish();
+									Intent settingsIntent = new Intent(Travel.appContext, TravelSettings.class);
+									settingsIntent.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);                     
+									settingsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  
+						        	Travel.appContext.startActivity(settingsIntent);
 									return;
 
 								}
