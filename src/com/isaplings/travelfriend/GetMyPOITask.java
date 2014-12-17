@@ -1,7 +1,6 @@
 package com.isaplings.travelfriend;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +10,7 @@ import com.a2plab.googleplaces.result.Result.StatusCode;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -108,6 +108,12 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 			latitude = loc.getLatitude();
 			longitude = loc.getLongitude();
 
+			SharedPreferences pref;
+			
+			pref = Travel.appContext.getSharedPreferences("TravelFriendPref", 0);
+
+			int maxRadius = pref.getInt("MaxRadius", 50) * 1000;
+			
 			Log.v(TAG, "MYGPSLocation : Latitude " + latitude);
 			Log.v(TAG, "MYGPSLocation : Longitude " + longitude);
 
@@ -174,7 +180,7 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 					if (qType.equals("nearbysearch")) {
 
 						placesResult = (PlacesResult) googlePlaces
-								.getNearbyPlaces(mTypes, mKeyword, 50000,
+								.getNearbyPlaces(mTypes, mKeyword, maxRadius,
 										latitude, longitude);
 						Log.v(TAG,
 								"MYGPSLocation : Size of result[3] - places  "
@@ -186,7 +192,7 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 					} else if (qType.equals("textsearch")) {
 						Log.v(TAG, "MYGPSLocation : Executing Text Search  ");
 						placesResult = (PlacesResult) googlePlaces
-								.getTextPlaces(mTypes, mKeyword, 50000,
+								.getTextPlaces(mTypes, mKeyword, maxRadius,
 										latitude, longitude);
 						Log.v(TAG,
 								"MYGPSLocation : Size of result[3] - places  "

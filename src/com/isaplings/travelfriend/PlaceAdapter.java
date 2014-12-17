@@ -9,6 +9,7 @@ import com.a2plab.googleplaces.models.Place;
 import com.a2plab.googleplaces.models.Place.Geometry;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -87,7 +88,6 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 		
 		holder.addressTextView.setText(poiAddress);
 
-		// This calculation is done only for kms metrics
 
 		Geometry geometry = (getItem(position).getGeometry());
 
@@ -98,10 +98,29 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 				geometry.location.lng, dist);
 
 		DecimalFormat df = new DecimalFormat("###.#");
+		
+		//Read this unit from sharedPreference once implemented
+		
+		SharedPreferences pref;
+		
+		pref = Travel.appContext.getSharedPreferences("TravelFriendPref", 0);
+
+		//String distUnit = "km";
+
+		String distUnit = pref.getString("DistUnit", "km");
+		
+		
+		if (distUnit.equals("km")){
 
 		holder.distanceTextView
 				.setText(" " + df.format(dist[0] / 1000) + " km");
-
+		}
+		if (distUnit.equals("mi")){
+		
+			holder.distanceTextView
+			.setText(" " + df.format(dist[0] / 1609.344 ) + " mi");
+	
+		}
 
 		Double poiRating;
 
