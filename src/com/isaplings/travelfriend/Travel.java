@@ -168,9 +168,29 @@ public class Travel extends Activity implements OnClickListener {
 						+ progressBar.isShown());
 
 		progressBar.setVisibility(View.GONE);
+		
+		onRefresh();
 
 	}
 
+	@SuppressWarnings("unused")
+	private void AutoRefresh(){
+		
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		ImageView iv = (ImageView) inflater.inflate(R.layout.iv_refresh,
+				null);
+		Animation rotation = AnimationUtils.loadAnimation(this,
+				R.anim.rotate_refresh);
+		rotation.setRepeatCount(Animation.INFINITE);
+		iv.startAnimation(rotation);
+		MenuItem menuItem = mymenu.findItem(R.id.action_refresh);
+
+		menuItem.setActionView(iv);
+		// End
+		onRefresh();
+		
+	}
+	
 	public void onClick(View v) {
 		// Closes the Activity
 
