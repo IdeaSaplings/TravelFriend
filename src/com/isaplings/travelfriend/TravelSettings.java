@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
+//import android.widget.Toast;
 
 public class TravelSettings extends Activity implements AlertPositiveListener {
 
@@ -186,8 +186,8 @@ public class TravelSettings extends Activity implements AlertPositiveListener {
 		editor.putString("DistUnit", DistanceUnit.code[this.position]);
 		editor.commit();
 
-		Toast.makeText(getApplication(), pref.getString("DistUnit", null),
-				Toast.LENGTH_LONG).show();
+		//Toast.makeText(getApplication(), pref.getString("DistUnit", null),
+			//	Toast.LENGTH_LONG).show();
 
 	}
 
@@ -249,8 +249,8 @@ public class TravelSettings extends Activity implements AlertPositiveListener {
 						String maxRad = Integer.toString(pref.getInt(
 								"MaxRadius", 50));
 
-						Toast.makeText(getApplication(), maxRad,
-								Toast.LENGTH_LONG).show();
+						//Toast.makeText(getApplication(), maxRad,
+							//	Toast.LENGTH_LONG).show();
 
 						TextView tv = (TextView) findViewById(R.id.search_radius_value);
 

@@ -28,7 +28,7 @@
         android:textStyle="bold" />
        
     <View style="@style/Thick_Divider"
-    	android:background="@android:color/darker_gray"/>
+    	android:background="@android:color/darker_gray" />
 
     <RelativeLayout
         android:id="@+id/app_settings_distance_unit"
@@ -174,7 +174,7 @@
        
        <View style="@style/Thick_Divider"
            android:background="@android:color/darker_gray"/>
-        
+       
 
     <RelativeLayout
         android:id="@+id/share_settings"

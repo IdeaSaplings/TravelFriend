@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -20,12 +20,16 @@
     <style name="Thick_Divider">
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">2dp</item>
+    <item name="android:layout_marginRight">3dp</item>
+    <item name="android:layout_marginLeft">3dp</item>
     <item name="android:background">?android:attr/listDivider</item>
 	</style>
 	
     <style name="Thin_Divider">
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">1dp</item>
+    <item name="android:layout_marginRight">3dp</item>
+    <item name="android:layout_marginLeft">3dp</item>    
     <item name="android:background">?android:attr/listDivider</item>
 	</style>    
 
