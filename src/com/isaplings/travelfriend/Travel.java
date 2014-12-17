@@ -722,8 +722,8 @@ public class Travel extends Activity implements OnClickListener {
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(
 						Travel.this);
-				builder.setTitle("Check Location Services");
-				builder.setMessage("Please check Location Services in the Phone Settings to get current location");
+				builder.setTitle("Unable to get current location");
+				builder.setMessage("Please check the settings of Location Services in the Phone Settings.");
 				builder.setCancelable(true);
 				builder.setNeutralButton(android.R.string.ok,
 						new DialogInterface.OnClickListener() {
@@ -793,8 +793,8 @@ public class Travel extends Activity implements OnClickListener {
 
 						AlertDialog.Builder builder = new AlertDialog.Builder(
 								Travel.this);
-						builder.setTitle("Check Network Services");
-						builder.setMessage("Please check Network Services in the Phone Settings to get current location");
+						builder.setTitle("Unable to get current address");
+						builder.setMessage("Please check the settings of Network Services in the Phone Settings.");
 						builder.setCancelable(true);
 						builder.setNeutralButton(android.R.string.ok,
 								new DialogInterface.OnClickListener() {

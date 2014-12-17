@@ -13,7 +13,7 @@ import android.view.Window;
 public class SplashActivity extends Activity {
 	// Set the display time, in milliseconds (or extract it out as a
 	// configurable parameter)
-	private final int SPLASH_DISPLAY_LENGTH = 3000;
+	private final int SPLASH_DISPLAY_LENGTH = 5000;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,10 @@ public class SplashActivity extends Activity {
 					Intent mainIntent = new Intent(SplashActivity.this,
 							Travel.class);
 					SplashActivity.this.startActivity(mainIntent);
+					
+//	                startActivity(new Intent().setClass(SplashActivity.this, Travel.class).setData(getIntent().getData()));
+
+					
 				}
 			}, SPLASH_DISPLAY_LENGTH);
 		} else {
