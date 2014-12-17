@@ -16,4 +16,11 @@
 	<string name="sos">SOS</string>
 	<string name="tow">Tow Away</string>
 
+	<string name="about_us_description">
+	 TravelFriend searches and navigates near by Hospitals, Ambulance &#038; Emergency Services, 
+	 Fuel Stations, Restuarants etc for any location. The application auto detects the user location 
+	 by GPS or by Network Services and collects data through various online resources by best effots.\n\nTerms &#038; Usage \n
+     Google API Privcy Policy : \nhttp://www.google.com/policies/privacy \nGoogle APT Terms of use : \nhttp://www.google.com/intl/en/policies/terms \n\n
+	</string>
+	
 </resources>

@@ -86,9 +86,13 @@
             android:name=".ListSOSActivity"
             android:parentActivityName=".Travel" >
         </activity>
-               <activity
+        <activity
             android:name=".ShareMyLocation"
             android:parentActivityName=".Travel" >
+        </activity>    
+        <activity
+            android:name=".TravelSettings"
+            android:parentActivityName=".Travel" >    
         </activity> 
     </application>
 

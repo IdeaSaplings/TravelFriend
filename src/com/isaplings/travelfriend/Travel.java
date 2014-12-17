@@ -102,7 +102,8 @@ public class Travel extends Activity implements OnClickListener {
 			return true;
 		case R.id.action_settings:
 			// openSettings();
-			// Need to check if settings option is required
+			Intent settingsIntent = new Intent(getBaseContext(), TravelSettings.class);
+        	startActivity(settingsIntent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

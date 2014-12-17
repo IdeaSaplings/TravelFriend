@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ScrollView android:layout_width="fill_parent"
+    android:layout_height="fill_parent" android:layout_weight="1">
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:orientation="vertical"  >
+
+    <TextView
+        android:id="@+id/app_settings_heading"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:gravity="left"
+        android:paddingBottom="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="2dp"
+        android:paddingTop="5dp"
+        android:text="App Settings"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+       
+    <View style="@style/Thick_Divider"
+    	android:background="@android:color/darker_gray"/>
+
+    <RelativeLayout
+        android:id="@+id/app_settings_distance_unit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:clickable="true" >
+        
+       <TextView
+        	android:id="@+id/distance_unit_name"
+        	android:layout_width="240dp"
+        	android:layout_height="wrap_content"
+        	android:singleLine="true"
+        	android:gravity="left"
+        	android:paddingBottom="3dp"
+        	android:paddingLeft="8dp"
+        	android:paddingRight="2dp"
+        	android:paddingTop="5dp"
+        	android:text="Distance Unit"
+        	android:textColor="#000000"
+        	android:textSize="14sp"/>
+
+       <TextView
+        	android:id="@+id/distance_unit_value"
+        	android:layout_below="@id/distance_unit_name"
+        	android:layout_width="240dp"
+        	android:layout_height="wrap_content"
+        	android:singleLine="true"
+        	android:gravity="left"
+        	android:paddingBottom="3dp"
+        	android:paddingLeft="8dp"
+        	android:paddingRight="2dp"
+        	android:paddingTop="2dp"
+        	android:text="km"
+        	android:textColor="#000000"
+        	android:textSize="10sp"/>
+       
+ 		<View
+           style="@style/Thin_Divider"
+           android:layout_height="1dp"
+           android:layout_below="@id/distance_unit_value" />
+
+ 		<ImageButton
+ 		    android:id="@+id/imageButton1"
+ 		    android:layout_width="wrap_content"
+ 		    android:layout_height="wrap_content"
+ 		    android:layout_alignBottom="@+id/distance_unit_value"
+ 		    android:layout_alignParentRight="true"
+ 		    android:layout_alignParentTop="true"
+ 		    android:layout_marginRight="15dp"
+ 		    android:background="@null"
+ 		    android:clickable="false"
+ 		    android:src="@drawable/ic_drawer" />
+        
+	</RelativeLayout>
+       	
+    <RelativeLayout
+        android:id="@+id/app_settings_distance_radius"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:clickable="true" >
+
+     <TextView
+        android:id="@+id/search_radius_name"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:gravity="left"
+        android:paddingBottom="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="2dp"
+        android:paddingTop="5dp"
+        android:text="Search Radius"
+        android:textColor="#000000"
+        android:textSize="14sp"/>
+     
+     <TextView
+		android:id="@+id/search_radius_val"
+        android:layout_width="240dp"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_alignParentTop="true"
+	    android:layout_alignRight="@+id/search_radius_name"
+	    android:gravity="left"
+	    android:paddingBottom="3dp"
+	    android:paddingLeft="2dp"
+	    android:paddingRight="2dp"
+	    android:paddingTop="10dp"
+	    android:singleLine="true"
+	    android:text="(Default Value : 50 km/miles)"
+	    android:textColor="#808080"
+	    android:textSize="10sp" />
+       
+       <TextView
+        android:id="@+id/search_radius_value"
+        android:layout_below="@id/search_radius_name"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:gravity="left"
+        android:paddingBottom="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="2dp"
+        android:paddingTop="5dp"
+        android:text="50km/miles"
+        android:textColor="#000000"
+        android:textSize="10sp"/>       
+
+		<View 	style="@style/Thin_Divider"
+		    	android:layout_below="@id/search_radius_value"/>
+		
+		 <ImageButton
+ 		    android:id="@+id/imageButton2"
+ 		    android:layout_width="wrap_content"
+ 		    android:layout_height="wrap_content"
+ 		    android:layout_alignBottom="@+id/search_radius_value"
+ 		    android:layout_alignParentRight="true"
+ 		    android:layout_alignParentTop="true"
+ 		    android:layout_marginRight="15dp"
+ 		    android:background="@null"
+ 		    android:clickable="false"
+ 		    android:src="@drawable/ic_drawer" />
+
+
+		
+    </RelativeLayout>
+    
+      <TextView
+        android:id="@+id/share_settings_heading"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:gravity="left"
+        android:paddingBottom="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="2dp"
+        android:paddingTop="15dp"
+        android:text="Share"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+       
+       <View style="@style/Thick_Divider"
+           android:background="@android:color/darker_gray"/>
+        
+
+    <RelativeLayout
+        android:id="@+id/share_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:clickable="true" >
+                 
+       <TextView
+        android:id="@+id/share_settings_desc"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:paddingBottom="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="2dp"
+        android:paddingTop="5dp"
+        android:text="Like our App !! Please share with your friends.\n"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:minLines="2"/>
+       
+       <View style="@style/Thin_Divider"
+           android:layout_below="@id/share_settings_desc"/>
+       
+       <ImageButton
+ 		    android:id="@+id/imageButton3"
+ 		    android:layout_width="wrap_content"
+ 		    android:layout_height="wrap_content"
+ 		    android:layout_alignBottom="@+id/share_settings_desc"
+ 		    android:layout_alignParentRight="true"
+ 		    android:layout_alignParentTop="true"
+ 		    android:layout_marginRight="15dp"
+ 		    android:background="@null"
+ 		    android:clickable="false"
+ 		    android:src="@drawable/ic_action_share" />
+       
+    </RelativeLayout>
+    
+    <TextView
+        android:id="@+id/feedback_settings_heading"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:gravity="left"
+        android:paddingBottom="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="2dp"
+        android:paddingTop="15dp"
+        android:text="Feedback"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+       
+       <View style="@style/Thick_Divider"
+           android:background="@android:color/darker_gray"/>
+    
+    <RelativeLayout
+        android:id="@+id/feedback_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:clickable="true" >
+
+        <TextView
+            android:id="@+id/feedback_settings_desc"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:minLines="2"
+            android:paddingBottom="3dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="2dp"
+            android:paddingTop="5dp"
+            android:text="Please share your feedback with us.\n"
+            android:textColor="#000000"
+            android:textSize="14sp" />
+
+        <View
+            android:id="@+id/view1"
+            style="@style/Thin_Divider"
+            android:layout_below="@id/feedback_settings_desc" />
+
+        <ImageButton
+            android:id="@+id/imageButton4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+ 	    	android:layout_alignParentRight="true"
+     	    android:layout_alignParentTop="true"
+            android:layout_alignBottom="@+id/feedback_settings_desc"
+	    	android:layout_marginRight="15dp"
+	    	android:clickable="false"
+            android:background="@null"
+            android:src="@drawable/ic_menu_edit" />
+        
+    </RelativeLayout>
+    
+       <TextView
+        android:id="@+id/aboutus_settings_heading"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:gravity="left"
+        android:paddingBottom="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="2dp"
+        android:paddingTop="15dp"
+        android:text="About TravelFriend"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+       
+       <View style="@style/Thick_Divider"
+           android:background="@android:color/darker_gray"/>
+    
+       
+    <RelativeLayout
+        android:id="@+id/aboutus_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        
+  <TextView
+            android:id="@+id/about_settings_desc"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:minLines="2"
+            android:paddingBottom="3dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="2dp"
+            android:paddingTop="5dp"
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:text="@string/about_us_description"
+            android:textColor="#000000"
+            android:textSize="14sp" />
+
+        <View
+            android:id="@+id/view2"
+            style="@style/Thin_Divider"
+            android:layout_below="@id/about_settings_desc" />
+
+        <ImageButton
+            android:id="@+id/imageButton5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+ 	    	android:layout_alignParentRight="true"
+     	    android:layout_alignParentTop="true"
+            android:layout_alignBottom="@+id/about_settings_desc"
+	    	android:layout_marginRight="15dp"
+            android:background="@null"
+            android:src="@drawable/ic_action_info" />   
+   
+          <ImageButton
+            android:id="@+id/imageButton6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/about_settings_desc"
+            android:paddingTop="2dp"
+            android:background="@null"
+            android:paddingLeft="8dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/powered_by_google_on_white" />   
+    </RelativeLayout>
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

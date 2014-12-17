@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/layout_dialog"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:paddingLeft="10dp" >
+
+<TextView
+    android:id="@+id/feedback_title"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_alignParentTop="true"
+	android:layout_marginTop="7dp"
+	android:textSize="20sp"
+	android:textColor="#198cff"
+	android:text="Feedback" />    
+	
+<View style="@style/Thin_Divider"
+    android:background="#000000"
+    android:layout_below="@+id/feedback_title"
+    android:id="@+id/feedback_line"
+    android:layout_marginTop="10dp" />
+
+<TextView
+    android:id="@+id/feedback_text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_below="@+id/feedback_line"
+    android:layout_marginTop="20dp"
+    android:text="Love it ? Hate it ? Please share your feedback with us"
+    android:textColor="#000000"
+    android:textSize="15sp" />
+
+<EditText
+    android:id="@+id/feedback_info"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:maxLength="100"
+    android:layout_marginTop="35dp"
+    android:hint="Please enter your feedback [100 Chars]"
+    android:layout_below="@+id/feedback_text"
+    android:inputType="text"
+    android:textSize="15sp" />
+
+<TextView
+    android:id="@+id/txtItemFeed1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/feedback_info"
+    android:layout_marginTop="16dp"
+    android:textColor="#000000"
+    android:text="Please give your rating [1-10]"
+    android:textSize="15sp" />
+
+<TextView
+    android:id="@+id/txtRatingInfo"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/txtItemFeed1"
+    android:layout_marginTop="5dp"
+    android:text="0-Poor....10-Outstanding"
+    android:textColor="#808080"
+    android:textSize="15sp"
+    android:textStyle="italic" />
+
+<TextView
+	android:paddingTop="2dip"
+ 	android:layout_width="fill_parent"
+ 	android:layout_height="wrap_content"
+ 	android:gravity="center"
+ 	android:textColor="#000000"
+ 	android:text="10"
+	android:textSize="15sp"
+ 	android:layout_below="@+id/seekBarFeed1"
+ 	android:id="@+id/rating"/>
+
+<SeekBar
+    android:id="@+id/seekBarFeed1"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+	android:layout_centerInParent="true"
+    android:layout_below="@+id/txtRatingInfo"
+    android:max="15"
+    android:paddingTop="20dp"
+    android:progress="0"
+    android:progressDrawable="@xml/progress_drawable"
+    android:secondaryProgress="0"
+    android:thumb="@xml/thumb_drawable" />
+
+</RelativeLayout>
