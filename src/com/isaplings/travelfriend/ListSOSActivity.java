@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.isaplings.travelfriend.lib.ReadPhoneContacts;
 import com.a2plab.googleplaces.GooglePlaces;
 import com.a2plab.googleplaces.models.Place;
 import com.a2plab.googleplaces.models.PlaceDetails;
@@ -127,7 +128,7 @@ public class ListSOSActivity extends Activity {
 
 		// setting list adapter
 		expListView.setAdapter(listAdapter);
-		expListView.expandGroup(2);
+		expListView.expandGroup(1);
 
 		// Static Implementation is complete
 
@@ -181,6 +182,7 @@ public class ListSOSActivity extends Activity {
 		ViewTreeObserver observer = progressBar.getViewTreeObserver();
 		observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
+			@SuppressWarnings("deprecation")
 			@Override
 			public void onGlobalLayout() {
 				View contentView = decorView.findViewById(android.R.id.content);
@@ -525,28 +527,36 @@ public class ListSOSActivity extends Activity {
 		listDataChild = new HashMap<String, List<String>>();
 
 		// Adding header data
-		listDataHeader.add("Buddies");
+		listDataHeader.add("Emergency Contacts");
 		listDataHeader.add("Police");
 		listDataHeader.add("Ambulance");
-		listDataHeader.add("Toll Booth");
-		listDataHeader.add("Helpline");
+		//listDataHeader.add("Toll Booth");
+		//listDataHeader.add("Helpline");
+		
+		
 
 		// Adding child data
 		List<String> buddies = new ArrayList<String>();
-		buddies.add("Elango +91 9880649789");
-		buddies.add("Navine +91 80 42120570");
-		buddies.add("Senthilnathan +91 9686033557");
-		buddies.add("Ramesh +91 9916922424");
+		//ReadPhoneContact rph = new ReadPhoneContact();
+		buddies = ReadPhoneContacts.getStarredContacts();
+		if (buddies.isEmpty()){
+			buddies.add("Please set favourite in the phone");
+		}
+		
+//		buddies.add("Elango +91 9880649789");
+//		buddies.add("Navine +91 80 42120570");
+//		buddies.add("Senthilnathan +91 9686033557");
+//		buddies.add("Ramesh +91 9916922424");
 
 		// List<String> police = new ArrayList<String>();
 		// police.add("100");
 		// police.add("102");
 		// police.add("104");
 
-		List<String> tollfree = new ArrayList<String>();
-		tollfree.add("08025746");
-		tollfree.add("04412345");
-		tollfree.add("02289745");
+//		List<String> tollfree = new ArrayList<String>();
+//		tollfree.add("08025746");
+//		tollfree.add("04412345");
+//		tollfree.add("02289745");
 
 		// List<String> ambulance = new ArrayList<String>();
 		// ambulance.add("1088");
@@ -554,7 +564,7 @@ public class ListSOSActivity extends Activity {
 		// ambulance.add("Immediate Assistants - +61 2 9460 2851");
 		// ambulance.add("Paddington Ambulance Station - +61 2 9320 7796");
 
-		List<String> helpline = new ArrayList<String>();
+		//List<String> helpline = new ArrayList<String>();
 		// helpline.add("18004087346");
 		// helpline.add("18008364565");
 
@@ -609,8 +619,8 @@ public class ListSOSActivity extends Activity {
 		listDataChild.put(listDataHeader.get(0), buddies); // Header, Child data
 		listDataChild.put(listDataHeader.get(1), police);
 		listDataChild.put(listDataHeader.get(2), ambulance);
-		listDataChild.put(listDataHeader.get(3), tollfree);
-		listDataChild.put(listDataHeader.get(4), helpline);
+		//listDataChild.put(listDataHeader.get(3), tollfree);
+		//listDataChild.put(listDataHeader.get(4), helpline);
 	}
 
 }
