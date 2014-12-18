@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -335,9 +336,10 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 				ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
 		// The backgroundDrawable is importat - to make outSideToucable work
-
-		popWindow.setBackgroundDrawable(new BitmapDrawable(mActivity
-				.getResources(), ""));
+		//popWindow.setBackgroundDrawable(new BitmapDrawable(mActivity
+		//		.getResources(), ""));
+		
+		popWindow.setBackgroundDrawable(new ColorDrawable(mActivity.getResources().getColor(android.R.color.darker_gray)));
 
 		popWindow.setOutsideTouchable(true);
 

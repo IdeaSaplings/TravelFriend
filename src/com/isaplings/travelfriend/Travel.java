@@ -65,7 +65,7 @@ public class Travel extends Activity implements OnClickListener {
 
 	private Boolean locationFlag = false;
 
-	private Menu mymenu;
+	private Menu mymenu = null;
 
 	public static Context appContext;
 
@@ -111,6 +111,10 @@ public class Travel extends Activity implements OnClickListener {
 	}
 
 	public void resetUpdating() {
+		
+		if (mymenu == null){
+			return;
+		}
 		// Get our refresh item from the menu
 		MenuItem m = mymenu.findItem(R.id.action_refresh);
 		if (m.getActionView() != null) {
@@ -135,6 +139,8 @@ public class Travel extends Activity implements OnClickListener {
 		actionBar = getActionBar();
 		actionBar.setTitle("Travel Friend");
 		actionBar.setSubtitle("SOS Help, closer to you");
+		
+		actionBar.setIcon(R.drawable.location);
 
 		// Load the AdHolder
 
@@ -423,6 +429,9 @@ public class Travel extends Activity implements OnClickListener {
 	}
 
 	private void enableRefreshButton() {
+		if (mymenu == null) {
+			return;
+		}
 		MenuItem refreshButton = mymenu.findItem(R.id.action_refresh);
 		refreshButton.setEnabled(true);
 
