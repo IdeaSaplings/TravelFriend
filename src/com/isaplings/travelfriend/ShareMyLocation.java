@@ -10,9 +10,11 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class ShareMyLocation extends Activity {
@@ -45,13 +47,13 @@ public class ShareMyLocation extends Activity {
 
 		// AdHolder update
 
-//		AdView adView = (AdView) findViewById(R.id.ad_mob_view);
-//		AdRequest adRequest = new AdRequest.Builder()
-//				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-//				.addTestDevice("TEST_DEVICE_ID")
-//				.addKeyword("health")
-//				.build();
-//		adView.loadAd(adRequest);
+		AdView adView = (AdView) findViewById(R.id.sharelocation_ad_mob_view);
+		AdRequest adRequest = new AdRequest.Builder()
+				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+				.addTestDevice("TEST_DEVICE_ID")
+				.addKeyword("health")
+				.build();
+		adView.loadAd(adRequest);
 
 		Bundle bundle = this.getIntent().getExtras();
 
@@ -102,13 +104,18 @@ public class ShareMyLocation extends Activity {
 	public void sendMessage(View view) {
 		Double latitude = mLocation.getLatitude();
 		Double longitude = mLocation.getLongitude();
-		
+		String shareMessage = "";
+
 		String uri = "http://maps.google.com/maps?saddr=" + latitude +","+ longitude;
+		
+		EditText sharemsg = (EditText) this.findViewById(R.id.share_msg);
+		shareMessage = "\n" + sharemsg.getText().toString() + "\n" + uri;
+		
 		Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 		sharingIntent.setType("text/plain");
-		String ShareSub = "Here is my location";
+		String ShareSub = "Sharing my location using TravelFriend";
 		sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, ShareSub);
-		sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, uri);
+		sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareMessage);
 		startActivity(Intent.createChooser(sharingIntent, "Share via"));
 
 	}
