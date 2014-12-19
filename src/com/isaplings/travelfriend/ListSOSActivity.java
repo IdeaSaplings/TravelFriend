@@ -27,6 +27,7 @@ import com.isaplings.travelfriend.model.EmergencyRecord;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -80,6 +81,15 @@ public class ListSOSActivity extends Activity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_sos_places);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+	}
+
+	@Override
+	protected void onResume(){
+		
+		super.onResume();
+
 
 		Bundle bundle = this.getIntent().getExtras();
 
@@ -259,8 +269,9 @@ public class ListSOSActivity extends Activity {
 				return false;
 			}
 		});
-	}
 
+	}
+	
 	class TextSearchTaskListener implements
 			AsyncTaskCompleteListener<PlacesResult> {
 
@@ -540,7 +551,7 @@ public class ListSOSActivity extends Activity {
 		//ReadPhoneContact rph = new ReadPhoneContact();
 		buddies = ReadPhoneContacts.getStarredContacts();
 		if (buddies.isEmpty()){
-			buddies.add("Please set favourite in the phone");
+			buddies.add("Please set favourites in your phone contacts");
 		}
 		
 //		buddies.add("Elango +91 9880649789");

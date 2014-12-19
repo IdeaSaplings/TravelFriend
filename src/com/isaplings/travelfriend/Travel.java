@@ -136,6 +136,13 @@ public class Travel extends Activity implements OnClickListener {
 
 		// This need to changed
 
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+
 		actionBar = getActionBar();
 		actionBar.setTitle("Travel Friend");
 		actionBar.setSubtitle("SOS Help, closer to you");
@@ -176,9 +183,10 @@ public class Travel extends Activity implements OnClickListener {
 		progressBar.setVisibility(View.GONE);
 		
 		onRefresh();
-
+		
+		
 	}
-
+	
 	@SuppressWarnings("unused")
 	private void AutoRefresh(){
 		
