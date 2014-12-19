@@ -2,6 +2,8 @@ package com.isaplings.travelfriend;
 
 import java.util.List;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.isaplings.travelfriend.MyLocation.LocationResult;
 import com.isaplings.travelfriend.lib.ButteryProgressBar;
 
@@ -130,6 +132,14 @@ public class Travel extends Activity implements OnClickListener {
 		// if you want to lock screen for always Portrait mode
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+//		AdView adView = (AdView) findViewById(R.id.travel_ad_mob_view);
+//		AdRequest adRequest = new AdRequest.Builder()
+//				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+//				.addTestDevice("TEST_DEVICE_ID")
+//				.addKeyword("health")
+//				.build();
+//		adView.loadAd(adRequest);
+		
 		// This need to changed
 
 	}
