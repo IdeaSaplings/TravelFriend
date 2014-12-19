@@ -44,16 +44,12 @@ import android.widget.LinearLayout;
 // Major part of the code need to be refactores
 // especially the inner class and method definitions
 
-// Last Modified by Navine on 15/Nov/2014
+// Last Modified by Navine on 19/Dec/2014
 
-// Modification in progress for getHospital data 15/Nov/2014
 
 public class Travel extends Activity implements OnClickListener {
 
-	/*
-	 * private Button btnGetLocation = null; private EditText editLocation =
-	 * null; private ProgressBar pb = null;
-	 */
+	
 	private ActionBar actionBar;
 
 	private static final String TAG = "Debug";
@@ -139,9 +135,9 @@ public class Travel extends Activity implements OnClickListener {
 	}
 
 	@Override
-	protected void onResume()
+	protected void onStart()
 	{
-		super.onResume();
+		super.onStart();
 
 		actionBar = getActionBar();
 		actionBar.setTitle("Travel Friend");
@@ -187,7 +183,7 @@ public class Travel extends Activity implements OnClickListener {
 		
 	}
 	
-	@SuppressWarnings("unused")
+	@SuppressLint("InflateParams")
 	private void AutoRefresh(){
 		
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -204,7 +200,8 @@ public class Travel extends Activity implements OnClickListener {
 		onRefresh();
 		
 	}
-	
+
+	//Need to remove this method
 	public void onClick(View v) {
 		// Closes the Activity
 

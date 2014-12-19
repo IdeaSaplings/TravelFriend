@@ -2,7 +2,12 @@ package com.isaplings.travelfriend;
 
 // This code is owned by Raja and Anu
 // Final Integration : 16 Dec 2015
-// Code not reviewed
+// Code  reviewed by Navine 
+// Refactoring the code is complete
+// Last updated by Navine - 19 Dec 2015
+// 
+// Review Comments: One deprecated method is used in the implementation
+// 
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +19,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.isaplings.travelfriend.lib.ReadPhoneContacts;
 import com.a2plab.googleplaces.GooglePlaces;
 import com.a2plab.googleplaces.models.Place;
@@ -46,7 +53,6 @@ import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ListSOSActivity extends Activity {
 
@@ -83,13 +89,20 @@ public class ListSOSActivity extends Activity {
 		setContentView(R.layout.activity_list_sos_places);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+		// AdHolder update
+
+		AdView adView = (AdView) findViewById(R.id.sos_ad_mob_view);
+		AdRequest adRequest = new AdRequest.Builder()
+				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+				.addTestDevice("TEST_DEVICE_ID").addKeyword("health").build();
+		adView.loadAd(adRequest);
+
 	}
 
 	@Override
-	protected void onResume(){
-		
-		super.onResume();
+	protected void onResume() {
 
+		super.onResume();
 
 		Bundle bundle = this.getIntent().getExtras();
 
@@ -130,6 +143,37 @@ public class ListSOSActivity extends Activity {
 		// get the listview
 		expListView = (ExpandableListView) findViewById(R.id.lvExp);
 		expListView.setIndicatorBounds(5, 60);
+
+		// Intialising Buttery Progress Bar
+		Log.v("Debug", "MYGPS : Initialising Buttery Progress Bar");
+
+		progressBar = new ButteryProgressBar(this);
+		progressBar.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+				24));
+
+		// retrieve the top view of our application
+		final FrameLayout decorView = (FrameLayout) getWindow().getDecorView();
+		decorView.addView(progressBar);
+
+		ViewTreeObserver observer = progressBar.getViewTreeObserver();
+		observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+			@SuppressWarnings("deprecation")
+			@Override
+			public void onGlobalLayout() {
+				View contentView = decorView.findViewById(android.R.id.content);
+				progressBar.setY(contentView.getY() - 10);
+
+				ViewTreeObserver observer = progressBar.getViewTreeObserver();
+				observer.removeGlobalOnLayoutListener(this);
+				// observer.removeOnGlobalLayoutListener(this);
+				Log.v("Debug", "MYGPS : on end of onGlobalLayout");
+
+			}
+		});
+
+		progressBar.setVisibility(View.VISIBLE);
+
 		// preparing list data
 		prepareListData();
 
@@ -178,33 +222,6 @@ public class ListSOSActivity extends Activity {
 		// getPoliceStation.execute(mLocation);
 		getPoliceStation.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
 				mLocation);
-
-		Log.v("Debug", "MYGPS : Initialising Buttery Progress Bar");
-
-		progressBar = new ButteryProgressBar(this);
-		progressBar.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-				24));
-
-		// retrieve the top view of our application
-		final FrameLayout decorView = (FrameLayout) getWindow().getDecorView();
-		decorView.addView(progressBar);
-
-		ViewTreeObserver observer = progressBar.getViewTreeObserver();
-		observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-			@SuppressWarnings("deprecation")
-			@Override
-			public void onGlobalLayout() {
-				View contentView = decorView.findViewById(android.R.id.content);
-				progressBar.setY(contentView.getY() - 10);
-
-				ViewTreeObserver observer = progressBar.getViewTreeObserver();
-				observer.removeGlobalOnLayoutListener(this);
-				//observer.removeOnGlobalLayoutListener(this);
-				Log.v("Debug", "MYGPS : on end of onGlobalLayout");
-
-			}
-		});
 
 		// Listener method implementation
 
@@ -257,21 +274,20 @@ public class ListSOSActivity extends Activity {
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v,
 					int groupPosition, int childPosition, long id) {
-				// TODO Auto-generated method stub
-				Toast.makeText(
-						getApplicationContext(),
-						listDataHeader.get(groupPosition)
-								+ " : "
-								+ listDataChild.get(
-										listDataHeader.get(groupPosition)).get(
-										childPosition), Toast.LENGTH_SHORT)
-						.show();
+				// Toast.makeText(
+				// getApplicationContext(),
+				// listDataHeader.get(groupPosition)
+				// + " : "
+				// + listDataChild.get(
+				// listDataHeader.get(groupPosition)).get(
+				// childPosition), Toast.LENGTH_SHORT)
+				// .show();
 				return false;
 			}
 		});
 
 	}
-	
+
 	class TextSearchTaskListener implements
 			AsyncTaskCompleteListener<PlacesResult> {
 
@@ -284,7 +300,6 @@ public class ListSOSActivity extends Activity {
 
 		@Override
 		public void onTaskComplete(PlacesResult placesResult) {
-			// TODO Auto-generated method stub
 
 			Log.v(TAG, "MyGPS : Get Ambulance Task Completed");
 
@@ -292,10 +307,9 @@ public class ListSOSActivity extends Activity {
 			if ((placesResult == null)
 					|| (placesResult.getResults().size() <= 0)) {
 				Log.v(TAG, "MyGPS : Places result is null or empty");
-				
+
 				if (progressBar.isShown()) {
-					Log.v("Debug",
-							"Buttery Progress Bar is Visible - isShown ");
+					Log.v("Debug", "Buttery Progress Bar is Visible - isShown ");
 
 					new Handler().postDelayed(new Runnable() {
 
@@ -310,7 +324,6 @@ public class ListSOSActivity extends Activity {
 
 				}
 
-				
 				return;
 			}
 
@@ -352,8 +365,9 @@ public class ListSOSActivity extends Activity {
 
 			@Override
 			protected PlaceDetailsResult doInBackground(String... params) {
-				// TODO Auto-generated method stub
 				String placeId = params[0];
+
+				Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 
 				GooglePlaces gp = new GooglePlaces(
 						"AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA");
@@ -378,33 +392,27 @@ public class ListSOSActivity extends Activity {
 
 			protected void onPreExecute() {
 
-				// Butter Progress Bar
+				Log.v("Debug", "MyGPS : InPreExecute -  Progress Bar status : "
+						+ progressBar.isShown());
 
-				// Log.v("Debug", "My GetApplication Context " +
-				// getApplicationContext().toString() );
-				// Log.v("Debug", "ListSOSActivity Context " +
-				// ListSOSActivity.this.toString() );
-				// Log.v("Debug", "GetBase Context " +
-				// getBaseContext().toString() );
+				if (!progressBar.isShown()) {
+					Log.v("Debug",
+							"MyGPS : InPreExecute - Setting Progress Bar to visible");
+					progressBar.setVisibility(View.VISIBLE);
 
-				if (!progressBar.isShown()){
-					Log.v ("Debug", "MyGPS : InPreExecute - Setting Progress Bar to visible");
-					
-					new Handler().postDelayed(new Runnable() {
-						
-						@Override
-						public void run() {
-							progressBar.setVisibility(View.VISIBLE);
-							Log.v("Debug",
-									"MYGPS : Inside Handler :  set ButteryProgressBar Visible ");
+					// new Handler().postDelayed(new Runnable() {
+					//
+					// @Override
+					// public void run() {
+					// progressBar.setVisibility(View.VISIBLE);
+					// Log.v("Debug",
+					// "MYGPS : Inside Handler :  set ButteryProgressBar Visible ");
+					//
+					// }
+					// }, 0);
 
-						}
-					}, 0);
-
-					
 				}
-				
-				
+
 			}
 
 			protected void onPostExecute(PlaceDetailsResult placeDetailsResult) {
@@ -450,26 +458,23 @@ public class ListSOSActivity extends Activity {
 							ambulance.add(placeDetails.getName() + "\n"
 									+ phoneNumber);
 							listAdapter.notifyDataSetChanged();
+							Log.v("Debug",
+									"MyGPS : InPostExecute -  Progress Bar status : "
+											+ progressBar.isShown());
 
 							if (progressBar.isShown()) {
 								Log.v("Debug",
-										"Buttery Progress Bar is Visible - isShown ");
-
-								new Handler().postDelayed(new Runnable() {
-
-									@Override
-									public void run() {
-										progressBar.setVisibility(View.GONE);
-										Log.v("Debug",
-												"MYGPS : Inside Handler :  set ButteryProgressBar InVisible ");
-
-									}
-								}, 0);
+										"Buttery Progress Bar need to be made Invisible - isShown ");
+								progressBar.setVisibility(View.GONE);
+								Log.v("Debug",
+										"MyGPS : InPostExecute -  Progress Bar status changed : "
+												+ progressBar.isShown());
 
 							}
 
 							Log.v("Debug",
-									" MyGPS PlacesList : Updated Exp List " + placeDetails.getName());
+									" MyGPS PlacesList : Updated Exp List "
+											+ placeDetails.getName());
 
 						}
 
@@ -478,20 +483,19 @@ public class ListSOSActivity extends Activity {
 									+ phoneNumber);
 							listAdapter.notifyDataSetChanged();
 
+							Log.v("Debug",
+									"MyGPS : InPostExecute -  Progress Bar status : "
+											+ progressBar.isShown());
+
 							if (progressBar.isShown()) {
+								progressBar.setVisibility(View.GONE);
 
 								Log.v("Debug",
 										"Buttery Progress Bar is Visible - isShown ");
-
-								new Handler().postDelayed(new Runnable() {
-									@Override
-									public void run() {
-										progressBar.setVisibility(View.GONE);
-										Log.v("Debug",
-												"MYGPS : Inside Handler :  set ButteryProgressBar InVisible ");
-
-									}
-								}, 0);
+								progressBar.setVisibility(View.GONE);
+								Log.v("Debug",
+										"MyGPS : InPostExecute -  Progress Bar status changed : "
+												+ progressBar.isShown());
 
 							}
 
@@ -526,7 +530,6 @@ public class ListSOSActivity extends Activity {
 		GetPlaceDetailsTask placeDetails = new GetPlaceDetailsTask();
 		placeDetails.execute(placeId);
 
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -541,45 +544,14 @@ public class ListSOSActivity extends Activity {
 		listDataHeader.add("Emergency Contacts");
 		listDataHeader.add("Police");
 		listDataHeader.add("Ambulance");
-		//listDataHeader.add("Toll Booth");
-		//listDataHeader.add("Helpline");
-		
-		
 
 		// Adding child data
 		List<String> buddies = new ArrayList<String>();
-		//ReadPhoneContact rph = new ReadPhoneContact();
+		// ReadPhoneContact rph = new ReadPhoneContact();
 		buddies = ReadPhoneContacts.getStarredContacts();
-		if (buddies.isEmpty()){
+		if (buddies.isEmpty()) {
 			buddies.add("Please set favourites in your phone contacts");
 		}
-		
-//		buddies.add("Elango +91 9880649789");
-//		buddies.add("Navine +91 80 42120570");
-//		buddies.add("Senthilnathan +91 9686033557");
-//		buddies.add("Ramesh +91 9916922424");
-
-		// List<String> police = new ArrayList<String>();
-		// police.add("100");
-		// police.add("102");
-		// police.add("104");
-
-//		List<String> tollfree = new ArrayList<String>();
-//		tollfree.add("08025746");
-//		tollfree.add("04412345");
-//		tollfree.add("02289745");
-
-		// List<String> ambulance = new ArrayList<String>();
-		// ambulance.add("1088");
-		// ambulance.add("108");
-		// ambulance.add("Immediate Assistants - +61 2 9460 2851");
-		// ambulance.add("Paddington Ambulance Station - +61 2 9320 7796");
-
-		//List<String> helpline = new ArrayList<String>();
-		// helpline.add("18004087346");
-		// helpline.add("18008364565");
-
-		// Get the Data from Static File
 
 		EmergencyRecord emergencyRec = new EmergencyRecord();
 		StringBuilder stringBuilder = new StringBuilder();
@@ -615,14 +587,12 @@ public class ListSOSActivity extends Activity {
 			}
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		// ADD THE reCORDS NOW
+		// ADD THE Records NOW
 
 		police.add("Emergency Contact \n" + emergencyRec.getPolice());
 		ambulance.add("Emergency Contact \n" + emergencyRec.getAmbulance());
@@ -630,8 +600,7 @@ public class ListSOSActivity extends Activity {
 		listDataChild.put(listDataHeader.get(0), buddies); // Header, Child data
 		listDataChild.put(listDataHeader.get(1), police);
 		listDataChild.put(listDataHeader.get(2), ambulance);
-		//listDataChild.put(listDataHeader.get(3), tollfree);
-		//listDataChild.put(listDataHeader.get(4), helpline);
+
 	}
 
 }
