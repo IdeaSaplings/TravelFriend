@@ -18,7 +18,7 @@ public class CheckNetwork {
         Log.v(TAG," MYGPS : Internet Availablity Checking ");
         
         
-        NetworkInfo info = (NetworkInfo) ((ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+        NetworkInfo info = (NetworkInfo) ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
 
         if (info == null)
         {

@@ -246,6 +246,7 @@ public class TravelSettings extends Activity implements AlertPositiveListener {
 						editor.putInt("MaxRadius", appRadius);
 						editor.commit();
 
+						@SuppressWarnings("unused")
 						String maxRad = Integer.toString(pref.getInt(
 								"MaxRadius", 50));
 

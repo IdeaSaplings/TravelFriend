@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.a2plab.googleplaces.GooglePlaces;
 import com.a2plab.googleplaces.result.PlacesResult;
-import com.a2plab.googleplaces.result.Result.StatusCode;
 import com.isaplings.travelfriend.AsyncTaskCompleteListener;
 
 import android.app.Activity;

@@ -34,9 +34,9 @@
             android:id="@+id/btnSOS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onGetSoS"
             android:background="@drawable/button_selector"
             android:drawableTop="@drawable/sos"
+            android:onClick="onGetSoS"
             android:text="@string/sos"
             android:textColor="@android:color/white"
             android:textSize="13sp" />
@@ -256,20 +256,27 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
     </LinearLayout>
-    
-<!--     <Space -->
-<!--         android:layout_width="match_parent" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:layout_weight="1" /> -->
-<!--   <com.google.android.gms.ads.AdView -->
-<!--         xmlns:ads="http://schemas.android.com/apk/res-auto" -->
-<!--         android:id="@+id/travel_ad_mob_view" -->
-<!--         android:layout_width="match_parent" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:layout_gravity="bottom" -->
-<!--         android:layout_weight="0" -->
-<!--         app:adSize="BANNER" -->
-<!--         app:adUnitId="ca-app-pub-9891495074913953/1510379425" > -->
-<!--     </com.google.android.gms.ads.AdView> -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="1" />
+
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/travel_ad_mob_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="0"
+            app:adSize="BANNER"
+            app:adUnitId="ca-app-pub-9891495074913953/1510379425" >
+        </com.google.android.gms.ads.AdView>
+    </LinearLayout>
 
 </GridLayout>

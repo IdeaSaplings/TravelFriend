@@ -132,14 +132,7 @@ public class Travel extends Activity implements OnClickListener {
 		// if you want to lock screen for always Portrait mode
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-//		AdView adView = (AdView) findViewById(R.id.travel_ad_mob_view);
-//		AdRequest adRequest = new AdRequest.Builder()
-//				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-//				.addTestDevice("TEST_DEVICE_ID")
-//				.addKeyword("health")
-//				.build();
-//		adView.loadAd(adRequest);
-		
+				
 		// This need to changed
 
 	}
@@ -188,6 +181,14 @@ public class Travel extends Activity implements OnClickListener {
 
 		progressBar.setVisibility(View.GONE);
 		
+		AdView adView = (AdView) findViewById(R.id.travel_ad_mob_view);
+		AdRequest adRequest = new AdRequest.Builder()
+				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+				.addTestDevice("TEST_DEVICE_ID")
+				.addKeyword("travel")
+				.build();
+		adView.loadAd(adRequest);
+
 		onRefresh();
 		
 		
