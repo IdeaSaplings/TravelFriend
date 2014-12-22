@@ -48,10 +48,8 @@ import android.widget.LinearLayout;
 
 // Last Modified by Navine on 19/Dec/2014
 
-
 public class Travel extends Activity implements OnClickListener {
 
-	
 	private ActionBar actionBar;
 
 	private static final String TAG = "Debug";
@@ -65,7 +63,6 @@ public class Travel extends Activity implements OnClickListener {
 	public static Context appContext;
 	private Menu mymenu = null;
 
-	
 	private ButteryProgressBar progressBar;
 
 	@Override
@@ -99,8 +96,9 @@ public class Travel extends Activity implements OnClickListener {
 			return true;
 		case R.id.action_settings:
 			// openSettings();
-			Intent settingsIntent = new Intent(getBaseContext(), TravelSettings.class);
-        	startActivity(settingsIntent);
+			Intent settingsIntent = new Intent(getBaseContext(),
+					TravelSettings.class);
+			startActivity(settingsIntent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -108,8 +106,8 @@ public class Travel extends Activity implements OnClickListener {
 	}
 
 	public void resetUpdating() {
-		
-		if (mymenu == null){
+
+		if (mymenu == null) {
 			return;
 		}
 		// Get our refresh item from the menu
@@ -131,13 +129,12 @@ public class Travel extends Activity implements OnClickListener {
 		// if you want to lock screen for always Portrait mode
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-				
 		// This need to changed
 
 		actionBar = getActionBar();
 		actionBar.setTitle("Travel Friend");
-		actionBar.setSubtitle("SOS Help, closer to you");
-		
+		actionBar.setSubtitle("Help, closer to you");
+
 		actionBar.setIcon(R.drawable.location);
 
 		// Load the AdHolder
@@ -172,40 +169,37 @@ public class Travel extends Activity implements OnClickListener {
 						+ progressBar.isShown());
 
 		progressBar.setVisibility(View.GONE);
-		
+
 		AdView adView = (AdView) findViewById(R.id.travel_ad_mob_view);
 		AdRequest adRequest = new AdRequest.Builder()
 				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-				.addTestDevice("TEST_DEVICE_ID")
-				.addKeyword("travel")
-				.build();
+				.addTestDevice("TEST_DEVICE_ID").addKeyword("travel").build();
 		adView.loadAd(adRequest);
 
 		onRefresh();
-		
-		
+
 	}
 
-	
-//	@SuppressLint("InflateParams")
-//	private void AutoRefresh(){
-//		
-//		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//		ImageView iv = (ImageView) inflater.inflate(R.layout.iv_refresh,
-//				null);
-//		Animation rotation = AnimationUtils.loadAnimation(this,
-//				R.anim.rotate_refresh);
-//		rotation.setRepeatCount(Animation.INFINITE);
-//		iv.startAnimation(rotation);
-//		MenuItem menuItem = mymenu.findItem(R.id.action_refresh);
-//
-//		menuItem.setActionView(iv);
-//		// End
-//		onRefresh();
-//		
-//	}
+	// @SuppressLint("InflateParams")
+	// private void AutoRefresh(){
+	//
+	// LayoutInflater inflater = (LayoutInflater)
+	// getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	// ImageView iv = (ImageView) inflater.inflate(R.layout.iv_refresh,
+	// null);
+	// Animation rotation = AnimationUtils.loadAnimation(this,
+	// R.anim.rotate_refresh);
+	// rotation.setRepeatCount(Animation.INFINITE);
+	// iv.startAnimation(rotation);
+	// MenuItem menuItem = mymenu.findItem(R.id.action_refresh);
+	//
+	// menuItem.setActionView(iv);
+	// // End
+	// onRefresh();
+	//
+	// }
 
-	//Need to remove this method
+	// Need to remove this method
 	public void onClick(View v) {
 		// Closes the Activity
 
@@ -468,7 +462,7 @@ public class Travel extends Activity implements OnClickListener {
 		intent.putExtras(bundle);
 		enableRefreshButton();
 		enableHomeScreenIcons();
-	
+
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
@@ -491,7 +485,7 @@ public class Travel extends Activity implements OnClickListener {
 		intent.putExtras(bundle);
 		enableRefreshButton();
 		enableHomeScreenIcons();
-	
+
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
@@ -513,7 +507,7 @@ public class Travel extends Activity implements OnClickListener {
 		intent.putExtras(bundle);
 		enableRefreshButton();
 		enableHomeScreenIcons();
-	
+
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
@@ -535,7 +529,7 @@ public class Travel extends Activity implements OnClickListener {
 		intent.putExtras(bundle);
 		enableRefreshButton();
 		enableHomeScreenIcons();
-	
+
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
@@ -557,7 +551,7 @@ public class Travel extends Activity implements OnClickListener {
 		intent.putExtras(bundle);
 		enableRefreshButton();
 		enableHomeScreenIcons();
-	
+
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
@@ -579,7 +573,7 @@ public class Travel extends Activity implements OnClickListener {
 		intent.putExtras(bundle);
 		enableRefreshButton();
 		enableHomeScreenIcons();
-	
+
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
@@ -602,7 +596,7 @@ public class Travel extends Activity implements OnClickListener {
 
 		enableRefreshButton();
 		enableHomeScreenIcons();
-	
+
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
@@ -621,11 +615,10 @@ public class Travel extends Activity implements OnClickListener {
 
 		// Location is sent as parcelable object
 		intent.putExtras(bundle);
-	
+
 		enableRefreshButton();
 		enableHomeScreenIcons();
-	
-		
+
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
@@ -644,12 +637,13 @@ public class Travel extends Activity implements OnClickListener {
 
 		// Location is sent as parcelable object
 		intent.putExtras(bundle);
-		
-		enableRefreshButton();		
+
+		enableRefreshButton();
 		enableHomeScreenIcons();
-		
+
 		startActivity(intent);
-		Log.v("Debug", "MyGPS : Hospital intent - Started after icons enabled ...");
+		Log.v("Debug",
+				"MyGPS : Hospital intent - Started after icons enabled ...");
 
 	}
 
@@ -669,11 +663,10 @@ public class Travel extends Activity implements OnClickListener {
 
 		// Location is sent as parcelable object
 		intent.putExtras(bundle);
-		
+
 		enableRefreshButton();
 		enableHomeScreenIcons();
-	
-		
+
 		startActivity(intent);
 
 		Log.v("Debug", "MyGPS : Intent start initiated ...");
@@ -868,8 +861,9 @@ public class Travel extends Activity implements OnClickListener {
 			GetMyAddressTask addTask = new GetMyAddressTask(Travel.this,
 					appContext, fm);
 
-			if (mLocation == null)
+			if (mLocation == null) {
 				return;
+			}
 
 			if (mLocation != null) {
 				// btnGetLocation.setEnabled(true);

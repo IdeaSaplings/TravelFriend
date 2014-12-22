@@ -80,7 +80,10 @@ public class POITextSearchTask extends AsyncTask<Location, String, PlacesResult>
 
 		// Log.v(TAG, "GPS: Current Thread After Priority is  set : " +
 		// Thread.currentThread().getPriority());
-
+		if (isCancelled()) {
+			return null;
+		}
+		
 		try {
 			Log.v(TAG,
 					"MYGPSLocation : GetPOIDetails Trying to get POI Details using Google Places Library  ");
