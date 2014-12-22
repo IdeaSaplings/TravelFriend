@@ -39,7 +39,6 @@ import android.content.res.AssetManager;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,6 +56,7 @@ import android.widget.TextView;
 public class ListSOSActivity extends Activity {
 
 	private static final String TAG = "Debug";
+	private boolean threadFlag = true;
 
 	ExpandableListAdapter listAdapter;
 	ExpandableListView expListView;
@@ -72,14 +72,95 @@ public class ListSOSActivity extends Activity {
 
 	ButteryProgressBar progressBar;
 
+	POITextSearchTask getAmbulance, getPoliceStation;
+
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
+			threadFlag = false;
 			finish();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		// you may call the cancel() method but if it is not handled in
+		// doInBackground() method
+		if (getPoliceStation != null
+				&& getPoliceStation.getStatus() != AsyncTask.Status.FINISHED) {
+			Log.v(TAG, "MyGPS : Cancelling getPoliceStation thread");
+
+			getPoliceStation.cancel(true);
+		}
+		if (getAmbulance != null
+				&& getAmbulance.getStatus() != AsyncTask.Status.FINISHED) {
+			Log.v(TAG, "MyGPS : Cancelling getAmbulance thread");
+
+			getAmbulance.cancel(true);
+		}
+
+		super.onDestroy();
+	}
+
+	class TextSearchTaskListener implements
+			AsyncTaskCompleteListener<PlacesResult> {
+
+		String listType;
+
+		public TextSearchTaskListener(String listType) {
+			super();
+			this.listType = listType;
+		}
+
+		@Override
+		public void onTaskComplete(PlacesResult placesResult) {
+
+			Log.v(TAG, "MyGPS : Get Ambulance Task Completed");
+
+			// No error message - if unable to get data
+			if ((placesResult == null)
+					|| (placesResult.getResults().size() <= 0)) {
+				Log.v(TAG, "MyGPS : Places result is null or empty");
+
+				if (progressBar.isShown()) {
+					Log.v("Debug", "Buttery Progress Bar is Visible - isShown ");
+
+					progressBar.setVisibility(View.GONE);
+				}
+
+				return;
+			}
+
+			@SuppressWarnings("unchecked")
+			List<Place> placesList = (List<Place>) placesResult.getResults();
+
+			// placesList can be filter based on Types
+			// But Types is not implemented in Place (model)
+
+			// Setting a limit for the iteration
+			int iterLimit = 4;
+			if (placesList.size() < 4) {
+				iterLimit = placesList.size();
+			}
+
+			for (int i = 0; i < iterLimit; i++) {
+
+				Log.v(TAG, "MyGPS : Places Name : "
+						+ placesList.get(i).getName());
+				Log.v(TAG, "MyGPS : Places Id : "
+						+ placesList.get(i).getPlaceId());
+
+				getContactNumber(placesList.get(i).getPlaceId(), listType);
+
+			}
+
+			// listAdapter.notifyDataSetChanged();
+
+		}
+
 	}
 
 	@Override
@@ -89,8 +170,8 @@ public class ListSOSActivity extends Activity {
 		setContentView(R.layout.activity_list_sos_places);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-		// 
-		
+		//
+
 		Bundle bundle = this.getIntent().getExtras();
 
 		Location mLocation = bundle.getParcelable("LOCATION");
@@ -187,8 +268,11 @@ public class ListSOSActivity extends Activity {
 
 		String sText = "ambulance";
 
-		POITextSearchTask getAmbulance = new POITextSearchTask(
-				ListSOSActivity.this, ambListner, sTypes, sText);
+		// POITextSearchTask getAmbulance = new POITextSearchTask(
+		// ListSOSActivity.this, ambListner, sTypes, sText);
+
+		getAmbulance = new POITextSearchTask(ListSOSActivity.this, ambListner,
+				sTypes, sText);
 
 		// getAmbulance.execute(mLocation);
 
@@ -203,8 +287,11 @@ public class ListSOSActivity extends Activity {
 		TextSearchTaskListener polListener = new TextSearchTaskListener(
 				"police");
 
-		POITextSearchTask getPoliceStation = new POITextSearchTask(
-				ListSOSActivity.this, polListener, sTypes, sText);
+		// POITextSearchTask getPoliceStation = new POITextSearchTask(
+		// ListSOSActivity.this, polListener, sTypes, sText);
+
+		getPoliceStation = new POITextSearchTask(ListSOSActivity.this,
+				polListener, sTypes, sText);
 
 		// getPoliceStation.execute(mLocation);
 		getPoliceStation.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
@@ -273,7 +360,6 @@ public class ListSOSActivity extends Activity {
 			}
 		});
 
-		
 		// AdHolder update
 
 		AdView adView = (AdView) findViewById(R.id.sos_ad_mob_view);
@@ -284,248 +370,178 @@ public class ListSOSActivity extends Activity {
 
 	}
 
-	
-	class TextSearchTaskListener implements
-			AsyncTaskCompleteListener<PlacesResult> {
+	class GetPlaceDetailsTask extends
+			AsyncTask<String, String, PlaceDetailsResult> {
 
 		String listType;
 
-		public TextSearchTaskListener(String listType) {
+		public GetPlaceDetailsTask(String listType) {
 			super();
 			this.listType = listType;
 		}
 
 		@Override
-		public void onTaskComplete(PlacesResult placesResult) {
+		protected PlaceDetailsResult doInBackground(String... params) {
+			String placeId = params[0];
 
-			Log.v(TAG, "MyGPS : Get Ambulance Task Completed");
+			Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 
-			// No error message - if unable to get data
-			if ((placesResult == null)
-					|| (placesResult.getResults().size() <= 0)) {
-				Log.v(TAG, "MyGPS : Places result is null or empty");
-
-				if (progressBar.isShown()) {
-					Log.v("Debug", "Buttery Progress Bar is Visible - isShown ");
-
-					new Handler().postDelayed(new Runnable() {
-
-						@Override
-						public void run() {
-							progressBar.setVisibility(View.GONE);
-							Log.v("Debug",
-									"MYGPS : Inside Handler :  set ButteryProgressBar InVisible ");
-
-						}
-					}, 0);
-
+			GooglePlaces gp = new GooglePlaces(
+					"AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA");
+			PlaceDetailsResult placeDetailsResult = new PlaceDetailsResult();
+			// if the thread is cancelled
+			if (isCancelled()) {
+				return null;
+			}
+			try {
+				placeDetailsResult = (PlaceDetailsResult) gp
+						.getPlaceDetails(placeId);
+				if (placeDetailsResult.getStatusCode() != StatusCode.OK) {
+					return null;
 				}
 
-				return;
+			} catch (IOException e) {
+
+				e.printStackTrace();
+				return null;
 			}
+			Log.v("Debug", " MyGPS : Successfully executed getPlaceDetails ");
 
-			@SuppressWarnings("unchecked")
-			List<Place> placesList = (List<Place>) placesResult.getResults();
+			return placeDetailsResult;
+		}
 
-			// placesList can be filter based on Types
-			// But Types is not implemented in Place (model)
+		protected void onPreExecute() {
 
-			// Setting a limit for the iteration
-			int iterLimit = 4;
-			if (placesList.size() < 4) {
-				iterLimit = placesList.size();
-			}
+			Log.v("Debug", "MyGPS : InPreExecute -  Progress Bar status : "
+					+ progressBar.isShown());
 
-			for (int i = 0; i < iterLimit; i++) {
-
-				Log.v(TAG, "MyGPS : Places Name : "
-						+ placesList.get(i).getName());
-				Log.v(TAG, "MyGPS : Places Id : "
-						+ placesList.get(i).getPlaceId());
-				// ambulance.add(placesList.get(i).getName());
-				getContactNumber(placesList.get(i).getPlaceId(), listType);
+			if (!progressBar.isShown()) {
+				Log.v("Debug",
+						"MyGPS : InPreExecute - Setting Progress Bar to visible");
+				progressBar.setVisibility(View.VISIBLE);
 
 			}
-
-			// listAdapter.notifyDataSetChanged();
 
 		}
 
+		protected void onPostExecute(PlaceDetailsResult placeDetailsResult) {
+
+			Log.v("Debug", " MyGPS : getPlaceDetails in PostExecute Method");
+
+			if (placeDetailsResult == null) {
+				return;
+			}
+
+			PlaceDetails placeDetails = placeDetailsResult.result;
+
+			if (placeDetailsResult.getStatusCode() == StatusCode.OK) {
+
+				Log.v("Debug", " MyGPS : getPlaceDetails status is OK");
+
+				Log.v("Debug", " MyGPS : Name :  " + placeDetails.getName());
+				Log.v("Debug",
+						" MyGPS : Inter Phone Number: "
+								+ placeDetails.getInternationalPhoneNumber());
+				Log.v("Debug",
+						" MyGPS : PhoneNumber: "
+								+ placeDetails.getFormattedPhoneNumber());
+
+				// Append the name and phonenumber to list
+				String phoneNumber = new String();
+				if ((placeDetails.getInternationalPhoneNumber() == null)
+						|| (placeDetails.getInternationalPhoneNumber()
+								.isEmpty())) {
+					phoneNumber = placeDetails.getInternationalPhoneNumber();
+
+				} else {
+					Log.v("Debug",
+							" MyGPS PlacesList : Internation phone number is null  "
+									+ placeDetails.getFormattedPhoneNumber());
+					phoneNumber = placeDetails.getFormattedPhoneNumber();
+				}
+
+				if (phoneNumber != null && !phoneNumber.isEmpty()) {
+
+					if (listType.equals("ambulance") && threadFlag) {
+						ambulance.add(placeDetails.getName() + "\n"
+								+ phoneNumber);
+						listAdapter.notifyDataSetChanged();
+						Log.v("Debug",
+								"MyGPS : InPostExecute -  Progress Bar status : "
+										+ progressBar.isShown());
+
+						if (progressBar.isShown()) {
+							Log.v("Debug",
+									"Buttery Progress Bar need to be made Invisible - isShown ");
+							progressBar.setVisibility(View.GONE);
+							Log.v("Debug",
+									"MyGPS : InPostExecute -  Progress Bar status changed : "
+											+ progressBar.isShown());
+
+						}
+
+						Log.v("Debug", " MyGPS PlacesList : Updated Exp List "
+								+ placeDetails.getName());
+
+					}
+
+					if (listType.equals("police") && threadFlag) {
+						police.add(placeDetails.getName() + "\n" + phoneNumber);
+						listAdapter.notifyDataSetChanged();
+
+						Log.v("Debug",
+								"MyGPS : InPostExecute -  Progress Bar status : "
+										+ progressBar.isShown());
+
+						if (progressBar.isShown()) {
+							progressBar.setVisibility(View.GONE);
+
+							Log.v("Debug",
+									"Buttery Progress Bar is Visible - isShown ");
+							progressBar.setVisibility(View.GONE);
+							Log.v("Debug",
+									"MyGPS : InPostExecute -  Progress Bar status changed : "
+											+ progressBar.isShown());
+
+						}
+
+						Log.v("Debug",
+								" MyGPS PlacesList : Updated Expandable List"
+										+ placeDetails.getName());
+
+					}
+
+				}
+
+				Log.v("Debug",
+						" MyGPS PlacesList : Put  the PlaceDetails from Places API into CachePlaceList");
+
+				return;
+
+			}
+
+			else {
+				Log.v("Debug", " MyGPS : getPlaceDetails status is : "
+						+ placeDetailsResult.getStatusCode());
+
+				// Show Alert Unable to retrieve more information
+
+				return;
+
+			}
+
+		}
 	}
 
 	public String getContactNumber(String placeId, String list) {
 
-		final String listType = list;
+		// final String listType = list;
 
-		class GetPlaceDetailsTask extends
-				AsyncTask<String, String, PlaceDetailsResult> {
+		GetPlaceDetailsTask placeDetails = new GetPlaceDetailsTask(list);
 
-			@Override
-			protected PlaceDetailsResult doInBackground(String... params) {
-				String placeId = params[0];
-
-				Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-
-				GooglePlaces gp = new GooglePlaces(
-						"AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA");
-				PlaceDetailsResult placeDetailsResult = new PlaceDetailsResult();
-				try {
-					placeDetailsResult = (PlaceDetailsResult) gp
-							.getPlaceDetails(placeId);
-					if (placeDetailsResult.getStatusCode() != StatusCode.OK) {
-						return null;
-					}
-
-				} catch (IOException e) {
-
-					e.printStackTrace();
-					return null;
-				}
-				Log.v("Debug",
-						" MyGPS : Successfully executed getPlaceDetails ");
-
-				return placeDetailsResult;
-			}
-
-			protected void onPreExecute() {
-
-				Log.v("Debug", "MyGPS : InPreExecute -  Progress Bar status : "
-						+ progressBar.isShown());
-
-				if (!progressBar.isShown()) {
-					Log.v("Debug",
-							"MyGPS : InPreExecute - Setting Progress Bar to visible");
-					progressBar.setVisibility(View.VISIBLE);
-
-					// new Handler().postDelayed(new Runnable() {
-					//
-					// @Override
-					// public void run() {
-					// progressBar.setVisibility(View.VISIBLE);
-					// Log.v("Debug",
-					// "MYGPS : Inside Handler :  set ButteryProgressBar Visible ");
-					//
-					// }
-					// }, 0);
-
-				}
-
-			}
-
-			protected void onPostExecute(PlaceDetailsResult placeDetailsResult) {
-
-				Log.v("Debug", " MyGPS : getPlaceDetails in PostExecute Method");
-
-				if (placeDetailsResult == null) {
-					return;
-				}
-
-				PlaceDetails placeDetails = placeDetailsResult.result;
-
-				if (placeDetailsResult.getStatusCode() == StatusCode.OK) {
-
-					Log.v("Debug", " MyGPS : getPlaceDetails status is OK");
-
-					Log.v("Debug", " MyGPS : Name :  " + placeDetails.getName());
-					Log.v("Debug", " MyGPS : Inter Phone Number: "
-							+ placeDetails.getInternationalPhoneNumber());
-					Log.v("Debug",
-							" MyGPS : PhoneNumber: "
-									+ placeDetails.getFormattedPhoneNumber());
-
-					// Append the name and phonenumber to list
-					String phoneNumber = new String();
-					if ((placeDetails.getInternationalPhoneNumber() == null)
-							|| (placeDetails.getInternationalPhoneNumber()
-									.isEmpty())) {
-						phoneNumber = placeDetails
-								.getInternationalPhoneNumber();
-
-					} else {
-						Log.v("Debug",
-								" MyGPS PlacesList : Internation phone number is null  "
-										+ placeDetails
-												.getFormattedPhoneNumber());
-						phoneNumber = placeDetails.getFormattedPhoneNumber();
-					}
-
-					if (phoneNumber != null && !phoneNumber.isEmpty()) {
-
-						if (listType.equals("ambulance")) {
-							ambulance.add(placeDetails.getName() + "\n"
-									+ phoneNumber);
-							listAdapter.notifyDataSetChanged();
-							Log.v("Debug",
-									"MyGPS : InPostExecute -  Progress Bar status : "
-											+ progressBar.isShown());
-
-							if (progressBar.isShown()) {
-								Log.v("Debug",
-										"Buttery Progress Bar need to be made Invisible - isShown ");
-								progressBar.setVisibility(View.GONE);
-								Log.v("Debug",
-										"MyGPS : InPostExecute -  Progress Bar status changed : "
-												+ progressBar.isShown());
-
-							}
-
-							Log.v("Debug",
-									" MyGPS PlacesList : Updated Exp List "
-											+ placeDetails.getName());
-
-						}
-
-						if (listType.equals("police")) {
-							police.add(placeDetails.getName() + "\n"
-									+ phoneNumber);
-							listAdapter.notifyDataSetChanged();
-
-							Log.v("Debug",
-									"MyGPS : InPostExecute -  Progress Bar status : "
-											+ progressBar.isShown());
-
-							if (progressBar.isShown()) {
-								progressBar.setVisibility(View.GONE);
-
-								Log.v("Debug",
-										"Buttery Progress Bar is Visible - isShown ");
-								progressBar.setVisibility(View.GONE);
-								Log.v("Debug",
-										"MyGPS : InPostExecute -  Progress Bar status changed : "
-												+ progressBar.isShown());
-
-							}
-
-							Log.v("Debug",
-									" MyGPS PlacesList : Updated Expandable List"
-											+ placeDetails.getName());
-
-						}
-
-					}
-
-					Log.v("Debug",
-							" MyGPS PlacesList : Put  the PlaceDetails from Places API into CachePlaceList");
-
-					return;
-
-				}
-
-				else {
-					Log.v("Debug", " MyGPS : getPlaceDetails status is : "
-							+ placeDetailsResult.getStatusCode());
-
-					// Show Alert Unable to retrieve more information
-
-					return;
-
-				}
-
-			}
-		}
-
-		GetPlaceDetailsTask placeDetails = new GetPlaceDetailsTask();
 		placeDetails.execute(placeId);
+		// placeDetails.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+		// placeId);
 
 		return null;
 	}
