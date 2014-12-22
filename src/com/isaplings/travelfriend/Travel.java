@@ -732,7 +732,7 @@ public class Travel extends Activity implements OnClickListener {
 				enableRefreshButton();
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(
-						Travel.this);
+						Travel.this, AlertDialog.THEME_HOLO_LIGHT);
 				builder.setTitle("Unable to get current location");
 				builder.setMessage("Please check the settings of Location Services in the Phone Settings.");
 				builder.setCancelable(true);
@@ -803,7 +803,7 @@ public class Travel extends Activity implements OnClickListener {
 					if (result == null) {
 
 						AlertDialog.Builder builder = new AlertDialog.Builder(
-								Travel.this);
+								Travel.this, AlertDialog.THEME_HOLO_LIGHT);
 						builder.setTitle("Unable to get current address");
 						builder.setMessage("Please check the settings of Network Services in the Phone Settings.");
 						builder.setCancelable(true);
@@ -887,7 +887,7 @@ public class Travel extends Activity implements OnClickListener {
 			// if there is ui issue then
 			// resetUpdating();
 
-			AlertDialog.Builder builder = new AlertDialog.Builder(Travel.this);
+			AlertDialog.Builder builder = new AlertDialog.Builder(Travel.this, AlertDialog.THEME_HOLO_LIGHT);
 			builder.setTitle("Alert");
 			builder.setMessage(
 					"Unable to retrieve current location. Do you want to proceed with last known location ?")

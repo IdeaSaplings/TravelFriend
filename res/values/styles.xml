@@ -15,7 +15,12 @@
 <!--    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar"> -->
 <!--         <item name="android:background">#000000</item> -->
 <!--    </style> -->
-    
+   
+
+	<style name="CustomDialogTheme" parent="@android:style/Theme.Dialog">
+    	<item name="android:background">#FFFFFF</item>
+	</style>
+
    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">#000000</item>
         <item name="android:icon">@drawable/location</item>       
@@ -31,6 +36,7 @@
         <item name="android:windowActionBar">true</item>
         <item name="android:actionBarStyle">@style/MyActionBar</item>
         <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
+        <item name="android:alertDialogStyle">@style/CustomDialogTheme</item>
     </style>
     
     
