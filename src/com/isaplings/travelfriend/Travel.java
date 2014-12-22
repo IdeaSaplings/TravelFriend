@@ -61,13 +61,12 @@ public class Travel extends Activity implements OnClickListener {
 	private Double longitude;
 	private Location mLocation;
 
-	private Boolean locationFlag = false;
-
+	private static Boolean locationFlag = false;
+	public static Context appContext;
 	private Menu mymenu = null;
 
-	public static Context appContext;
-
-	ButteryProgressBar progressBar;
+	
+	private ButteryProgressBar progressBar;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -135,13 +134,6 @@ public class Travel extends Activity implements OnClickListener {
 				
 		// This need to changed
 
-	}
-
-	@Override
-	protected void onStart()
-	{
-		super.onStart();
-
 		actionBar = getActionBar();
 		actionBar.setTitle("Travel Friend");
 		actionBar.setSubtitle("SOS Help, closer to you");
@@ -193,24 +185,25 @@ public class Travel extends Activity implements OnClickListener {
 		
 		
 	}
-	
-	@SuppressLint("InflateParams")
-	private void AutoRefresh(){
-		
-		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		ImageView iv = (ImageView) inflater.inflate(R.layout.iv_refresh,
-				null);
-		Animation rotation = AnimationUtils.loadAnimation(this,
-				R.anim.rotate_refresh);
-		rotation.setRepeatCount(Animation.INFINITE);
-		iv.startAnimation(rotation);
-		MenuItem menuItem = mymenu.findItem(R.id.action_refresh);
 
-		menuItem.setActionView(iv);
-		// End
-		onRefresh();
-		
-	}
+	
+//	@SuppressLint("InflateParams")
+//	private void AutoRefresh(){
+//		
+//		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//		ImageView iv = (ImageView) inflater.inflate(R.layout.iv_refresh,
+//				null);
+//		Animation rotation = AnimationUtils.loadAnimation(this,
+//				R.anim.rotate_refresh);
+//		rotation.setRepeatCount(Animation.INFINITE);
+//		iv.startAnimation(rotation);
+//		MenuItem menuItem = mymenu.findItem(R.id.action_refresh);
+//
+//		menuItem.setActionView(iv);
+//		// End
+//		onRefresh();
+//		
+//	}
 
 	//Need to remove this method
 	public void onClick(View v) {

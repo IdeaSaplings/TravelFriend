@@ -89,21 +89,8 @@ public class ListSOSActivity extends Activity {
 		setContentView(R.layout.activity_list_sos_places);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-		// AdHolder update
-
-		AdView adView = (AdView) findViewById(R.id.sos_ad_mob_view);
-		AdRequest adRequest = new AdRequest.Builder()
-				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-				.addTestDevice("TEST_DEVICE_ID").addKeyword("health").build();
-		adView.loadAd(adRequest);
-
-	}
-
-	@Override
-	protected void onResume() {
-
-		super.onResume();
-
+		// 
+		
 		Bundle bundle = this.getIntent().getExtras();
 
 		Location mLocation = bundle.getParcelable("LOCATION");
@@ -286,8 +273,18 @@ public class ListSOSActivity extends Activity {
 			}
 		});
 
+		
+		// AdHolder update
+
+		AdView adView = (AdView) findViewById(R.id.sos_ad_mob_view);
+		AdRequest adRequest = new AdRequest.Builder()
+				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+				.addTestDevice("TEST_DEVICE_ID").addKeyword("health").build();
+		adView.loadAd(adRequest);
+
 	}
 
+	
 	class TextSearchTaskListener implements
 			AsyncTaskCompleteListener<PlacesResult> {
 
