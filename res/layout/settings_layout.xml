@@ -108,24 +108,22 @@
      
      <TextView
 		android:id="@+id/search_radius_val"
+		android:layout_below="@id/search_radius_name"
         android:layout_width="240dp"
-	    android:layout_height="wrap_content"
-	    android:layout_alignParentRight="true"
-	    android:layout_alignParentTop="true"
-	    android:layout_alignRight="@+id/search_radius_name"
-	    android:gravity="left"
-	    android:paddingBottom="3dp"
-	    android:paddingLeft="2dp"
-	    android:paddingRight="2dp"
-	    android:paddingTop="10dp"
-	    android:singleLine="true"
-	    android:text="(Default Value : 50 km/miles)"
-	    android:textColor="#808080"
-	    android:textSize="10sp" />
+		android:layout_height="wrap_content"
+		android:singleLine="true"
+        android:gravity="left"
+        android:paddingBottom="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="2dp"
+        android:paddingTop="1dp"	
+		android:text="(Default Value : 50 km/miles)"
+		android:textColor="#808080"
+		android:textSize="10sp" />
        
-       <TextView
+     <TextView
         android:id="@+id/search_radius_value"
-        android:layout_below="@id/search_radius_name"
+        android:layout_below="@id/search_radius_val"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:singleLine="true"
@@ -136,8 +134,8 @@
         android:paddingTop="5dp"
         android:text="50km/miles"
         android:textColor="#000000"
-        android:textSize="10sp"/>       
-
+        android:textSize="10sp"/>
+		
 		<View 	style="@style/Thin_Divider"
 		    	android:layout_below="@id/search_radius_value"/>
 		
