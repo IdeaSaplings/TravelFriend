@@ -14,11 +14,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.isaplings.travelfriend.lib.ReadPhoneContacts;
@@ -31,14 +29,16 @@ import com.a2plab.googleplaces.result.Result.StatusCode;
 import com.isaplings.travelfriend.lib.ButteryProgressBar;
 import com.isaplings.travelfriend.lib.POITextSearchTask;
 import com.isaplings.travelfriend.model.EmergencyRecord;
-
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,10 +53,19 @@ import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+
 public class ListSOSActivity extends Activity {
 
 	private static final String TAG = "Debug";
-	private boolean threadFlag = true;
+	private static final String API_KEY = "AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA";
+			
+	//String key =  getResources().getString(R.id.api_key);
+
+	Context mContext = Travel.appContext;
+	
+	
+	
+	//private boolean threadFlag = true;
 
 	ExpandableListAdapter listAdapter;
 	ExpandableListView expListView;
@@ -77,7 +86,6 @@ public class ListSOSActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			threadFlag = false;
 			finish();
 			return true;
 		default:
@@ -89,6 +97,8 @@ public class ListSOSActivity extends Activity {
 	protected void onDestroy() {
 		// you may call the cancel() method but if it is not handled in
 		// doInBackground() method
+		Log.v(TAG, "MyGPS : Inside onDestroy ");
+
 		if (getPoliceStation != null
 				&& getPoliceStation.getStatus() != AsyncTask.Status.FINISHED) {
 			Log.v(TAG, "MyGPS : Cancelling getPoliceStation thread");
@@ -101,6 +111,7 @@ public class ListSOSActivity extends Activity {
 
 			getAmbulance.cancel(true);
 		}
+		
 
 		super.onDestroy();
 	}
@@ -386,8 +397,7 @@ public class ListSOSActivity extends Activity {
 
 			Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 
-			GooglePlaces gp = new GooglePlaces(
-					"AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA");
+			GooglePlaces gp = new GooglePlaces(API_KEY);
 			PlaceDetailsResult placeDetailsResult = new PlaceDetailsResult();
 			// if the thread is cancelled
 			if (isCancelled()) {
@@ -424,6 +434,8 @@ public class ListSOSActivity extends Activity {
 
 		}
 
+		@SuppressLint("NewApi")
+		@SuppressWarnings("deprecation")
 		protected void onPostExecute(PlaceDetailsResult placeDetailsResult) {
 
 			Log.v("Debug", " MyGPS : getPlaceDetails in PostExecute Method");
@@ -462,10 +474,11 @@ public class ListSOSActivity extends Activity {
 
 				if (phoneNumber != null && !phoneNumber.isEmpty()) {
 
-					if (listType.equals("ambulance") && threadFlag) {
+					if (listType.equals("ambulance")) {
 						ambulance.add(placeDetails.getName() + "\n"
-								+ phoneNumber);
+								+ PhoneNumberUtils.formatNumberToE164(phoneNumber, countryCode));
 						listAdapter.notifyDataSetChanged();
+						
 						Log.v("Debug",
 								"MyGPS : InPostExecute -  Progress Bar status : "
 										+ progressBar.isShown());
@@ -485,7 +498,7 @@ public class ListSOSActivity extends Activity {
 
 					}
 
-					if (listType.equals("police") && threadFlag) {
+					if (listType.equals("police")) {
 						police.add(placeDetails.getName() + "\n" + phoneNumber);
 						listAdapter.notifyDataSetChanged();
 

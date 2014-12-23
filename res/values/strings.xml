@@ -1,25 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">TravelFriend</string>
+    <string name="api_key">AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_settings">Settings</string>
-    
     <string name="atm">ATM</string>
-	<string name="car_repair">Repair Pal</string>
-	<string name="fuel_pump">Fuel Station</string>
-	<string name="hospital">Hospital</string>
-	<string name="pharmacy">Pharmacy</string>
-	<string name="rest_room">Restroom</string>
-	<string name="restaurant">Restaurant</string>
-	<string name="share_location">Share Location</string>
-	<string name="sos">SOS</string>
-	<string name="tow">Tow Away</string>
-
-	<string name="about_us_description">
-	 TravelFriend searches and navigates near by Hospitals, Ambulance &#038; Emergency Services, 
+    <string name="car_repair">Repair Pal</string>
+    <string name="fuel_pump">Fuel Station</string>
+    <string name="hospital">Hospital</string>
+    <string name="pharmacy">Pharmacy</string>
+    <string name="rest_room">Restroom</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="share_location">Share Location</string>
+    <string name="sos">SOS</string>
+    <string name="tow">Tow Away</string>
+    <string name="about_us_description">	 TravelFriend searches and navigates near by Hospitals, Ambulance &#038; Emergency Services, 
 	 Fuel Stations, Restuarants etc for any location. The application auto detects the user location 
-	 by GPS or by Network Services and collects data through various online resources by best efforts.\n\nTerms &#038; Usage \nGoogle API Privcy Policy : \nhttp://www.google.com/policies/privacy \nGoogle APT Terms of use : \nhttp://www.google.com/intl/en/policies/terms \n\n
-	</string>
-	
+	 by GPS or by Network Services and collects data through various online resources by best efforts.\n\nTerms &#038; Usage \nGoogle API Privcy Policy : \nhttp://www.google.com/policies/privacy \nGoogle APT Terms of use : \nhttp://www.google.com/intl/en/policies/terms \n\n</string>
+
 </resources>
