@@ -499,7 +499,7 @@ public class ListSOSActivity extends Activity {
 					}
 
 					if (listType.equals("police")) {
-						police.add(placeDetails.getName() + "\n" + phoneNumber);
+						police.add(placeDetails.getName() + "\n" + PhoneNumberUtils.formatNumberToE164(phoneNumber, countryCode));
 						listAdapter.notifyDataSetChanged();
 
 						Log.v("Debug",
@@ -562,6 +562,7 @@ public class ListSOSActivity extends Activity {
 	/*
 	 * Preparing the list data
 	 */
+	@SuppressLint("NewApi")
 	private void prepareListData() {
 		listDataHeader = new ArrayList<String>();
 		listDataChild = new HashMap<String, List<String>>();
@@ -620,7 +621,7 @@ public class ListSOSActivity extends Activity {
 
 		// ADD THE Records NOW
 
-		police.add("Emergency Contact \n" + emergencyRec.getPolice());
+		police.add("Emergency Contact \n" +  emergencyRec.getPolice());
 		ambulance.add("Emergency Contact \n" + emergencyRec.getAmbulance());
 
 		listDataChild.put(listDataHeader.get(0), buddies); // Header, Child data
