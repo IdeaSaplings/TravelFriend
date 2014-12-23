@@ -32,7 +32,7 @@
    
     <color name="my_custom_color">#000000</color>
     <style name="MyCustomTheme" parent="android:style/Theme.Black">
-       	 <item name="android:windowBackground">@color/my_custom_color</item>
+       	<item name="android:windowBackground">@color/my_custom_color</item>
         <item name="android:windowActionBar">true</item>
         <item name="android:actionBarStyle">@style/MyActionBar</item>
         <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
