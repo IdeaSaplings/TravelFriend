@@ -60,9 +60,8 @@ public class ListSOSActivity extends Activity {
 
 	Context mContext = Travel.appContext;
 	
-	//private static final String API_KEY = "AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA";	
 	private final String API_KEY =  mContext.getResources().getString(R.string.api_key);
-	//
+	
 	
 	//private boolean threadFlag = true;
 
