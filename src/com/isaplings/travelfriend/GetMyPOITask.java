@@ -83,9 +83,12 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 		// TODO Auto-generated method stub
 		Location loc = params[0];
 
-		GooglePlaces googlePlaces = new GooglePlaces(
-				"AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA");
-		Log.v("Test", "Navine : Before get hospitals");
+//		GooglePlaces googlePlaces = new GooglePlaces(
+//				"AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA");
+		
+		GooglePlaces googlePlaces = new GooglePlaces(Travel.appContext.getResources().getString(R.string.api_key));
+		
+		Log.v("Test", "Navine : Before get POI ");
 
 		PlacesResult placesResult = null;
 

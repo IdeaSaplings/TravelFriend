@@ -98,10 +98,10 @@ public class ListRestaurantActivity extends  Activity {
 		types.add("restaurant");
 		types.add("food");
 		types.add("cafe");
-		types.add("bakery");
+		//types.add("bakery");
 		types.add("meal_delivery");
 		types.add("meal_takeaway");
-		types.add("bar");
+		//types.add("bar");
 			
 		
 		String keyword = null;

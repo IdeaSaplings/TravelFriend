@@ -57,13 +57,12 @@ import android.widget.TextView;
 public class ListSOSActivity extends Activity {
 
 	private static final String TAG = "Debug";
-	private static final String API_KEY = "AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA";
-			
-	//String key =  getResources().getString(R.id.api_key);
 
 	Context mContext = Travel.appContext;
 	
-	
+	//private static final String API_KEY = "AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA";	
+	private final String API_KEY =  mContext.getResources().getString(R.string.api_key);
+	//
 	
 	//private boolean threadFlag = true;
 
@@ -435,7 +434,6 @@ public class ListSOSActivity extends Activity {
 		}
 
 		@SuppressLint("NewApi")
-		@SuppressWarnings("deprecation")
 		protected void onPostExecute(PlaceDetailsResult placeDetailsResult) {
 
 			Log.v("Debug", " MyGPS : getPlaceDetails in PostExecute Method");
@@ -552,9 +550,8 @@ public class ListSOSActivity extends Activity {
 
 		GetPlaceDetailsTask placeDetails = new GetPlaceDetailsTask(list);
 
-		placeDetails.execute(placeId);
-		// placeDetails.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
-		// placeId);
+		//placeDetails.execute(placeId);
+		 placeDetails.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, placeId);
 
 		return null;
 	}
