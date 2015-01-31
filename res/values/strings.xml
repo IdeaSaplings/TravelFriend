@@ -1,7 +1,8 @@
 <resources>
 
     <string name="app_name">TravelFriend</string>
-    <string name="api_key">DontExpectMeToShowTheKeyAnyMore</string>
+    <string name="api_key">I am not going to expose it</string>
+    <string name="admob_unit_id">ca-app-pub-6444812742298351/7185858226</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_settings">Settings</string>
     <string name="atm">ATM</string>
