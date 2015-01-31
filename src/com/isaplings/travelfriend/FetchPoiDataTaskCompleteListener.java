@@ -222,8 +222,11 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 					// TODO Auto-generated method stub
 					String placeId = params[0];
 
-					GooglePlaces gp = new GooglePlaces(
-							"AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA");
+					//GooglePlaces gp = new GooglePlaces(
+						//	"AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA");
+					
+					GooglePlaces gp = new GooglePlaces(Travel.appContext.getResources().getString(R.string.api_key));
+
 					PlaceDetailsResult placeDetailsResult = new PlaceDetailsResult();
 					try {
 						placeDetailsResult = (PlaceDetailsResult) gp
