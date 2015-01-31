@@ -91,7 +91,7 @@ public class MyLocation {
 						locationListenerNetwork);
 		}
 		timer = new Timer();
-		timer.schedule(new GetLastLocation(mActivity), 20000);
+		timer.schedule(new GetLastLocation(mActivity), 30000);
 		return true;
 	}
 
