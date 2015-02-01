@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">TravelFriend</string>
-    <string name="api_key">I am not going to expose it</string>
+    <string name="api_key">Developers pls copy the right key</string>
     <string name="admob_unit_id">ca-app-pub-6444812742298351/7185858226</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_settings">Settings</string>
@@ -16,7 +16,7 @@
     <string name="sos">SOS</string>
     <string name="tow">Tow Away</string>
     <string name="about_us_description">	 TravelFriend searches and navigates near by Hospitals, Ambulance &#038; Emergency Services, 
-	 Fuel Stations, Restuarants etc for any location. The application auto detects the user location 
-	 by GPS or by Network Services and collects data through various online resources by best efforts.\n\nTerms &#038; Usage \nGoogle API Privcy Policy : \nhttp://www.google.com/policies/privacy \nGoogle APT Terms of use : \nhttp://www.google.com/intl/en/policies/terms \n\n</string>
+	 Fuel Stations, Restaurants etc for any location. The application auto detects the user location 
+	 by GPS or by Network Services and collects data through various online resources by best efforts.\n\nTerms &#038; Usage \nGoogle API Privacy Policy : \nhttp://www.google.com/policies/privacy \nGoogle APT Terms of use : \nhttp://www.google.com/intl/en/policies/terms \n\n</string>
 
 </resources>
