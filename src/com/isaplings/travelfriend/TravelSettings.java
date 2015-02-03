@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -140,8 +141,13 @@ public class TravelSettings extends Activity implements AlertPositiveListener {
 			public void onClick(View v) {
 				Intent sendIntent = new Intent();
 				sendIntent.setAction(Intent.ACTION_SEND);
-				sendIntent.putExtra(Intent.EXTRA_TEXT,
-						"Hey!! Checkout this app !!");
+				sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Travel Friend");
+                String sAux = "\nHey!! Checkout this app !! \n\n";
+				sAux = sAux + "https://market.android.com/search?q=pname:com.isaplings.travelfriend \n\n";
+				sendIntent.putExtra(Intent.EXTRA_TEXT, sAux);
+				//String link_val = "https://market.android.com/search?q=pname:com.isaplings.travelfriend";
+				//String body = "<a href=\"" + link_val + "\">" + link_val+ "</a>";
+				//sendIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(body));
 				sendIntent.setType("text/plain");
 				startActivity(sendIntent);
 			}
