@@ -9,8 +9,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
-
 
 // This Class needs refactoring once the logging procedure is finalized
 
@@ -20,7 +18,6 @@ import android.util.Log;
 
 // MyLocation method is used to get the Current Location 
 // using LocationManager and implementing LocationListener
-
 
 // Source of MyLocation :
 
@@ -44,7 +41,7 @@ public class MyLocation {
 	}
 
 	public boolean getLocation(LocationResult result) {
-		Log.v("MY GPS", "My GPSLocation : inside GetLocation");
+		// Log.v("MY GPS", "My GPSLocation : inside GetLocation");
 
 		// I use LocationResult callback class to pass location value from
 		// MyLocation to user code.
@@ -59,36 +56,37 @@ public class MyLocation {
 					.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		} catch (Exception ex) {
 
-			Log.v("My GPS", "MyGPSLocation : GPS is throwing exception");
+			// Log.v("My GPS", "MyGPSLocation : GPS is throwing exception");
 
 		}
 		try {
 			network_enabled = locationManager
 					.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		} catch (Exception ex) {
-			Log.v("My GPS", "MyGPSLocation : Network is throwing exception");
+			// Log.v("My GPS", "MyGPSLocation : Network is throwing exception");
 
 		}
 
 		// don't start listeners if no provider is enabled
 		if (!gps_enabled && !network_enabled) {
 
-			Log.v("My GPS", "MyGPSLocation : Both GPS & Network is disabled");
+			// Log.v("My GPS",
+			// "MyGPSLocation : Both GPS & Network is disabled");
 			// Fix the bug here - Navine
 			locationResult.gotLocation(null);
 			return false;
 		}
 		if (gps_enabled) {
-			Log.v("My GPS", "MyGPSLocation : GPS is enabled");
+			// Log.v("My GPS", "MyGPSLocation : GPS is enabled");
 			locationManager.requestLocationUpdates(
 					LocationManager.GPS_PROVIDER, 0, 0, locationListenerGps);
 		}
 		if (network_enabled) {
-			Log.v("My GPS", "MyGPSLocation : Network is enabled <<");
+			// Log.v("My GPS", "MyGPSLocation : Network is enabled <<");
 
-		locationManager
-				.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,
-						locationListenerNetwork);
+			locationManager.requestLocationUpdates(
+					LocationManager.NETWORK_PROVIDER, 0, 0,
+					locationListenerNetwork);
 		}
 		timer = new Timer();
 		timer.schedule(new GetLastLocation(mActivity), 30000);
@@ -97,11 +95,11 @@ public class MyLocation {
 
 	// only onLocationChanged is implemented
 	// check if other methods are also to be implemented
-	
+
 	LocationListener locationListenerGps = new LocationListener() {
 		public void onLocationChanged(Location location) {
-			Log.v("My GPS",
-					"MyGPSLocation : GPS is enabled - Inside GPS Location Listener");
+			// Log.v("My GPS",
+			// "MyGPSLocation : GPS is enabled - Inside GPS Location Listener");
 			timer.cancel();
 			locationManager.removeUpdates(this);
 			locationManager.removeUpdates(locationListenerNetwork);
@@ -121,12 +119,11 @@ public class MyLocation {
 
 	// only onLocationChanged is implemented
 	// check if other methods are also to be implemented
-		
-	
+
 	LocationListener locationListenerNetwork = new LocationListener() {
 		public void onLocationChanged(Location location) {
-			Log.v("My GPS",
-					"MyGPSLocation : Network is enabled - Inside Network Location Listener");
+			// Log.v("My GPS",
+			// "MyGPSLocation : Network is enabled - Inside Network Location Listener");
 			timer.cancel();
 			locationManager.removeUpdates(this);
 			locationManager.removeUpdates(locationListenerGps);
@@ -146,7 +143,7 @@ public class MyLocation {
 
 	class GetLastLocation extends TimerTask {
 
-		//Declaring the Activity as final to be referenced by anonymous thread
+		// Declaring the Activity as final to be referenced by anonymous thread
 		final Activity appActivity;
 
 		GetLastLocation(Activity activity) {
@@ -154,14 +151,14 @@ public class MyLocation {
 
 		}
 
-		//This thread is run when the TimerTask is activated
-		//Using runOnUiThread to avoid exception by the Async Task 
-		//run on main UI-Thread
-		
+		// This thread is run when the TimerTask is activated
+		// Using runOnUiThread to avoid exception by the Async Task
+		// run on main UI-Thread
+
 		@Override
 		public void run() {
-			Log.v("My GPS",
-					"MyGPSLocation : TimerTask - Inside Last Location Listener");
+			// Log.v("My GPS",
+			// "MyGPSLocation : TimerTask - Inside Last Location Listener");
 			locationManager.removeUpdates(locationListenerGps);
 			locationManager.removeUpdates(locationListenerNetwork);
 
@@ -190,22 +187,22 @@ public class MyLocation {
 					}
 
 					if (gps_loc != null) {
-						Log.v("My GPS",
-								"MyGPSLocation : Last Known Location from GPS");
+						// Log.v("My GPS",
+						// "MyGPSLocation : Last Known Location from GPS");
 
 						locationResult.gotLastLocation(gps_loc);
-						
+
 						return;
 					}
 					if (net_loc != null) {
-						Log.v("My GPS",
-								"MyGPSLocation : Last Known Location from Net");
-						
+						// Log.v("My GPS",
+						// "MyGPSLocation : Last Known Location from Net");
+
 						locationResult.gotLastLocation(net_loc);
 						return;
 					}
-					Log.v("My GPS",
-							"MyGPSLocation : Location is NULL - All Methods failed");
+					// Log.v("My GPS",
+					// "MyGPSLocation : Location is NULL - All Methods failed");
 
 					locationResult.gotLocation(null);
 
@@ -218,7 +215,7 @@ public class MyLocation {
 
 	public static abstract class LocationResult {
 		public abstract void gotLocation(Location location);
-		
+
 		public abstract void gotLastLocation(Location location);
 
 		// The below inner class is defined

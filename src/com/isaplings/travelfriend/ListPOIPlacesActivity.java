@@ -1,71 +1,61 @@
 package com.isaplings.travelfriend;
 
-
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
-import android.util.Log;
 
-public class ListPOIPlacesActivity  {
+public class ListPOIPlacesActivity {
 
-	private static final String TAG = "Debug";
+	// private static final String TAG = "Debug";
 
-	
-	
+	public static void getPOIList(Activity mActivity, Context mContext,
+			Location mLocation, List<String> mTypes, String mKeyword) {
 
-	public static void getPOIList(Activity mActivity, Context mContext, Location mLocation, List<String> mTypes, String mKeyword) {
-
-		
-		Log.v("Debug", "MyGPS : Latitude : " + mLocation.getLatitude());
-		Log.v("Debug", "MyGPS : Longitude : " + mLocation.getLongitude());
+		// Log.v("Debug", "MyGPS : Latitude : " + mLocation.getLatitude());
+		// Log.v("Debug", "MyGPS : Longitude : " + mLocation.getLongitude());
 
 		FetchPoiDataTaskCompleteListener fm = new FetchPoiDataTaskCompleteListener(
 				mActivity, mContext, mLocation);
 		GetMyPOITask poiTask = new GetMyPOITask(mActivity, fm, mTypes, mKeyword);
 
-	
 		if (mLocation != null) {
 			// btnGetLocation.setEnabled(true);
-			Log.v(TAG,
-					"MyGPSLocation : GetPOIDetails Task Execute for Location :"
-							+ mLocation.getLatitude() + ","
-							+ mLocation.getLongitude());
+			// Log.v(TAG,
+			// "MyGPSLocation : GetPOIDetails Task Execute for Location :"
+			// + mLocation.getLatitude() + ","
+			// + mLocation.getLongitude());
 			poiTask.execute(mLocation);
 		}
 
-		
-
-		Log.v("Debug", "MyGPS : New Intent Complete");
+		// Log.v("Debug", "MyGPS : New Intent Complete");
 
 	}
 
-public static void getPOIList(Activity mActivity, Context mContext, Location mLocation, List<String> mTypes, String mKeyword, String queryType) {
+	public static void getPOIList(Activity mActivity, Context mContext,
+			Location mLocation, List<String> mTypes, String mKeyword,
+			String queryType) {
 
-		
-		Log.v("Debug", "MyGPS : Latitude : " + mLocation.getLatitude());
-		Log.v("Debug", "MyGPS : Longitude : " + mLocation.getLongitude());
+		// Log.v("Debug", "MyGPS : Latitude : " + mLocation.getLatitude());
+		// Log.v("Debug", "MyGPS : Longitude : " + mLocation.getLongitude());
 
 		FetchPoiDataTaskCompleteListener fm = new FetchPoiDataTaskCompleteListener(
 				mActivity, mContext, mLocation);
-		GetMyPOITask poiTask = new GetMyPOITask(mActivity, fm, mTypes, mKeyword, queryType);
+		GetMyPOITask poiTask = new GetMyPOITask(mActivity, fm, mTypes,
+				mKeyword, queryType);
 
-	
 		if (mLocation != null) {
 			// btnGetLocation.setEnabled(true);
-			Log.v(TAG,
-					"MyGPSLocation : GetPOIDetails Task Execute for Location :"
-							+ mLocation.getLatitude() + ","
-							+ mLocation.getLongitude());
+			// Log.v(TAG,
+			// "MyGPSLocation : GetPOIDetails Task Execute for Location :"
+			// + mLocation.getLatitude() + ","
+			// + mLocation.getLongitude());
 			poiTask.execute(mLocation);
 		}
 
-		
-
-		Log.v("Debug", "MyGPS : New Intent Complete");
+		// Log.v("Debug", "MyGPS : New Intent Complete");
 
 	}
 
-	
 }

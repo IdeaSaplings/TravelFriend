@@ -11,13 +11,12 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 public class ListATMActivity extends Activity {
 
-	private static final String TAG = "Debug";
+	// private static final String TAG = "Debug";
 	private ActionBar actionBar;
 
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -32,7 +31,7 @@ public class ListATMActivity extends Activity {
 
 	public void onCreate(Bundle savedInstanceState) {
 
-		Log.v(TAG, "MyGPS : New Intent Start");
+		// Log.v(TAG, "MyGPS : New Intent Start");
 
 		super.onCreate(savedInstanceState);
 
@@ -60,8 +59,8 @@ public class ListATMActivity extends Activity {
 		String streetName = mLocation.getExtras().getString("STREETNAME");
 		String cityName = mLocation.getExtras().getString("CITYNAME");
 
-		Log.v(TAG, "MyGPS : Street Name : " + streetName);
-		Log.v(TAG, "MyGPS : CityName : " + cityName);
+		// Log.v(TAG, "MyGPS : Street Name : " + streetName);
+		// Log.v(TAG, "MyGPS : CityName : " + cityName);
 
 		// Code for setting action bar icon and title as custom view
 		// Fixing bug to resolve, only icon click on action bar should take back
@@ -85,8 +84,8 @@ public class ListATMActivity extends Activity {
 
 		// Bug fix put the Street Name / Location in the Action Bar
 
-		Log.v(TAG, "MyGPS : Latitude : " + mLocation.getLatitude());
-		Log.v(TAG, "MyGPS : Longitude : " + mLocation.getLongitude());
+		// Log.v(TAG, "MyGPS : Latitude : " + mLocation.getLatitude());
+		// Log.v(TAG, "MyGPS : Longitude : " + mLocation.getLongitude());
 
 		List<String> types = new ArrayList<String>();
 		types.add("atm");
@@ -97,7 +96,7 @@ public class ListATMActivity extends Activity {
 		ListPOIPlacesActivity.getPOIList(ListATMActivity.this, this, mLocation,
 				types, keyword);
 
-		Log.v(TAG, "MyGPS : New Intent Complete");
+		// Log.v(TAG, "MyGPS : New Intent Complete");
 
 	}
 

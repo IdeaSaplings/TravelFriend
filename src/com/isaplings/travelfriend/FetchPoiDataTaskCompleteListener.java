@@ -23,7 +23,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,8 +64,7 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 
 			if (!CheckNetwork.isInternetAvailable(mActivity)) {
 
-				Log.v("Debug",
-						"MyGPS : Checking Network Services Status :  Networy is/may be down");
+				// Log.v("Debug","MyGPS : Checking Network Services Status :  Networy is/may be down");
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
 				builder.setTitle("Network Services Disabled");
@@ -100,10 +98,15 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 									// Settings to be invoked
 									dialog.cancel();
 									mActivity.finish();
-									Intent settingsIntent = new Intent(Travel.appContext, TravelSettings.class);
-									settingsIntent.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);                     
-									settingsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  
-						        	Travel.appContext.startActivity(settingsIntent);
+									Intent settingsIntent = new Intent(
+											Travel.appContext,
+											TravelSettings.class);
+									settingsIntent
+											.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+									settingsIntent
+											.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+									Travel.appContext
+											.startActivity(settingsIntent);
 									return;
 
 								}
@@ -160,21 +163,20 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 
 				if (cachemapIdList.containsKey(uniqueId)) {
 
-					Log.v("Debug",
-							"MyGPS : Display the CachePlacesList Details in PopWindow");
+					// Log.v("Debug","MyGPS : Display the CachePlacesList Details in PopWindow");
 
 					placeId = (String) cachemapIdList.get(uniqueId);
 
-					Log.v("Debug", "MyGPS : In Cache Mode:  Unique id is "
-							+ uniqueId);
-					Log.v("Debug", "MyGPS : In Cache Mode: Place id is "
-							+ placeId);
+					// Log.v("Debug", "MyGPS : In Cache Mode:  Unique id is "
+					// + uniqueId);
+					// Log.v("Debug", "MyGPS : In Cache Mode: Place id is "
+					// + placeId);
 
 					PlaceDetails mplaceDetails = getPlaceDetailsFromCache(
 							placeId, cachePlaceRecord);
 
-					Log.v("Debug", "MyGPS : In cache Mode:  mPlace name is "
-							+ mplaceDetails.getName());
+					// Log.v("Debug", "MyGPS : In cache Mode:  mPlace name is "+
+					// mplaceDetails.getName());
 
 					getPopupWindow(mplaceDetails);
 
@@ -182,16 +184,15 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 					// Get the Placedetails from Places API
 					// Use the placeID to get the PlaceDetails
 
-					Log.v("Debug",
-							" MyGPS : PlacesList : Get the PlaceDetails from Places API");
+					// Log.v("Debug"," MyGPS : PlacesList : Get the PlaceDetails from Places API");
 
-					Log.v("Debug", "MyGPS : In Get Mode:  Unique id is "
-							+ uniqueId);
-					Log.v("Debug", "MyGPS : In Get Mode: Place id is "
-							+ placeRecord.getPlaceId());
+					// Log.v("Debug", "MyGPS : In Get Mode:  Unique id is "+
+					// uniqueId);
+					// Log.v("Debug", "MyGPS : In Get Mode: Place id is "+
+					// placeRecord.getPlaceId());
 
-					Log.v("Debug", "MyGPS : In Get Mode:  Place name is "
-							+ placeRecord.getName());
+					// Log.v("Debug", "MyGPS : In Get Mode:  Place name is "+
+					// placeRecord.getName());
 
 					GetPlaceDetailsTask placeDetails = new GetPlaceDetailsTask(
 							uniqueId);
@@ -222,10 +223,11 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 					// TODO Auto-generated method stub
 					String placeId = params[0];
 
-					//GooglePlaces gp = new GooglePlaces(
-						//	"AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA");
-					
-					GooglePlaces gp = new GooglePlaces(Travel.appContext.getResources().getString(R.string.api_key));
+					// GooglePlaces gp = new GooglePlaces(
+					// "AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA");
+
+					GooglePlaces gp = new GooglePlaces(Travel.appContext
+							.getResources().getString(R.string.api_key));
 
 					PlaceDetailsResult placeDetailsResult = new PlaceDetailsResult();
 					try {
@@ -240,8 +242,7 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 						e.printStackTrace();
 						return null;
 					}
-					Log.v("Debug",
-							" MyGPS : Successfully executed getPlaceDetails ");
+					// Log.v("Debug"," MyGPS : Successfully executed getPlaceDetails ");
 
 					return placeDetailsResult;
 				}
@@ -249,8 +250,7 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 				protected void onPostExecute(
 						PlaceDetailsResult placeDetailsResult) {
 
-					Log.v("Debug",
-							" MyGPS : getPlaceDetails in PostExecute Method");
+					// Log.v("Debug"," MyGPS : getPlaceDetails in PostExecute Method");
 
 					if (placeDetailsResult == null) {
 						return;
@@ -260,39 +260,38 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 
 					if (placeDetailsResult.getStatusCode() == StatusCode.OK) {
 
-						Log.v("Debug", " MyGPS : getPlaceDetails status is OK");
+						// Log.v("Debug",
+						// " MyGPS : getPlaceDetails status is OK");
 
-						Log.v("Debug",
-								" MyGPS : Name :  " + placeDetails.getName());
-						Log.v("Debug",
-								" MyGPS : Address: "
-										+ placeDetails.getFormattedAddress());
-						Log.v("Debug", " MyGPS : Inter Phone Number: "
-								+ placeDetails.getInternationalPhoneNumber());
-						Log.v("Debug",
-								" MyGPS : Web Site: "
-										+ placeDetails.getWebsite());
+						// Log.v("Debug"," MyGPS : Name :  " +
+						// placeDetails.getName());
+						// Log.v("Debug"," MyGPS : Address: "+
+						// placeDetails.getFormattedAddress());
+						// Log.v("Debug", " MyGPS : Inter Phone Number: "+
+						// placeDetails.getInternationalPhoneNumber());
+						// Log.v("Debug"," MyGPS : Web Site: "+
+						// placeDetails.getWebsite());
 						// call the caching method
 						// call the getPopUpmethd;
 
-						Log.v("Debug",
-								" MyGPS PlacesList : Put  the PlaceDetails from Places API into CachePlaceList");
+						// Log.v("Debug"," MyGPS PlacesList : Put  the PlaceDetails from Places API into CachePlaceList");
 
 						cachePlaceRecord.add(placeDetails);
 						cachemapIdList.put(uId, placeDetails.getPlaceId());
 
 						getPopupWindow(placeDetails);
 
-						Log.v("Debug",
-								" MyGPS Display te CachePlacesList Details in PopWindow");
+						// Log.v("Debug",
+						// " MyGPS Display te CachePlacesList Details in PopWindow");
 
 						return;
 
 					}
 
 					else {
-						Log.v("Debug", " MyGPS : getPlaceDetails status is : "
-								+ placeDetailsResult.getStatusCode());
+						// Log.v("Debug",
+						// " MyGPS : getPlaceDetails status is : "+
+						// placeDetailsResult.getStatusCode());
 
 						// Show Alert Unable to retrieve more information
 
@@ -338,10 +337,11 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 				ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
 		// The backgroundDrawable is importat - to make outSideToucable work
-		//popWindow.setBackgroundDrawable(new BitmapDrawable(mActivity
-		//		.getResources(), ""));
-		
-		popWindow.setBackgroundDrawable(new ColorDrawable(mActivity.getResources().getColor(android.R.color.darker_gray)));
+		// popWindow.setBackgroundDrawable(new BitmapDrawable(mActivity
+		// .getResources(), ""));
+
+		popWindow.setBackgroundDrawable(new ColorDrawable(mActivity
+				.getResources().getColor(android.R.color.darker_gray)));
 
 		popWindow.setOutsideTouchable(true);
 
@@ -390,7 +390,7 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 
 		final Double dlat = placeDetails.getGeometry().location.lat;
 		final Double dlng = placeDetails.getGeometry().location.lng;
-		
+
 		ImageButton naviButton = (ImageButton) layout
 				.findViewById(R.id.navigate_button);
 
@@ -398,30 +398,29 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 
 			@Override
 			public void onClick(View v) {
-				
-				
-			    String destLoc = dlat.toString() + "," + dlng.toString();
-			    Double slat = mLocation.getLatitude();
-			    Double slng = mLocation.getLongitude();
-			    
-			    String srcLoc = slat.toString() + "," + slng.toString();
-			    
-			    String url = "http://maps.google.com/maps?saddr="+srcLoc+"&daddr="+destLoc;
-			    Log.v("Debug",
-						"MYGPS : map context url : " + url);
-			    
-			    Uri location = Uri.parse(url);
-			    
-//				Uri location = Uri
-//						.parse("http://maps.google.com/maps?saddr=20.344,34.34&daddr=20.5666,45.345");
+
+				String destLoc = dlat.toString() + "," + dlng.toString();
+				Double slat = mLocation.getLatitude();
+				Double slng = mLocation.getLongitude();
+
+				String srcLoc = slat.toString() + "," + slng.toString();
+
+				String url = "http://maps.google.com/maps?saddr=" + srcLoc
+						+ "&daddr=" + destLoc;
+				// Log.v("Debug","MYGPS : map context url : " + url);
+
+				Uri location = Uri.parse(url);
+
+				// Uri location = Uri
+				// .parse("http://maps.google.com/maps?saddr=20.344,34.34&daddr=20.5666,45.345");
 				Intent mapIntent = new Intent(Intent.ACTION_VIEW, location);
 
-				
-				// Need the TravelFriend Parent Application Context - To launch new Activity 
+				// Need the TravelFriend Parent Application Context - To launch
+				// new Activity
 				Context appContext = mActivity.getApplicationContext();
 
-				Log.v("Debug",
-						"MYGPS : appContext context :" + appContext.toString());
+				// Log.v("Debug","MYGPS : appContext context :" +
+				// appContext.toString());
 
 				// Verify it resolves - This verification is not checked
 				// properly
@@ -468,5 +467,4 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 		});
 
 	}
-
 }

@@ -9,14 +9,12 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
-import android.util.Log;
 
 public class ReadPhoneContacts {
 
 	@SuppressWarnings("null")
 	public static List<String> getStarredContacts() {
-		
-		
+
 		String phoneNumber = new String();
 
 		Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
@@ -28,19 +26,20 @@ public class ReadPhoneContacts {
 		String Phone_CONTACT_ID = ContactsContract.CommonDataKinds.Phone.CONTACT_ID;
 		String NUMBER = ContactsContract.CommonDataKinds.Phone.NUMBER;
 
-		//StringBuffer output = new StringBuffer();
+		// StringBuffer output = new StringBuffer();
 		List<String> buddyList = new ArrayList<String>();
 
 		// use the context here
-		ContentResolver contentResolver = Travel.appContext.getContentResolver();
+		ContentResolver contentResolver = Travel.appContext
+				.getContentResolver();
 		Cursor cursor = contentResolver.query(CONTENT_URI, null, "starred=?",
 				new String[] { "1" }, null);
 		// Loop for every contact in the phone
-		Log.v("debug", "hello");
-		Log.v("debug", "dummy" + cursor.getCount());
+		// Log.v("debug", "hello");
+		// Log.v("debug", "dummy" + cursor.getCount());
 		if (cursor.getCount() > 0) {
 			while (cursor.moveToNext()) {
-				Log.v("debug", "hai");
+				// Log.v("debug", "hai");
 				String contact_id = cursor
 						.getString(cursor.getColumnIndex(_ID));
 				String name = cursor.getString(cursor
@@ -48,10 +47,10 @@ public class ReadPhoneContacts {
 				int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor
 						.getColumnIndex(HAS_PHONE_NUMBER)));
 				if (hasPhoneNumber > 0) {
-					//output.append("\n First Name:" + name);
+					// output.append("\n First Name:" + name);
 
 					// Query and loop for every phone number of the contact
-					Log.v("debug", "before phonecursor");
+					// Log.v("debug", "before phonecursor");
 					Cursor phoneCursor = contentResolver.query(
 							PhoneCONTENT_URI, null, Phone_CONTACT_ID + " = ?",
 							new String[] { contact_id }, null);
@@ -60,26 +59,23 @@ public class ReadPhoneContacts {
 						phoneNumber = phoneCursor.getString(phoneCursor
 								.getColumnIndex(NUMBER));
 						if (phoneNumber != null || !phoneNumber.isEmpty()) {
-							//output.append("\n Phone number:" + phoneNumber);
+							// output.append("\n Phone number:" + phoneNumber);
 							buddyList.add(name + "\n" + phoneNumber);
 							break;
 						}
 					}
 					phoneCursor.close();
 					// Query and loop for every email of the contact
-					Log.v("debug", "after phone cursor");
+					// Log.v("debug", "after phone cursor");
 
-				} 
-				//output.append("\n");
+				}
+				// output.append("\n");
 			}
-			//outputText.setText(output);
+			// outputText.setText(output);
 		}
 		if (cursor != null)
 			cursor.close();
 		return buddyList;
 	}
 
-	
 }
-
-

@@ -19,7 +19,6 @@ import android.location.Address;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -52,7 +51,7 @@ public class Travel extends Activity implements OnClickListener {
 
 	private ActionBar actionBar;
 
-	private static final String TAG = "Debug";
+	// private static final String TAG = "Debug";
 	// private Boolean flag = false;
 
 	private Double latitude;
@@ -159,14 +158,14 @@ public class Travel extends Activity implements OnClickListener {
 				ViewTreeObserver observer = progressBar.getViewTreeObserver();
 				observer.removeGlobalOnLayoutListener(this);
 				// observer.removeOnGlobalLayoutListener(this);
-				Log.v("Debug", "MYGPS : on end of onGlobalLayout");
+				// Log.v("Debug", "MYGPS : on end of onGlobalLayout");
 
 			}
 		});
 
-		Log.v("Debug",
-				" MyGPS : Buttery Progress Bar Visiblity Check - isShown : "
-						+ progressBar.isShown());
+		// Log.v("Debug",
+		// " MyGPS : Buttery Progress Bar Visiblity Check - isShown : "
+		// + progressBar.isShown());
 
 		progressBar.setVisibility(View.GONE);
 
@@ -465,7 +464,7 @@ public class Travel extends Activity implements OnClickListener {
 
 		startActivity(intent);
 
-		Log.v("Debug", "MyGPS : Intent start initiated ...");
+		// Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
 
@@ -488,7 +487,7 @@ public class Travel extends Activity implements OnClickListener {
 
 		startActivity(intent);
 
-		Log.v("Debug", "MyGPS : Intent start initiated ...");
+		// Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
 
@@ -510,7 +509,7 @@ public class Travel extends Activity implements OnClickListener {
 
 		startActivity(intent);
 
-		Log.v("Debug", "MyGPS : Intent start initiated ...");
+		// Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
 
@@ -532,7 +531,7 @@ public class Travel extends Activity implements OnClickListener {
 
 		startActivity(intent);
 
-		Log.v("Debug", "MyGPS : Intent start initiated ...");
+		// Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
 
@@ -554,7 +553,7 @@ public class Travel extends Activity implements OnClickListener {
 
 		startActivity(intent);
 
-		Log.v("Debug", "MyGPS : Intent start initiated ...");
+		// Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
 
@@ -576,7 +575,7 @@ public class Travel extends Activity implements OnClickListener {
 
 		startActivity(intent);
 
-		Log.v("Debug", "MyGPS : Intent start initiated ...");
+		// Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
 
@@ -599,7 +598,7 @@ public class Travel extends Activity implements OnClickListener {
 
 		startActivity(intent);
 
-		Log.v("Debug", "MyGPS : Intent start initiated ...");
+		// Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
 
@@ -621,7 +620,7 @@ public class Travel extends Activity implements OnClickListener {
 
 		startActivity(intent);
 
-		Log.v("Debug", "MyGPS : Intent start initiated ...");
+		// Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
 
@@ -642,8 +641,8 @@ public class Travel extends Activity implements OnClickListener {
 		enableHomeScreenIcons();
 
 		startActivity(intent);
-		Log.v("Debug",
-				"MyGPS : Hospital intent - Started after icons enabled ...");
+		// Log.v("Debug",
+		// "MyGPS : Hospital intent - Started after icons enabled ...");
 
 	}
 
@@ -669,14 +668,13 @@ public class Travel extends Activity implements OnClickListener {
 
 		startActivity(intent);
 
-		Log.v("Debug", "MyGPS : Intent start initiated ...");
+		// Log.v("Debug", "MyGPS : Intent start initiated ...");
 
 	}
 
 	public void disableHomeScreenIcons() {
-		// TODO Auto-generated method stub
 
-		Log.v(TAG, "MYGPSLocation : Disabling the Layout Icons ");
+		// Log.v(TAG, "MYGPSLocation : Disabling the Layout Icons ");
 
 		GridLayout layout = (GridLayout) findViewById(R.id.home_screen);
 
@@ -696,9 +694,8 @@ public class Travel extends Activity implements OnClickListener {
 	}
 
 	public void enableHomeScreenIcons() {
-		// TODO Auto-generated method stub
 
-		Log.v(TAG, "MYGPSLocation : Enabling the Layout Icons ");
+		// Log.v(TAG, "MYGPSLocation : Enabling the Layout Icons ");
 
 		GridLayout layout = (GridLayout) findViewById(R.id.home_screen);
 
@@ -722,7 +719,8 @@ public class Travel extends Activity implements OnClickListener {
 		public void gotLocation(Location location) {
 			// Got the location!
 			if (location == null) {
-				Log.v(TAG, "MyGPSLocation Inside GotLocation: location is null");
+				// Log.v(TAG,
+				// "MyGPSLocation Inside GotLocation: location is null");
 
 				// implement - show message - #CodeReview
 
@@ -751,26 +749,26 @@ public class Travel extends Activity implements OnClickListener {
 
 			else {
 
-				Log.v(TAG,
-						"MyGPSLocation Inside GotLocation: location is identified");
+				// Log.v(TAG,
+				// "MyGPSLocation Inside GotLocation: location is identified");
 
 				mLocation = location;
 				latitude = location.getLatitude();
 				longitude = location.getLongitude();
-				Log.v(TAG, "GPS Location - Latitude " + latitude);
-				Log.v(TAG, "GPS Location - Longitude " + longitude);
+				// Log.v(TAG, "GPS Location - Latitude " + latitude);
+				// Log.v(TAG, "GPS Location - Longitude " + longitude);
 
 				if ((latitude != null) && (longitude != null)) {
 
-					Log.v(TAG,
-							"MYGPSLocation : Calling Async Task to get the City Name");
+					// Log.v(TAG,
+					// "MYGPSLocation : Calling Async Task to get the City Name");
 
 					/*----------to get City-Name from coordinates ------------- */
 					getAddressFromLocation(appContext);
 					//
 
 				} else {
-					Log.v(TAG, "MYGPSLocation : flag is false");
+					// Log.v(TAG, "MYGPSLocation : flag is false");
 					return;
 				}
 
@@ -782,7 +780,7 @@ public class Travel extends Activity implements OnClickListener {
 		protected void getAddressFromLocation(Context context) {
 			// This class will get the address from location
 
-			Log.v(TAG, "MYGPSLocation : getAddressFromLocation called ");
+			// Log.v(TAG, "MYGPSLocation : getAddressFromLocation called ");
 
 			class FetchMyDataTaskCompleteListener implements
 					AsyncTaskCompleteListener<List<Address>> {
@@ -792,7 +790,8 @@ public class Travel extends Activity implements OnClickListener {
 
 					// We can also execute the postExecute Method Here
 
-					Log.v(TAG, "MYGPSLocation : Inside onTaskComplete called ");
+					// Log.v(TAG,
+					// "MYGPSLocation : Inside onTaskComplete called ");
 
 					// Extracted from Address Component in JSONObject
 					// SubLocality - route || administrative_area_level_2 ||
@@ -850,8 +849,8 @@ public class Travel extends Activity implements OnClickListener {
 						mLocation.setExtras(extras);
 
 						locationFlag = true;
-						Log.v(TAG, "MYGPS : AddressTask - locationFlag :"
-								+ locationFlag);
+						// Log.v(TAG, "MYGPS : AddressTask - locationFlag :"
+						// + locationFlag);
 
 					}
 				}
@@ -867,10 +866,10 @@ public class Travel extends Activity implements OnClickListener {
 
 			if (mLocation != null) {
 				// btnGetLocation.setEnabled(true);
-				Log.v(TAG,
-						"MyGPSLocation : GetMyAddress Task Execute for Location :"
-								+ mLocation.getLatitude() + ","
-								+ mLocation.getLongitude());
+				// Log.v(TAG,
+				// "MyGPSLocation : GetMyAddress Task Execute for Location :"
+				// + mLocation.getLatitude() + ","
+				// + mLocation.getLongitude());
 				// addTask.execute(mLocation);
 				addTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
 						mLocation);
@@ -887,7 +886,8 @@ public class Travel extends Activity implements OnClickListener {
 			// if there is ui issue then
 			// resetUpdating();
 
-			AlertDialog.Builder builder = new AlertDialog.Builder(Travel.this, AlertDialog.THEME_HOLO_LIGHT);
+			AlertDialog.Builder builder = new AlertDialog.Builder(Travel.this,
+					AlertDialog.THEME_HOLO_LIGHT);
 			builder.setTitle("Alert");
 			builder.setMessage(
 					"Unable to retrieve current location. Do you want to proceed with last known location ?")
@@ -931,21 +931,21 @@ public class Travel extends Activity implements OnClickListener {
 
 		protected void onPreExecute() {
 			// Empyt on PreExecute
-			Log.v(TAG, " MYGPS : locaction control preExecute method  ");
-			Log.v(TAG, " MYGPS : LC preExecute : locationFlag : "
-					+ locationFlag);
-			Log.v(TAG,
-					" MYGPS : LC preExecute : ProgressBar : "
-							+ progressBar.isShown());
+			// Log.v(TAG, " MYGPS : locaction control preExecute method  ");
+			// Log.v(TAG, " MYGPS : LC preExecute : locationFlag : "
+			// + locationFlag);
+			// Log.v(TAG,
+			// " MYGPS : LC preExecute : ProgressBar : "
+			// + progressBar.isShown());
 
 			if (!progressBar.isShown()) {
-				Log.v("Debug",
-						" MYGPS : Buttery Progress Bar is to be made Visible ");
+				// Log.v("Debug",
+				// " MYGPS : Buttery Progress Bar is to be made Visible ");
 
 				progressBar.setVisibility(View.VISIBLE);
-				Log.v("Debug",
-						"MYGPS : set ButteryProgressBar Visible - isShown : "
-								+ progressBar.isShown());
+				// Log.v("Debug",
+				// "MYGPS : set ButteryProgressBar Visible - isShown : "
+				// + progressBar.isShown());
 
 			}
 
@@ -978,41 +978,42 @@ public class Travel extends Activity implements OnClickListener {
 		@Override
 		protected void onPostExecute(Boolean flag) {
 
-			Log.v(TAG,
-					" MYGPS : LC postExecute : ProgressBar : "
-							+ progressBar.isShown());
+			// Log.v(TAG,
+			// " MYGPS : LC postExecute : ProgressBar : "
+			// + progressBar.isShown());
 
 			if (progressBar.isShown()) {
 
-				Log.v("Debug", " MYGPS : Buttery Progress Bar is to be removed");
+				// Log.v("Debug",
+				// " MYGPS : Buttery Progress Bar is to be removed");
 
 				progressBar.setVisibility(View.GONE);
-				Log.v("Debug",
-						"MYGPS : After set ButteryProgressBar set GONE - isShown : "
-								+ progressBar.isShown());
+				// Log.v("Debug",
+				// "MYGPS : After set ButteryProgressBar set GONE - isShown : "
+				// + progressBar.isShown());
 
 			}
 
 			// protected void onPostExecute() {
-			Log.v(TAG, " MYGPS : locaction control postExecute Method  ");
-			Log.v(TAG, " MYGPS : LC postExecute : locationFlag : "
-					+ locationFlag);
+			// Log.v(TAG, " MYGPS : locaction control postExecute Method  ");
+			// Log.v(TAG, " MYGPS : LC postExecute : locationFlag : "
+			// + locationFlag);
 
 			if (flag) {
 
 				if (mLocation == null) {
-					Log.v(TAG,
-							" MYGPS : LocControl : locaction identified as null ");
+					// Log.v(TAG,
+					// " MYGPS : LocControl : locaction identified as null ");
 
 				} else {
-					Log.v(TAG,
-							" MYGPS : LocControl : locaction was retrieved successfully  ");
+					// Log.v(TAG,
+					// " MYGPS : LocControl : locaction was retrieved successfully  ");
 					useLocation(itemId);
 
 				}
 			} else {
-				Log.v(TAG,
-						"MYGPS : LocControl : location retreival was unsuccessfull");
+				// Log.v(TAG,
+				// "MYGPS : LocControl : location retreival was unsuccessfull");
 
 			}
 
@@ -1021,7 +1022,7 @@ public class Travel extends Activity implements OnClickListener {
 
 	public void onRefresh() {
 
-		Log.v(TAG, "MyGPSLocation : onRefresh Click");
+		// Log.v(TAG, "MyGPSLocation : onRefresh Click");
 
 		MyLocation myLocation = new MyLocation(Travel.this, this);
 
@@ -1040,7 +1041,6 @@ public class Travel extends Activity implements OnClickListener {
 	}
 
 	public void useLocation(int itemId) {
-		// TODO Auto-generated method stub
 		switch (itemId) {
 		case R.id.action_refresh:
 			enableHomeScreenIcons();
@@ -1088,7 +1088,7 @@ public class Travel extends Activity implements OnClickListener {
 	}
 
 	public void onTravelActivity(View v) {
-		Log.v(TAG, "MyGPSLocation : onRefresh Click");
+		// Log.v(TAG, "MyGPSLocation : onRefresh Click");
 
 		MyLocation myLocation = new MyLocation(Travel.this, this);
 

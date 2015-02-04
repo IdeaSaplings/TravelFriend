@@ -11,8 +11,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
-import android.util.Log;
-
 public class WebserviceClient {
 
 	public static String download(String url) {
@@ -27,11 +25,11 @@ public class WebserviceClient {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		try {
-			Log.v("My GPS Location",
-					"MyGPSLocation - Before making http request");
+			// Log.v("My GPS Location",
+			// "MyGPSLocation - Before making http request");
 			httpResponse = httpClient.execute(httpGet);
-			Log.v("My GPS Location",
-					"MyGPSLocation - After making http request");
+			// Log.v("My GPS Location",
+			// "MyGPSLocation - After making http request");
 
 			HttpEntity httpEntity = httpResponse.getEntity();
 			InputStream inputStream = httpEntity.getContent();
@@ -42,7 +40,8 @@ public class WebserviceClient {
 
 			}
 
-			Log.v("My GPS Location", "Returns a string data (to json object)");
+			// Log.v("My GPS Location",
+			// "Returns a string data (to json object)");
 
 			return stringBuilder.toString();
 		} catch (IOException e) {

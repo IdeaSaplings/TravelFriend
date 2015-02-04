@@ -11,13 +11,12 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 public class ListHospitalsActivity extends Activity {
 
-	private static final String TAG = "Debug";
+	// private static final String TAG = "Debug";
 	private ActionBar actionBar;
 
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -32,7 +31,7 @@ public class ListHospitalsActivity extends Activity {
 
 	public void onCreate(Bundle savedInstanceState) {
 
-		Log.v("Debug", "MyGPS : Hospital Intent Start");
+		// Log.v("Debug", "MyGPS : Hospital Intent Start");
 
 		super.onCreate(savedInstanceState);
 
@@ -46,9 +45,7 @@ public class ListHospitalsActivity extends Activity {
 		AdView adView = (AdView) findViewById(R.id.ad_mob_view);
 		AdRequest adRequest = new AdRequest.Builder()
 				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-				.addTestDevice("TEST_DEVICE_ID")
-				.addKeyword("health")
-				.build();
+				.addTestDevice("TEST_DEVICE_ID").addKeyword("health").build();
 		adView.loadAd(adRequest);
 
 		Bundle bundle = this.getIntent().getExtras();
@@ -58,8 +55,8 @@ public class ListHospitalsActivity extends Activity {
 		String streetName = mLocation.getExtras().getString("STREETNAME");
 		String cityName = mLocation.getExtras().getString("CITYNAME");
 
-		Log.v(TAG, "MyGPS : Street Name : " + streetName);
-		Log.v(TAG, "MyGPS : CityName : " + cityName);
+		// Log.v(TAG, "MyGPS : Street Name : " + streetName);
+		// Log.v(TAG, "MyGPS : CityName : " + cityName);
 
 		// Code for setting action bar icon and title as custom view
 		// Fixing bug to resolve, only icon click on action bar should take back
@@ -83,8 +80,8 @@ public class ListHospitalsActivity extends Activity {
 
 		// Bug fix put the Street Name / Location in the Action Bar
 
-		Log.v(TAG, "MyGPS : Latitude : " + mLocation.getLatitude());
-		Log.v(TAG, "MyGPS : Longitude : " + mLocation.getLongitude());
+		// Log.v(TAG, "MyGPS : Latitude : " + mLocation.getLatitude());
+		// Log.v(TAG, "MyGPS : Longitude : " + mLocation.getLongitude());
 
 		List<String> types = new ArrayList<String>();
 		types.add("hospital");
@@ -96,7 +93,7 @@ public class ListHospitalsActivity extends Activity {
 		ListPOIPlacesActivity.getPOIList(ListHospitalsActivity.this, this,
 				mLocation, types, keyword);
 
-		Log.v(TAG, "MyGPS : New Intent Complete");
+		// Log.v(TAG, "MyGPS : New Intent Complete");
 
 	}
 

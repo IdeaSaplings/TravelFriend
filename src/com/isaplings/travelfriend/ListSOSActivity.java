@@ -39,7 +39,6 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -56,7 +55,7 @@ import android.widget.TextView;
 
 public class ListSOSActivity extends Activity {
 
-	private static final String TAG = "Debug";
+	//private static final String TAG = "Debug";
 
 	Context mContext = Travel.appContext;
 	
@@ -95,17 +94,17 @@ public class ListSOSActivity extends Activity {
 	protected void onDestroy() {
 		// you may call the cancel() method but if it is not handled in
 		// doInBackground() method
-		Log.v(TAG, "MyGPS : Inside onDestroy ");
+	//	Log.v(TAG, "MyGPS : Inside onDestroy ");
 
 		if (getPoliceStation != null
 				&& getPoliceStation.getStatus() != AsyncTask.Status.FINISHED) {
-			Log.v(TAG, "MyGPS : Cancelling getPoliceStation thread");
+			//Log.v(TAG, "MyGPS : Cancelling getPoliceStation thread");
 
 			getPoliceStation.cancel(true);
 		}
 		if (getAmbulance != null
 				&& getAmbulance.getStatus() != AsyncTask.Status.FINISHED) {
-			Log.v(TAG, "MyGPS : Cancelling getAmbulance thread");
+			//Log.v(TAG, "MyGPS : Cancelling getAmbulance thread");
 
 			getAmbulance.cancel(true);
 		}
@@ -127,15 +126,15 @@ public class ListSOSActivity extends Activity {
 		@Override
 		public void onTaskComplete(PlacesResult placesResult) {
 
-			Log.v(TAG, "MyGPS : Get Ambulance Task Completed");
+			//Log.v(TAG, "MyGPS : Get Ambulance Task Completed");
 
 			// No error message - if unable to get data
 			if ((placesResult == null)
 					|| (placesResult.getResults().size() <= 0)) {
-				Log.v(TAG, "MyGPS : Places result is null or empty");
+				//Log.v(TAG, "MyGPS : Places result is null or empty");
 
 				if (progressBar.isShown()) {
-					Log.v("Debug", "Buttery Progress Bar is Visible - isShown ");
+					//Log.v("Debug", "Buttery Progress Bar is Visible - isShown ");
 
 					progressBar.setVisibility(View.GONE);
 				}
@@ -157,10 +156,10 @@ public class ListSOSActivity extends Activity {
 
 			for (int i = 0; i < iterLimit; i++) {
 
-				Log.v(TAG, "MyGPS : Places Name : "
-						+ placesList.get(i).getName());
-				Log.v(TAG, "MyGPS : Places Id : "
-						+ placesList.get(i).getPlaceId());
+//				Log.v(TAG, "MyGPS : Places Name : "
+//						+ placesList.get(i).getName());
+//				Log.v(TAG, "MyGPS : Places Id : "
+//						+ placesList.get(i).getPlaceId());
 
 				getContactNumber(placesList.get(i).getPlaceId(), listType);
 
@@ -188,16 +187,16 @@ public class ListSOSActivity extends Activity {
 		String streetName = mLocation.getExtras().getString("STREETNAME");
 		String cityName = mLocation.getExtras().getString("CITYNAME");
 
-		Log.v(TAG, "MyGPS : Street Name : " + streetName);
-		Log.v(TAG, "MyGPS : CityName : " + cityName);
+		//Log.v(TAG, "MyGPS : Street Name : " + streetName);
+		//Log.v(TAG, "MyGPS : CityName : " + cityName);
 
 		countryName = mLocation.getExtras().getString("COUNTRYNAME");
 		countryCode = mLocation.getExtras().getString("COUNTRYCODE");
 
-		Log.v(TAG, "MyGPS :  Country Name : " + countryName);
-		Log.v(TAG, "MyGPS :  Counrty Code : " + countryCode);
+	//	Log.v(TAG, "MyGPS :  Country Name : " + countryName);
+		//Log.v(TAG, "MyGPS :  Counrty Code : " + countryCode);
 
-		Log.v("Debug", " MYGPS : List Places Activity loaded");
+		//Log.v("Debug", " MYGPS : List Places Activity loaded");
 
 		// Code for setting action bar icon and title as custom view
 		// Fixing bug to resolve, only icon click on action bar should take back
@@ -222,7 +221,7 @@ public class ListSOSActivity extends Activity {
 		expListView.setIndicatorBounds(5, 60);
 
 		// Intialising Buttery Progress Bar
-		Log.v("Debug", "MYGPS : Initialising Buttery Progress Bar");
+		//Log.v("Debug", "MYGPS : Initialising Buttery Progress Bar");
 
 		progressBar = new ButteryProgressBar(this);
 		progressBar.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
@@ -244,7 +243,7 @@ public class ListSOSActivity extends Activity {
 				ViewTreeObserver observer = progressBar.getViewTreeObserver();
 				observer.removeGlobalOnLayoutListener(this);
 				// observer.removeOnGlobalLayoutListener(this);
-				Log.v("Debug", "MYGPS : on end of onGlobalLayout");
+				//Log.v("Debug", "MYGPS : on end of onGlobalLayout");
 
 			}
 		});
@@ -413,19 +412,19 @@ public class ListSOSActivity extends Activity {
 				e.printStackTrace();
 				return null;
 			}
-			Log.v("Debug", " MyGPS : Successfully executed getPlaceDetails ");
+			//Log.v("Debug", " MyGPS : Successfully executed getPlaceDetails ");
 
 			return placeDetailsResult;
 		}
 
 		protected void onPreExecute() {
 
-			Log.v("Debug", "MyGPS : InPreExecute -  Progress Bar status : "
-					+ progressBar.isShown());
+			//Log.v("Debug", "MyGPS : InPreExecute -  Progress Bar status : "
+					//+ progressBar.isShown());
 
 			if (!progressBar.isShown()) {
-				Log.v("Debug",
-						"MyGPS : InPreExecute - Setting Progress Bar to visible");
+				//Log.v("Debug",
+					//	"MyGPS : InPreExecute - Setting Progress Bar to visible");
 				progressBar.setVisibility(View.VISIBLE);
 
 			}
@@ -435,7 +434,7 @@ public class ListSOSActivity extends Activity {
 		@SuppressLint("NewApi")
 		protected void onPostExecute(PlaceDetailsResult placeDetailsResult) {
 
-			Log.v("Debug", " MyGPS : getPlaceDetails in PostExecute Method");
+			//Log.v("Debug", " MyGPS : getPlaceDetails in PostExecute Method");
 
 			if (placeDetailsResult == null) {
 				return;
@@ -445,15 +444,15 @@ public class ListSOSActivity extends Activity {
 
 			if (placeDetailsResult.getStatusCode() == StatusCode.OK) {
 
-				Log.v("Debug", " MyGPS : getPlaceDetails status is OK");
-
-				Log.v("Debug", " MyGPS : Name :  " + placeDetails.getName());
-				Log.v("Debug",
-						" MyGPS : Inter Phone Number: "
-								+ placeDetails.getInternationalPhoneNumber());
-				Log.v("Debug",
-						" MyGPS : PhoneNumber: "
-								+ placeDetails.getFormattedPhoneNumber());
+//				Log.v("Debug", " MyGPS : getPlaceDetails status is OK");
+//
+//				Log.v("Debug", " MyGPS : Name :  " + placeDetails.getName());
+//				Log.v("Debug",
+//						" MyGPS : Inter Phone Number: "
+//								+ placeDetails.getInternationalPhoneNumber());
+//				Log.v("Debug",
+//						" MyGPS : PhoneNumber: "
+//								+ placeDetails.getFormattedPhoneNumber());
 
 				// Append the name and phonenumber to list
 				String phoneNumber = new String();
@@ -463,9 +462,9 @@ public class ListSOSActivity extends Activity {
 					phoneNumber = placeDetails.getInternationalPhoneNumber();
 
 				} else {
-					Log.v("Debug",
-							" MyGPS PlacesList : Internation phone number is null  "
-									+ placeDetails.getFormattedPhoneNumber());
+					//Log.v("Debug",
+						//	" MyGPS PlacesList : Internation phone number is null  "
+							//		+ placeDetails.getFormattedPhoneNumber());
 					phoneNumber = placeDetails.getFormattedPhoneNumber();
 				}
 
@@ -476,22 +475,22 @@ public class ListSOSActivity extends Activity {
 								+ PhoneNumberUtils.formatNumberToE164(phoneNumber, countryCode));
 						listAdapter.notifyDataSetChanged();
 						
-						Log.v("Debug",
-								"MyGPS : InPostExecute -  Progress Bar status : "
-										+ progressBar.isShown());
+						//Log.v("Debug",
+							//	"MyGPS : InPostExecute -  Progress Bar status : "
+								//		+ progressBar.isShown());
 
 						if (progressBar.isShown()) {
-							Log.v("Debug",
-									"Buttery Progress Bar need to be made Invisible - isShown ");
+							//Log.v("Debug",
+								//	"Buttery Progress Bar need to be made Invisible - isShown ");
 							progressBar.setVisibility(View.GONE);
-							Log.v("Debug",
-									"MyGPS : InPostExecute -  Progress Bar status changed : "
-											+ progressBar.isShown());
+							//Log.v("Debug",
+								//	"MyGPS : InPostExecute -  Progress Bar status changed : "
+									//		+ progressBar.isShown());
 
 						}
 
-						Log.v("Debug", " MyGPS PlacesList : Updated Exp List "
-								+ placeDetails.getName());
+						//Log.v("Debug", " MyGPS PlacesList : Updated Exp List "
+							//	+ placeDetails.getName());
 
 					}
 
@@ -499,40 +498,40 @@ public class ListSOSActivity extends Activity {
 						police.add(placeDetails.getName() + "\n" + PhoneNumberUtils.formatNumberToE164(phoneNumber, countryCode));
 						listAdapter.notifyDataSetChanged();
 
-						Log.v("Debug",
-								"MyGPS : InPostExecute -  Progress Bar status : "
-										+ progressBar.isShown());
+					//	Log.v("Debug",
+						//		"MyGPS : InPostExecute -  Progress Bar status : "
+							//			+ progressBar.isShown());
 
 						if (progressBar.isShown()) {
 							progressBar.setVisibility(View.GONE);
 
-							Log.v("Debug",
-									"Buttery Progress Bar is Visible - isShown ");
+						//	Log.v("Debug",
+							//		"Buttery Progress Bar is Visible - isShown ");
 							progressBar.setVisibility(View.GONE);
-							Log.v("Debug",
-									"MyGPS : InPostExecute -  Progress Bar status changed : "
-											+ progressBar.isShown());
+					//		Log.v("Debug",
+						//			"MyGPS : InPostExecute -  Progress Bar status changed : "
+							//				+ progressBar.isShown());
 
 						}
 
-						Log.v("Debug",
-								" MyGPS PlacesList : Updated Expandable List"
-										+ placeDetails.getName());
+					//	Log.v("Debug",
+						//		" MyGPS PlacesList : Updated Expandable List"
+							//			+ placeDetails.getName());
 
 					}
 
 				}
 
-				Log.v("Debug",
-						" MyGPS PlacesList : Put  the PlaceDetails from Places API into CachePlaceList");
+		//		Log.v("Debug",
+			//			" MyGPS PlacesList : Put  the PlaceDetails from Places API into CachePlaceList");
 
 				return;
 
 			}
 
 			else {
-				Log.v("Debug", " MyGPS : getPlaceDetails status is : "
-						+ placeDetailsResult.getStatusCode());
+			//	Log.v("Debug", " MyGPS : getPlaceDetails status is : "
+				//		+ placeDetailsResult.getStatusCode());
 
 				// Show Alert Unable to retrieve more information
 

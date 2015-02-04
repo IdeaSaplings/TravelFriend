@@ -11,7 +11,6 @@ import com.a2plab.googleplaces.models.Place.Geometry;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +75,6 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 
 		poiName = getItem(position).getName();
 
-
 		holder.nameTextView.setText(poiName);
 
 		poiAddress = getItem(position).getVicinity();
@@ -85,9 +83,7 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 			poiAddress = getItem(position).getFormattedAddress();
 		}
 
-		
 		holder.addressTextView.setText(poiAddress);
-
 
 		Geometry geometry = (getItem(position).getGeometry());
 
@@ -98,28 +94,27 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 				geometry.location.lng, dist);
 
 		DecimalFormat df = new DecimalFormat("###.#");
-		
-		//Read this unit from sharedPreference once implemented
-		
+
+		// Read this unit from sharedPreference once implemented
+
 		SharedPreferences pref;
-		
+
 		pref = Travel.appContext.getSharedPreferences("TravelFriendPref", 0);
 
-		//String distUnit = "km";
+		// String distUnit = "km";
 
 		String distUnit = pref.getString("DistUnit", "km");
-		
-		
-		if (distUnit.equals("km")){
 
-		holder.distanceTextView
-				.setText(" " + df.format(dist[0] / 1000) + " km");
+		if (distUnit.equals("km")) {
+
+			holder.distanceTextView.setText(" " + df.format(dist[0] / 1000)
+					+ " km");
 		}
-		if (distUnit.equals("mi")){
-		
-			holder.distanceTextView
-			.setText(" " + df.format(dist[0] / 1609.344 ) + " mi");
-	
+		if (distUnit.equals("mi")) {
+
+			holder.distanceTextView.setText(" " + df.format(dist[0] / 1609.344)
+					+ " mi");
+
 		}
 
 		Double poiRating;
@@ -137,8 +132,8 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 
 		// Log.v("Debug", "MyGPS : List View getView Complete");
 
-		Log.v("Debug", "MYGPS : Place ID : " + getItem(position).getId());
-		Log.v("Debug", "MYGPS : Rating : " + getItem(position).getRating());
+		// Log.v("Debug", "MYGPS : Place ID : " + getItem(position).getId());
+		// Log.v("Debug", "MYGPS : Rating : " + getItem(position).getRating());
 		return row;
 	}
 

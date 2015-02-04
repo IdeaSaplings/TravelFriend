@@ -1,7 +1,6 @@
 package com.isaplings.travelfriend;
 
 import java.io.IOException;
-//import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -14,7 +13,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.location.Address;
-
 
 /**
  * A class for handling geocoding and reverse geocoding. Geocoding is the
@@ -190,8 +188,8 @@ public final class Geocoder {
 	 * return results; }
 	 */
 
-	//Check if the getAddressList can be removed
-	
+	// Check if the getAddressList can be removed
+
 	@SuppressWarnings("unused")
 	private void getAddressList(List<Address> address, int maxResults,
 			JSONObject jObj) throws LimitExceededException {
@@ -214,8 +212,8 @@ public final class Geocoder {
 								"locality"));
 						current.setCountryName(extractFromAdress(addrComp,
 								"country"));
-						current.setCountryCode(extractShortNameFromAdress(addrComp,
-								"country"));
+						current.setCountryCode(extractShortNameFromAdress(
+								addrComp, "country"));
 
 					}
 
@@ -275,7 +273,8 @@ public final class Geocoder {
 		return "";
 	}
 
-	private String extractShortNameFromAdress(JSONArray compItem, String typeString) {
+	private String extractShortNameFromAdress(JSONArray compItem,
+			String typeString) {
 		try {
 			// Log.v("GPS", "GPS - dumping compItem length " +
 			// compItem.length());
@@ -284,8 +283,8 @@ public final class Geocoder {
 				JSONObject mItem = compItem.getJSONObject(i);
 
 				JSONArray types = mItem.getJSONArray("types");
-				 //Log.v("GPS", "GPS - dumping Types " + types);
-				 //Log.v("GPS", "GPS - dumping Types length " + types.length());
+				// Log.v("GPS", "GPS - dumping Types " + types);
+				// Log.v("GPS", "GPS - dumping Types length " + types.length());
 
 				for (int j = 0; j < types.length(); j++) {
 					if (types.getString(j).equals(typeString))
@@ -302,7 +301,6 @@ public final class Geocoder {
 		return "";
 	}
 
-	
 	private void parseJson(List<Address> address, int maxResults, String data)
 			throws LimitExceededException {
 		try {
@@ -328,22 +326,22 @@ public final class Geocoder {
 						final JSONArray addrComp = item
 								.getJSONArray("address_components");
 
-
 						current.setCountryName(extractFromAdress(addrComp,
 								"country"));
-						current.setCountryCode(extractShortNameFromAdress(addrComp,
-								"country"));
+						current.setCountryCode(extractShortNameFromAdress(
+								addrComp, "country"));
 						current.setPostalCode(extractFromAdress(addrComp,
 								"postal_code"));
 
-						//Set Locality - locality || political
+						// Set Locality - locality || political
 						current.setLocality(extractFromAdress(addrComp,
 								"locality"));
 						if (current.getLocality().equals(""))
 							current.setLocality(extractFromAdress(addrComp,
 									"political"));
 
-						//Set SubLocality - route || admin_level2 || admin_level1
+						// Set SubLocality - route || admin_level2 ||
+						// admin_level1
 						current.setSubLocality(extractFromAdress(addrComp,
 								"route"));
 						if (current.getSubLocality().equals("")) {
@@ -356,21 +354,20 @@ public final class Geocoder {
 
 							}
 						}
-						
 
-						//Set SubAdminArea - adming_level1 || country
-						current.setSubAdminArea(extractFromAdress(
-								addrComp, "administrative_area_level_1"));
-						
+						// Set SubAdminArea - adming_level1 || country
+						current.setSubAdminArea(extractFromAdress(addrComp,
+								"administrative_area_level_1"));
+
 						if (current.getSubAdminArea().equals("")) {
 							current.setSubAdminArea(current.getCountryName());
 						}
 
-						if(current.getLocality().equals(current.getSubAdminArea())){
-							current.setSubAdminArea(current.getCountryName());							
+						if (current.getLocality().equals(
+								current.getSubAdminArea())) {
+							current.setSubAdminArea(current.getCountryName());
 						}
 
-						
 					}
 
 					address.add(current);
