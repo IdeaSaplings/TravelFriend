@@ -241,7 +241,13 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 	}
 
 	protected void onPreExecute() {
-		Log.v(TAG, "MY GPS : Invokde  Progress Dialog");
+		Log.v(TAG, "MY GPS : Invoking Progress Dialog");
+		// Fix for Trav
+		if (progressDialog == null){
+			Log.v(TAG, "MY GPS : Initialising Progress Dialog");
+
+			progressDialog = new ProgressDialog(appActivity);
+		}
 		progressDialog = ProgressDialog.show(appActivity, "Please Wait...",
 				"Retrieving information.");
 		progressDialog.setCancelable(false);
