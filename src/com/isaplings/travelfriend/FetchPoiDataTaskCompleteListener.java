@@ -455,16 +455,19 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 
 		});
 
-		popWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+		// check if view is active
 
-		popWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+		if (layout.getVisibility() == View.VISIBLE) {
+			popWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
-			@Override
-			public void onDismiss() {
-				popWindow.dismiss();
-				// end may TODO anything else
-			}
-		});
+			popWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
+				@Override
+				public void onDismiss() {
+					popWindow.dismiss();
+					// end may TODO anything else
+				}
+			});
+		}
 	}
 }

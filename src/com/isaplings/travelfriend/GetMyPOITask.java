@@ -247,8 +247,8 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 		// Fix for Trav
 		if (progressDialog == null) {
 			// Log.v(TAG, "MY GPS : Initialising Progress Dialog");
-
-			progressDialog = new ProgressDialog(appActivity);
+			// Fix for Trav50
+			progressDialog = new ProgressDialog(appActivity.getApplicationContext());
 		}
 		progressDialog = ProgressDialog.show(appActivity, "Please Wait...",
 				"Retrieving information.");

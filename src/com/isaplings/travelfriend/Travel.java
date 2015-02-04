@@ -1001,22 +1001,13 @@ public class Travel extends Activity implements OnClickListener {
 
 			if (flag) {
 
-				if (mLocation == null) {
-					// Log.v(TAG,
-					// " MYGPS : LocControl : locaction identified as null ");
-
-				} else {
+				if (mLocation != null) {
 					// Log.v(TAG,
 					// " MYGPS : LocControl : locaction was retrieved successfully  ");
 					useLocation(itemId);
 
 				}
-			} else {
-				// Log.v(TAG,
-				// "MYGPS : LocControl : location retreival was unsuccessfull");
-
-			}
-
+			} 
 		}
 	}
 
