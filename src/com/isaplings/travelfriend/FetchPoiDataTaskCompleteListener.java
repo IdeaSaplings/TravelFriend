@@ -23,6 +23,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +53,6 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 		this.mActivity = activity;
 		this.mContext = context;
 		this.mLocation = location;
-
 	}
 
 	@Override
@@ -150,7 +150,6 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
 				// parent.getItemAtPosition(position).getClass().getName();
 
 				final String uniqueId = parent.getItemAtPosition(position)
@@ -220,11 +219,8 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 
 				@Override
 				protected PlaceDetailsResult doInBackground(String... params) {
-					// TODO Auto-generated method stub
-					String placeId = params[0];
 
-					// GooglePlaces gp = new GooglePlaces(
-					// "AIzaSyAPL4gar2x7nQKc9p-bRhDa4RCgSL1qTRA");
+					String placeId = params[0];
 
 					GooglePlaces gp = new GooglePlaces(Travel.appContext
 							.getResources().getString(R.string.api_key));
@@ -305,7 +301,6 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 
 			private PlaceDetails getPlaceDetailsFromCache(String uId,
 					List<PlaceDetails> cachePlaceList) {
-				// TODO Auto-generated method stub
 
 				// change this method ot for each()
 
@@ -325,12 +320,11 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 	}
 
 	private void getPopupWindow(PlaceDetails placeDetails) {
-		// TODO Auto-generated method stub
 		LayoutInflater inflater = (LayoutInflater) mActivity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		ViewGroup vGroup = (ViewGroup) mActivity
 				.findViewById(R.id.pop_element_window);
-		View layout = inflater.inflate(R.layout.popup, vGroup);
+		final View layout = inflater.inflate(R.layout.popup, vGroup);
 		// popWindow = new PopupWindow(layout, 400, 350, true);
 		final PopupWindow popWindow = new PopupWindow(layout,
 				ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -419,9 +413,6 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 				// new Activity
 				Context appContext = mActivity.getApplicationContext();
 
-				// Log.v("Debug","MYGPS : appContext context :" +
-				// appContext.toString());
-
 				// Verify it resolves - This verification is not checked
 				// properly
 				// There is already a verifiction - After testing this piece of
@@ -455,17 +446,38 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 
 		});
 
+		// popWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+		//
+		// Bug fix : Trav51 (There are two parts of fix
+		// To ensure popup window is shown after all life cycle activities
+		// are completed.
+		//
+		// http://stackoverflow.com/questions/4187673/problems-creating-a-popup-window-in-android-activity
+
+		// Check if the Activity is finishing before displaying the popwindow
+		// Part I of fix
+
+		if (mActivity.isFinishing()) {
+			//Since the activity is finishing - return without displaying popup window
+			return;
+		}
+
 		// check if view is active
+		// Part II of fix
 
 		if (layout.getVisibility() == View.VISIBLE) {
-			popWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+			new Handler().postDelayed(new Runnable() {
+				public void run() {
+					popWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+				}
+			}, 100);
 
 			popWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
 				@Override
 				public void onDismiss() {
 					popWindow.dismiss();
-					// end may TODO anything else
 				}
 			});
 		}
