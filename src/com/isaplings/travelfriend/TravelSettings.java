@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //import android.widget.Toast;
 
@@ -328,6 +329,8 @@ public class TravelSettings extends Activity implements AlertPositiveListener {
 						String feedbackMessage = feedbackInfo.getText()
 								+ "\n\n" + "\n Rating : " + appRating;
 						QuickFeedback.sendMessage(feedbackMessage);
+						Toast.makeText(getApplication(), "Thank you, your feedback is sent!!", Toast.LENGTH_SHORT).show();
+
 						dialog.dismiss();
 					}
 
