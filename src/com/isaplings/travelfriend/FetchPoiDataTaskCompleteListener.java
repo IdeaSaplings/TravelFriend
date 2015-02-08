@@ -59,13 +59,18 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 	public void onTaskComplete(PlacesResult placesResult) {
 
 		// We can also execute the postExecute Method Here
+		
+		//Fix for Trav53
+		if (mActivity.isFinishing()) {
+			// if the activity is finishing - just return
+			return;
+		}
 
 		if ((placesResult == null) || (placesResult.getResults().size() <= 0)) {
 
 			if (!CheckNetwork.isInternetAvailable(mActivity)) {
 
 				// Log.v("Debug","MyGPS : Checking Network Services Status :  Networy is/may be down");
-
 				AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
 				builder.setTitle("Network Services Disabled");
 				builder.setMessage("Please enable Network Services in the Phone Settings to get current location");

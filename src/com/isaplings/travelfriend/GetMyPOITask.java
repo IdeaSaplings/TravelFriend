@@ -81,6 +81,14 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 	protected PlacesResult doInBackground(Location... params) {
 		Location loc = params[0];
 
+		// Fix for Trav 53
+		
+		if (appActivity.isFinishing()){
+			// How this null is handled mlistener is to be checked
+			return null;
+		}
+		
+		
 		GooglePlaces googlePlaces = new GooglePlaces(Travel.appContext
 				.getResources().getString(R.string.api_key));
 
@@ -244,12 +252,24 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 
 	protected void onPreExecute() {
 		// Log.v(TAG, "MY GPS : Invoking Progress Dialog");
-		// Fix for Trav
+		// Fix for Trav50
 		if (progressDialog == null) {
-			// Log.v(TAG, "MY GPS : Initialising Progress Dialog");
+			//Log.v("Debug", "MY GPS : Initialising Progress Dialog pContext : ");
 			// Fix for Trav50
-			progressDialog = new ProgressDialog(appActivity.getApplicationContext());
+			progressDialog = new ProgressDialog(
+					appActivity.getApplicationContext());
 		}
+
+		// Fix for Trav52
+		// Dialog box is shown when the activity is finished
+		//Log.v("Debug", "MY GPS : Before Show Progress Dialog pContext : ");
+		if (appActivity.isFinishing()) {
+			// Return without executing the Async Task
+			//Log.v("Debug", "Activity is finishing.. and hence returning back");
+			mlistener.onTaskComplete(null);
+		}
+		//Log.v("Debug", "Activity is Active.. Continue to fetch data");
+
 		progressDialog = ProgressDialog.show(appActivity, "Please Wait...",
 				"Retrieving information.");
 		progressDialog.setCancelable(false);
