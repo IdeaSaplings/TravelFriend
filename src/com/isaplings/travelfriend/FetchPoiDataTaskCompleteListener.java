@@ -36,13 +36,15 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
-
-class FetchPoiDataTaskCompleteListener extends Activity implements
+//removed the activity - Should not extend Activity
+class FetchPoiDataTaskCompleteListener  implements
 		AsyncTaskCompleteListener<PlacesResult> {
 
 	Activity mActivity;
 	Context mContext;
 	Location mLocation;
+	
+
 
 	HashMap<String, String> cachemapIdList = new HashMap<String, String>();
 	List<PlaceDetails> cachePlaceRecord = new ArrayList<PlaceDetails>();
@@ -59,8 +61,8 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 	public void onTaskComplete(PlacesResult placesResult) {
 
 		// We can also execute the postExecute Method Here
-		
-		//Fix for Trav53
+
+		// Fix for Trav53
 		if (mActivity.isFinishing()) {
 			// if the activity is finishing - just return
 			return;
@@ -104,13 +106,13 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 									dialog.cancel();
 									mActivity.finish();
 									Intent settingsIntent = new Intent(
-											Travel.appContext,
+											mActivity.getApplicationContext(),
 											TravelSettings.class);
 									settingsIntent
 											.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 									settingsIntent
 											.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-									Travel.appContext
+									mActivity.getApplicationContext()
 											.startActivity(settingsIntent);
 									return;
 
@@ -227,8 +229,7 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 
 					String placeId = params[0];
 
-					GooglePlaces gp = new GooglePlaces(Travel.appContext
-							.getResources().getString(R.string.api_key));
+					GooglePlaces gp = new GooglePlaces(mActivity.getApplicationContext().getResources().getString(R.string.api_key));
 
 					PlaceDetailsResult placeDetailsResult = new PlaceDetailsResult();
 					try {
@@ -325,6 +326,7 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 	}
 
 	private void getPopupWindow(PlaceDetails placeDetails) {
+		
 		LayoutInflater inflater = (LayoutInflater) mActivity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		ViewGroup vGroup = (ViewGroup) mActivity
@@ -338,6 +340,11 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 		// The backgroundDrawable is importat - to make outSideToucable work
 		// popWindow.setBackgroundDrawable(new BitmapDrawable(mActivity
 		// .getResources(), ""));
+		
+		if (mActivity.isFinishing()) {
+			if (popWindow.isShowing()) popWindow.dismiss();
+			return;
+		}
 
 		popWindow.setBackgroundDrawable(new ColorDrawable(mActivity
 				.getResources().getColor(android.R.color.darker_gray)));
@@ -418,19 +425,6 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 				// new Activity
 				Context appContext = mActivity.getApplicationContext();
 
-				// Verify it resolves - This verification is not checked
-				// properly
-				// There is already a verifiction - After testing this piece of
-				// code can be reviewed
-
-				// PackageManager packageManager =
-				// appContext.getPackageManager();
-				// List<ResolveInfo> activities =
-				// packageManager.queryIntentActivities(mapIntent, 0);
-
-				// @SuppressWarnings("unused")
-				// boolean isIntentSafe = activities.size() > 0;
-
 				// Create intent to show chooser
 				Intent chooser = Intent.createChooser(mapIntent, "Choose From");
 
@@ -442,7 +436,7 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 				if (mapIntent.resolveActivity(appContext.getPackageManager()) != null) {
 					appContext.startActivity(chooser);
 				} else {
-					Toast.makeText(getApplicationContext(), "No Apps found",
+					Toast.makeText(mActivity.getApplicationContext(), "No Apps found",
 							Toast.LENGTH_LONG).show();
 				}
 				// End maps
@@ -463,17 +457,25 @@ class FetchPoiDataTaskCompleteListener extends Activity implements
 		// Part I of fix
 
 		if (mActivity.isFinishing()) {
-			//Since the activity is finishing - return without displaying popup window
+			// Since the activity is finishing - return without displaying popup
+			// window
 			return;
 		}
 
 		// check if view is active
 		// Part II of fix
 
-		if (layout.getVisibility() == View.VISIBLE) {
+		View mainPage = mActivity.findViewById(R.id.places_list);
+		// instead of layout
+		if (mainPage.getVisibility() != View.GONE) {
 
 			new Handler().postDelayed(new Runnable() {
 				public void run() {
+					if (mActivity.isFinishing()) {
+						// Since the activity is finishing - return without
+						// displaying popup window
+						return;
+					}
 					popWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
 				}
 			}, 100);

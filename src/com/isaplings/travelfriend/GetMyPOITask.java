@@ -81,16 +81,22 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 	protected PlacesResult doInBackground(Location... params) {
 		Location loc = params[0];
 
-		// Fix for Trav 53
-		
-		if (appActivity.isFinishing()){
-			// How this null is handled mlistener is to be checked
+		if (isCancelled()){
 			return null;
 		}
 		
+		// Fix for Trav 53
+
+		if (appActivity.isFinishing()) {
+			// How this null is handled mlistener is to be checked
+			return null;
+		}
+
+		//Log.v("Debug", "MYGPS : Travel.appContext : " + Travel.appContext.toString());
+
+		String apiKey =  appActivity.getApplicationContext().getResources().getString(R.string.api_key);
 		
-		GooglePlaces googlePlaces = new GooglePlaces(Travel.appContext
-				.getResources().getString(R.string.api_key));
+		GooglePlaces googlePlaces = new GooglePlaces(apiKey);
 
 		PlacesResult placesResult = null;
 
@@ -115,9 +121,9 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 
 			SharedPreferences pref;
 
-			pref = Travel.appContext
-					.getSharedPreferences("TravelFriendPref", 0);
+			pref = appActivity.getApplicationContext().getSharedPreferences("TravelFriendPref", 0);
 
+			
 			int maxRadius = pref.getInt("MaxRadius", 50) * 1000;
 
 			// Log.v(TAG, "MYGPSLocation : Latitude " + latitude);
@@ -235,9 +241,27 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 		return placesResult;
 	}
 
+	protected void onCancelled(PlacesResult placesList) {
+
+
+		if (progressDialog != null && progressDialog.isShowing()) {
+			progressDialog.dismiss();
+		}
+
+		mlistener.onTaskComplete(placesList);
+
+	}
+
 	protected void onPostExecute(PlacesResult placesList) {
 
 		// Log.v(TAG, "MYGPSLocation : onPostExecute Method ");
+
+		// Fix for Trav 53
+
+		if (appActivity.isFinishing()) {
+			// How this null is handled mlistener is to be checked
+			mlistener.onTaskComplete(null);
+		}
 
 		if (progressDialog != null && progressDialog.isShowing()) {
 			progressDialog.dismiss();
@@ -251,27 +275,34 @@ public class GetMyPOITask extends AsyncTask<Location, String, PlacesResult> {
 	}
 
 	protected void onPreExecute() {
-		// Log.v(TAG, "MY GPS : Invoking Progress Dialog");
-		// Fix for Trav50
-		if (progressDialog == null) {
-			//Log.v("Debug", "MY GPS : Initialising Progress Dialog pContext : ");
-			// Fix for Trav50
-			progressDialog = new ProgressDialog(
-					appActivity.getApplicationContext());
-		}
 
 		// Fix for Trav52
 		// Dialog box is shown when the activity is finished
-		//Log.v("Debug", "MY GPS : Before Show Progress Dialog pContext : ");
+		// Log.v("Debug", "MY GPS : Before Show Progress Dialog pContext : ");
 		if (appActivity.isFinishing()) {
 			// Return without executing the Async Task
-			//Log.v("Debug", "Activity is finishing.. and hence returning back");
+			// Log.v("Debug",
+			// "Activity is finishing.. and hence returning back");
 			mlistener.onTaskComplete(null);
 		}
-		//Log.v("Debug", "Activity is Active.. Continue to fetch data");
 
+		if (isCancelled()) {
+			mlistener.onTaskComplete(null);
+
+		}
+		// Log.v("Debug", "Activity is Active.. Continue to fetch data");
+
+		// Log.v(TAG, "MY GPS : Invoking Progress Dialog");
+		// Fix for Trav50 // Always make a fresh reference
+
+	
+		
+		progressDialog = new ProgressDialog(appActivity.getApplicationContext());
+		// progressDialog.setMessage("Please wait...");
+		// progressDialog.show();
 		progressDialog = ProgressDialog.show(appActivity, "Please Wait...",
 				"Retrieving information.");
+		
 		progressDialog.setCancelable(false);
 
 	}

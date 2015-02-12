@@ -32,7 +32,6 @@ import com.isaplings.travelfriend.model.EmergencyRecord;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
 import android.location.Location;
@@ -57,9 +56,8 @@ public class ListSOSActivity extends Activity {
 
 	//private static final String TAG = "Debug";
 
-	Context mContext = Travel.appContext;
+	//Context mContext = Travel.appContext;
 	
-	private final String API_KEY =  mContext.getResources().getString(R.string.api_key);
 	
 	
 	//private boolean threadFlag = true;
@@ -393,6 +391,7 @@ public class ListSOSActivity extends Activity {
 			String placeId = params[0];
 
 			Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+			final String API_KEY =  getApplicationContext().getResources().getString(R.string.api_key);
 
 			GooglePlaces gp = new GooglePlaces(API_KEY);
 			PlaceDetailsResult placeDetailsResult = new PlaceDetailsResult();

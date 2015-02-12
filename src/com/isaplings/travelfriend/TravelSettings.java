@@ -66,7 +66,7 @@ public class TravelSettings extends Activity implements AlertPositiveListener {
 
 		setContentView(R.layout.settings_layout);
 
-		pref = Travel.appContext.getSharedPreferences("TravelFriendPref", 0);
+		pref = getSharedPreferences("TravelFriendPref", 0);
 
 		// if you want to lock screen for always Portrait mode
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

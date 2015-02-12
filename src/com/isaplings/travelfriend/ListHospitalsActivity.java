@@ -8,7 +8,6 @@ import com.google.android.gms.ads.AdView;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.pm.ActivityInfo;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -18,6 +17,7 @@ public class ListHospitalsActivity extends Activity {
 
 	// private static final String TAG = "Debug";
 	private ActionBar actionBar;
+	public GetMyPOITask taskRef;
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -37,9 +37,6 @@ public class ListHospitalsActivity extends Activity {
 
 		setContentView(R.layout.list_places_details);
 
-		// if you want to lock screen for always Portrait mode
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
 		// AdHolder update
 
 		AdView adView = (AdView) findViewById(R.id.ad_mob_view);
@@ -55,8 +52,6 @@ public class ListHospitalsActivity extends Activity {
 		String streetName = mLocation.getExtras().getString("STREETNAME");
 		String cityName = mLocation.getExtras().getString("CITYNAME");
 
-		// Log.v(TAG, "MyGPS : Street Name : " + streetName);
-		// Log.v(TAG, "MyGPS : CityName : " + cityName);
 
 		// Code for setting action bar icon and title as custom view
 		// Fixing bug to resolve, only icon click on action bar should take back
@@ -76,13 +71,6 @@ public class ListHospitalsActivity extends Activity {
 
 		actionBar.setIcon(R.drawable.hospital);
 
-		// Set the Location at Action Bar
-
-		// Bug fix put the Street Name / Location in the Action Bar
-
-		// Log.v(TAG, "MyGPS : Latitude : " + mLocation.getLatitude());
-		// Log.v(TAG, "MyGPS : Longitude : " + mLocation.getLongitude());
-
 		List<String> types = new ArrayList<String>();
 		types.add("hospital");
 		types.add("dentist");
@@ -90,10 +78,17 @@ public class ListHospitalsActivity extends Activity {
 
 		String keyword = null;
 
-		ListPOIPlacesActivity.getPOIList(ListHospitalsActivity.this, this,
-				mLocation, types, keyword);
+		taskRef = ListPOIPlacesActivity.getPOIListTask(
+				ListHospitalsActivity.this, this, mLocation, types, keyword);
 
-		// Log.v(TAG, "MyGPS : New Intent Complete");
+
+	}
+
+	@Override
+	protected void onStop() {
+
+		super.onStop();
+		taskRef.cancel(true);
 
 	}
 

@@ -64,6 +64,8 @@ public class Travel extends Activity implements OnClickListener {
 
 	private ButteryProgressBar progressBar;
 
+	public static String API_KEY;
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
@@ -124,6 +126,7 @@ public class Travel extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_travel);
 
 		appContext = this.getApplicationContext();
+		API_KEY = this.getResources().getString(R.string.api_key);
 
 		// if you want to lock screen for always Portrait mode
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

@@ -99,8 +99,9 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
 
 		SharedPreferences pref;
 
-		pref = Travel.appContext.getSharedPreferences("TravelFriendPref", 0);
+		pref = mContext.getApplicationContext().getSharedPreferences("TravelFriendPref", 0);
 
+		
 		// String distUnit = "km";
 
 		String distUnit = pref.getString("DistUnit", "km");
